@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl" data-theme="light" data-lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>لوحة المال — بيانات السوق الحية</title>
+<title>لوحة المال — Market Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* ─── LIGHT THEME ─── */
+/* ─── LIGHT ─── */
 :root,[data-theme="light"]{
   --bg:#f5f0e8;--bg2:#ede8de;--surface:#fff;--card:#fff;--card2:#faf7f1;
   --border:#e4ddd0;--border2:#c9b99a;
@@ -16,15 +16,13 @@
   --red:#c0331e;--red-bg:#fdf0ee;--red-bd:#e8b8b0;
   --hdr:#16120e;--hdr-bd:#c9a812;
   --ticker:#201a12;--ticker-t:#5a5040;
-  --tab-bg:#ede8de;--tab-bd:#e4ddd0;
-  --inp-bg:#f7f3ec;
+  --tab-bg:#fff;--tab-bd:#e4ddd0;--inp-bg:#f7f3ec;
   --tbl-hd:#f7f3eb;--tbl-hover:#fdf8ef;
   --sh:0 2px 16px rgba(100,80,20,.07),0 1px 3px rgba(100,80,20,.04);
   --sh-md:0 6px 32px rgba(100,80,20,.11),0 2px 8px rgba(100,80,20,.06);
-  --sh-lg:0 16px 48px rgba(100,80,20,.14);
   --scrl:#d0c8b8;
 }
-/* ─── DARK THEME ─── */
+/* ─── DARK ─── */
 [data-theme="dark"]{
   --bg:#0c0a07;--bg2:#141008;--surface:#1a1510;--card:#1e1a12;--card2:#231f16;
   --border:#2a2318;--border2:#3a3020;
@@ -34,12 +32,10 @@
   --red:#e04828;--red-bg:#1a0a06;--red-bd:#501810;
   --hdr:#080604;--hdr-bd:#c9a812;
   --ticker:#080604;--ticker-t:#403828;
-  --tab-bg:#0e0c08;--tab-bd:#2a2318;
-  --inp-bg:#141008;
+  --tab-bg:#1a1510;--tab-bd:#2a2318;--inp-bg:#141008;
   --tbl-hd:#16120e;--tbl-hover:#231f16;
   --sh:0 2px 16px rgba(0,0,0,.35),0 1px 4px rgba(0,0,0,.25);
   --sh-md:0 6px 32px rgba(0,0,0,.45),0 2px 8px rgba(0,0,0,.3);
-  --sh-lg:0 16px 48px rgba(0,0,0,.55);
   --scrl:#3a3020;
 }
 
@@ -47,25 +43,36 @@
 html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
 body{font-family:'IBM Plex Sans Arabic',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .25s,color .25s}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 35% at 50% 0,rgba(200,160,20,.05),transparent 65%)}
-
-/* Scrollbar */
 *{scrollbar-width:thin;scrollbar-color:var(--scrl) transparent}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--scrl);border-radius:2px}
 
 /* ── HEADER ── */
 .hdr{background:var(--hdr);border-bottom:1.5px solid var(--hdr-bd);position:sticky;top:0;z-index:300;box-shadow:0 4px 32px rgba(0,0,0,.4)}
-.hdr-inner{display:flex;align-items:center;justify-content:space-between;max-width:1440px;margin:0 auto;padding:0 20px;height:58px;gap:10px}
-.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;text-decoration:none}
+.hdr-inner{display:flex;align-items:center;justify-content:space-between;max-width:1440px;margin:0 auto;padding:0 18px;height:58px;gap:8px}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .logo-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#d4a90e,#8b6e06);display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 3px 14px rgba(200,160,12,.45);flex-shrink:0}
-.logo-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#e8d898;letter-spacing:.01em}
+.logo-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:#e8d898}
 .logo-name em{color:#d4a90e;font-style:normal}
-.hdr-r{display:flex;align-items:center;gap:10px}
-#clock{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#907860;display:none}
-@media(min-width:480px){#clock{display:block}}
-.live-badge{display:flex;align-items:center;gap:5px;background:rgba(40,184,88,.1);border:1px solid rgba(40,184,88,.22);border-radius:20px;padding:3px 10px;font-size:.66rem;font-weight:700;color:#40cc78;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.hdr-r{display:flex;align-items:center;gap:8px}
+#clock{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#907860;display:none}
+@media(min-width:520px){#clock{display:block}}
+.live-badge{display:flex;align-items:center;gap:5px;background:rgba(40,184,88,.1);border:1px solid rgba(40,184,88,.22);border-radius:20px;padding:3px 9px;font-size:.64rem;font-weight:700;color:#40cc78;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
 .live-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#40cc78;animation:pls 2s infinite;flex-shrink:0}
 @keyframes pls{0%,100%{opacity:1;box-shadow:0 0 5px #40cc78}50%{opacity:.3;box-shadow:none}}
-.theme-btn{width:38px;height:38px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s;color:#c8a870;flex-shrink:0}
+
+/* LANGUAGE SELECTOR */
+.lang-sel{position:relative;flex-shrink:0}
+.lang-btn{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:6px 10px;cursor:pointer;font-size:.75rem;color:#c8a870;font-family:inherit;transition:all .2s;white-space:nowrap}
+.lang-btn:hover{background:rgba(200,160,12,.18);border-color:#c9a812}
+.lang-flag{font-size:.9rem}
+.lang-dd{position:absolute;top:calc(100% + 6px);left:0;background:var(--hdr);border:1px solid rgba(200,160,12,.3);border-radius:10px;overflow:hidden;z-index:500;box-shadow:0 8px 24px rgba(0,0,0,.4);min-width:140px;display:none}
+[dir="rtl"] .lang-dd{left:auto;right:0}
+.lang-dd.open{display:block}
+.lang-opt{display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;font-size:.8rem;color:#c8b890;transition:background .15s;border:none;background:none;width:100%;text-align:right;font-family:inherit}
+.lang-opt:hover{background:rgba(200,160,12,.12);color:#e8c830}
+.lang-opt.active{color:#d4a90e;font-weight:700}
+
+.theme-btn{width:36px;height:36px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.95rem;transition:all .2s;color:#c8a870;flex-shrink:0}
 .theme-btn:hover{background:rgba(200,160,12,.18);border-color:#c9a812}
 
 /* ── TICKER ── */
@@ -73,58 +80,23 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 .ticker-inner{display:flex;gap:0;white-space:nowrap;animation:tickRun 50s linear infinite}
 .ticker-inner:hover{animation-play-state:paused}
 @keyframes tickRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.t-item{display:inline-flex;align-items:center;gap:6px;padding:0 20px;font-family:'JetBrains Mono',monospace;font-size:.69rem}
+.t-item{display:inline-flex;align-items:center;gap:6px;padding:0 18px;font-family:'JetBrains Mono',monospace;font-size:.69rem}
 .t-sym{color:var(--ticker-t)}
-.t-dot{color:rgba(200,160,12,.2);padding:0 2px}
 
-/* ── TABS BAR ── */
-.tabs-bar{
-  background:var(--bg2);
-  border-bottom:2px solid var(--border);
-  position:sticky;top:58px;z-index:200;
-  box-shadow:0 2px 8px rgba(0,0,0,.07);
-  overflow-x:auto;scrollbar-width:none;
-}
+/* ── TABS ── */
+.tabs-bar{background:var(--tab-bg);border-bottom:1px solid var(--tab-bd);position:sticky;top:58px;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow-x:auto;scrollbar-width:none}
 .tabs-bar::-webkit-scrollbar{display:none}
-.tabs-list{
-  display:flex;max-width:1440px;margin:0 auto;
-  padding:10px 20px 0;gap:4px;
-  min-width:max-content;align-items:flex-end;
-}
-.tab-btn{
-  display:flex;align-items:center;gap:7px;
-  padding:8px 18px 9px;
-  border:1.5px solid var(--border);
-  border-bottom:none;
-  border-radius:8px 8px 0 0;
-  background:var(--card2);
-  color:var(--muted);
-  font-family:'IBM Plex Sans Arabic',sans-serif;
-  font-size:.82rem;font-weight:500;
-  cursor:pointer;white-space:nowrap;
-  position:relative;bottom:-2px;
-  transition:all .18s;
-  flex-shrink:0;
-}
-.tab-btn:hover{color:var(--text2);background:var(--card)}
-.tab-btn.active{
-  background:var(--card);
-  color:var(--gold);
-  font-weight:700;
-  border-color:var(--border2);
-  border-bottom:2.5px solid var(--card);
-  box-shadow:0 -3px 12px rgba(0,0,0,.07);
-  z-index:2;
-}
-[data-theme="dark"] .tab-btn.active{border-color:var(--border2);background:var(--card);border-bottom-color:var(--card)}
-.tab-btn .ti{font-size:.95rem}
+.tabs-list{display:flex;max-width:1440px;margin:0 auto;padding:7px 14px;gap:4px;min-width:max-content;align-items:center}
+.tab-btn{display:flex;align-items:center;gap:6px;padding:7px 15px;border:1.5px solid transparent;border-radius:9px;background:transparent;color:var(--muted);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:.81rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.tab-btn:hover{color:var(--text);background:var(--card2);border-color:var(--border)}
+.tab-btn.active{color:var(--gold);font-weight:700;background:var(--gold-bg);border-color:rgba(184,150,12,.35)}
+.tab-btn .ti{font-size:.9rem}
 .tlbl{display:inline}
-@media(max-width:640px){.tabs-list{padding:8px 8px 0;gap:3px}.tab-btn{padding:7px 11px 8px;font-size:.77rem}}
-@media(max-width:400px){.tlbl{display:none}.tab-btn{padding:7px 9px 8px}}
+@media(max-width:500px){.tab-btn{padding:7px 10px}.tlbl{display:none}}
 
 /* ── PAGE ── */
 .page{position:relative;z-index:1}
-.wrap{max-width:1440px;margin:0 auto;padding:22px 18px 72px}
+.wrap{max-width:1440px;margin:0 auto;padding:22px 16px 72px}
 @media(max-width:600px){.wrap{padding:14px 10px 60px}}
 .pane{display:none;animation:fadeUp .26s ease}
 .pane.active{display:block}
@@ -133,8 +105,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 /* ── SEC HEADER ── */
 .sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:10px;flex-wrap:wrap}
 .sec-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:9px}
-.sec-ico{font-size:1rem}
-.btn-refresh{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:7px 14px;font-size:.74rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:var(--sh);letter-spacing:.02em}
+.btn-refresh{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:7px 14px;font-size:.74rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:var(--sh)}
 .btn-refresh:hover{border-color:var(--gold);color:var(--gold)}
 
 /* ── GRIDS ── */
@@ -153,7 +124,6 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 .card:hover{box-shadow:var(--sh-md);border-color:var(--border2)}
 .card-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .card-lbl::before{content:'';width:3px;height:13px;border-radius:2px;background:linear-gradient(180deg,var(--gold3),var(--gold));flex-shrink:0}
-.card-hd2{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 
 /* ── PRICE CARD ── */
 .pc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:17px 18px;box-shadow:var(--sh);transition:all .22s;position:relative;overflow:hidden}
@@ -195,7 +165,9 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 /* ── NEWS ── */
 .ni{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:14px 17px;margin-bottom:9px;transition:all .2s;cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--sh)}
 .ni::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold3),var(--gold));opacity:0;transition:opacity .2s}
+[dir="ltr"] .ni::after{right:auto;left:0}
 .ni:hover{border-color:var(--border2);box-shadow:var(--sh-md);transform:translateX(-3px)}
+[dir="ltr"] .ni:hover{transform:translateX(3px)}
 .ni:hover::after{opacity:1}
 .ni-src{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:4px;display:flex;align-items:center;gap:7px}
 .ni-time{color:var(--dim);font-weight:400}
@@ -237,15 +209,14 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 [data-theme="dark"] .r-pur .rnum{color:#b070e8}
 .rlbl{font-size:.73rem;color:var(--muted);margin-top:4px;line-height:1.5}
 
-/* ── CONV BOX ── */
-.conv-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px;max-width:530px;margin:0 auto 22px;box-shadow:var(--sh-md)}
-.conv-title{font-family:'Playfair Display',serif;font-size:.98rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:9px;margin-bottom:20px;padding-bottom:13px;border-bottom:1px solid var(--border)}
+/* ── CONV / CALC BOX ── */
+.conv-box,.calc-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:var(--sh-md)}
+.conv-box{max-width:530px;margin:0 auto 22px}
+.calc-box{max-width:520px;margin:0 auto 18px}
+.conv-title,.calc-title{font-family:'Playfair Display',serif;font-size:.96rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:9px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.calc-title{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:.86rem}
 
-/* ── CALC BOX ── */
-.calc-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;max-width:520px;margin:0 auto 18px;box-shadow:var(--sh-md)}
-.calc-title{font-size:.86rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-
-/* ── FUEL ROW ── */
+/* ── FUEL ── */
 .fuel-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
 .fuel-item{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px;text-align:center}
 .fuel-lbl{font-size:.67rem;color:var(--muted);margin-bottom:3px}
@@ -254,8 +225,6 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 /* ── SIDEBAR ── */
 .sidebar-sticky{position:sticky;top:120px}
 @media(max-width:1100px){.sidebar-sticky{position:static}}
-
-/* ── UTILS ── */
 .mb16{margin-bottom:16px}.mb20{margin-bottom:20px}
 </style>
 </head>
@@ -266,11 +235,27 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
   <div class="hdr-inner">
     <div class="logo">
       <div class="logo-mark">📊</div>
-      <div class="logo-name">لوحة <em>المال</em></div>
+      <div class="logo-name" id="logoName">لوحة <em>المال</em></div>
     </div>
     <div class="hdr-r">
-      <div class="live-badge">حي</div>
+      <div class="live-badge" id="liveBadge">حي</div>
       <span id="clock"></span>
+
+      <!-- Language Selector -->
+      <div class="lang-sel">
+        <button class="lang-btn" id="langBtn" onclick="toggleLangDD()">
+          <span class="lang-flag" id="langFlag">🇸🇦</span>
+          <span id="langLabel">العربية</span>
+          <span>▾</span>
+        </button>
+        <div class="lang-dd" id="langDD">
+          <button class="lang-opt active" onclick="setLang('ar')" data-lang="ar">🇸🇦 العربية</button>
+          <button class="lang-opt" onclick="setLang('en')" data-lang="en">🇬🇧 English</button>
+          <button class="lang-opt" onclick="setLang('fr')" data-lang="fr">🇫🇷 Français</button>
+          <button class="lang-opt" onclick="setLang('es')" data-lang="es">🇪🇸 Español</button>
+        </div>
+      </div>
+
       <button class="theme-btn" id="themeBtn">🌙</button>
     </div>
   </div>
@@ -279,7 +264,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 <!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker-inner" id="tickerInner">
-    <span class="t-item"><span class="t-sym">BTC</span><span class="up">جارٍ التحميل…</span></span>
+    <span class="t-item"><span class="t-sym">BTC</span><span class="up">…</span></span>
   </div>
 </div>
 
@@ -299,215 +284,413 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 
 <script>
 'use strict';
-/* ═══════ TABS CONFIG ═══════ */
-const TABS=[
-  {id:'news',    ico:'📰',lbl:'الأخبار'},
-  {id:'metals',  ico:'🥇',lbl:'المعادن'},
-  {id:'stocks',  ico:'📈',lbl:'الأسهم'},
-  {id:'crypto',  ico:'₿', lbl:'الرقمية'},
-  {id:'oil',     ico:'🛢️',lbl:'النفط'},
-  {id:'forex',   ico:'💱',lbl:'الصرف'},
-  {id:'discount',ico:'🏷️',lbl:'الخصم'},
-];
+
+/* ═══════════════════════════════════
+   TRANSLATIONS
+═══════════════════════════════════ */
+const T = {
+  ar: {
+    dir:'rtl', logo:'لوحة <em>المال</em>', live:'حي', refresh:'↻ تحديث',
+    loading:'جاري التحميل…', liveData:'بيانات حية', approxData:'بيانات تقريبية',
+    needsKey:'يلزم مفتاح API للبيانات الحية',
+    tabs:['الأخبار','المعادن','الأسهم','الرقمية','النفط','الصرف','الخصم'],
+    // News
+    newsTitle:'الأخبار الاقتصادية', cryptoSidebar:'العملات الرقمية', fxSidebar:'أسعار الصرف',
+    // Metals
+    metalsTitle:'أسعار المعادن الثمينة', compareTitle:'مقارنة تفصيلية', extraTitle:'مؤشرات إضافية',
+    metal:'المعدن', usd:'USD', sar:'SAR ﷼', change:'التغيير', unit:'الوحدة',
+    METALS:[{ar:'الذهب'},{ar:'الفضة'},{ar:'البلاتين'},{ar:'البلاديوم'},{ar:'النحاس'}],
+    ounceTroy:'أوقية تروية = 31.1 جرام', sarNote:'أسعار SAR بسعر 3.75 ﷼/$',
+    // Stocks
+    stocksTitle:'مؤشرات الأسهم العالمية', region:'المنطقة', index:'المؤشر', value:'القيمة', points:'نقطة',
+    REGIONS:['أمريكا','أمريكا','أمريكا','اليابان','لندن','ألمانيا','السعودية','البرازيل'],
+    // Crypto
+    cryptoTitle:'العملات الرقمية', rank:'#', currency:'العملة', usd24:'24 ساعة', mktCap:'القيمة السوقية', vol:'الحجم 24س',
+    COINS:['بيتكوين','إيثيريوم','بينانس','ريبل','سولانا','كاردانو','دوج','لايتكوين','تشين لينك','بولكادوت','أفالانش','بولايجون'],
+    // Oil
+    oilTitle:'أسعار النفط', oilType:'النوع', barrel:'/ برميل', fuelSaudi:'الوقود بالسعودية',
+    OILS:['خام برنت','خام WTI','غاز طبيعي','مازوت'],
+    newsOil:['أوبك+ تدرس تمديد تخفيضات الإنتاج','الطلب الصيني يدعم أسعار الخام','مخزونات أمريكية أقل من المتوقع','وكالة الطاقة ترفع توقعات الطلب','روسيا تلتزم بخفض الإنتاج'],
+    oct91:'91 أوكتان', oct95:'95 أوكتان', diesel:'ديزل',
+    // Forex
+    forexTitle:'أسعار الصرف', converterTitle:'🔄 محوّل العملات الفوري',
+    amountFrom:'المبلغ والعملة الأصلية', targetCurr:'العملة المستهدفة', fxTableTitle:'جدول الأسعار مقابل USD',
+    currName:'الاسم', pricePerUSD:'السعر / USD', usdPerUnit:'USD / وحدة',
+    CURR_NAMES:['ريال سعودي','درهم إماراتي','دينار كويتي','ريال قطري','دينار بحريني','ريال عماني','يورو','إسترليني','ين ياباني','فرنك سويسري','يوان صيني','دولار كندي','دولار أسترالي','جنيه مصري','ليرة تركية','روبية هندية'],
+    // Discount
+    discTitle:'حاسبة الخصم', calcAfterTitle:'📉 احسب السعر بعد الخصم',
+    origPrice:'السعر الأصلي (قبل الخصم)', discPct:'نسبة الخصم (%)',
+    calcBeforeTitle:'📈 احسب السعر الأصلي من المخفَّض',
+    discPrice:'السعر بعد الخصم', appliedDisc:'نسبة الخصم المُطبَّقة (%)',
+    calcMultiTitle:'🔢 خصومات متتالية متراكمة',
+    origPrice2:'السعر الأصلي', disc1:'خصم 1 (%)', disc2:'خصم 2 (%)', disc3:'خصم 3 (%)',
+    saved:'وفّرت', savedOf:'قيمة الخصم', origPriceLabel:'السعر الأصلي',
+    effectiveDisc:'نسبة الخصم الفعلية', orReverse:'أو العكس تماماً', multiDisc:'خصومات متعددة',
+    currency_sym:'﷼',
+  },
+  en: {
+    dir:'ltr', logo:'<em>Market</em> Board', live:'LIVE', refresh:'↻ Refresh',
+    loading:'Loading…', liveData:'Live data', approxData:'Approximate data',
+    needsKey:'API key required for live data',
+    tabs:['News','Metals','Stocks','Crypto','Oil','Forex','Discount'],
+    newsTitle:'Economic News', cryptoSidebar:'Crypto Prices', fxSidebar:'Exchange Rates',
+    metalsTitle:'Precious Metals Prices', compareTitle:'Detailed Comparison', extraTitle:'Additional Indicators',
+    metal:'Metal', usd:'USD', sar:'SAR', change:'Change', unit:'Unit',
+    METALS:[{ar:'Gold'},{ar:'Silver'},{ar:'Platinum'},{ar:'Palladium'},{ar:'Copper'}],
+    ounceTroy:'Troy ounce = 31.1g', sarNote:'SAR prices at 3.75/$',
+    stocksTitle:'Global Stock Indices', region:'Region', index:'Index', value:'Value', points:'pts',
+    REGIONS:['USA','USA','USA','Japan','London','Germany','Saudi Arabia','Brazil'],
+    cryptoTitle:'Cryptocurrencies', rank:'#', currency:'Currency', usd24:'24h %', mktCap:'Market Cap', vol:'24h Vol',
+    COINS:['Bitcoin','Ethereum','Binance','Ripple','Solana','Cardano','Dogecoin','Litecoin','Chainlink','Polkadot','Avalanche','Polygon'],
+    oilTitle:'Oil Prices', oilType:'Type', barrel:'/ barrel', fuelSaudi:'Saudi Fuel Prices',
+    OILS:['Brent Crude','WTI Crude','Natural Gas','Heating Oil'],
+    newsOil:['OPEC+ considers extending production cuts','Chinese demand supports crude prices','US inventories below expectations','IEA raises demand outlook','Russia complies with OPEC+ cuts'],
+    oct91:'Octane 91', oct95:'Octane 95', diesel:'Diesel',
+    forexTitle:'Exchange Rates', converterTitle:'🔄 Instant Currency Converter',
+    amountFrom:'Amount & Base Currency', targetCurr:'Target Currency', fxTableTitle:'Rates vs USD',
+    currName:'Name', pricePerUSD:'Price / USD', usdPerUnit:'USD / Unit',
+    CURR_NAMES:['Saudi Riyal','UAE Dirham','Kuwaiti Dinar','Qatari Riyal','Bahraini Dinar','Omani Riyal','Euro','British Pound','Japanese Yen','Swiss Franc','Chinese Yuan','Canadian Dollar','Australian Dollar','Egyptian Pound','Turkish Lira','Indian Rupee'],
+    discTitle:'Discount Calculator', calcAfterTitle:'📉 Calculate Price After Discount',
+    origPrice:'Original Price (before discount)', discPct:'Discount Rate (%)',
+    calcBeforeTitle:'📈 Calculate Original Price from Discounted Price',
+    discPrice:'Discounted Price', appliedDisc:'Applied Discount (%)',
+    calcMultiTitle:'🔢 Multiple Stacked Discounts',
+    origPrice2:'Original Price', disc1:'Discount 1 (%)', disc2:'Discount 2 (%)', disc3:'Discount 3 (%)',
+    saved:'You saved', savedOf:'Discount value', origPriceLabel:'Original price',
+    effectiveDisc:'Effective discount', orReverse:'Or the reverse', multiDisc:'Multiple discounts',
+    currency_sym:'$',
+  },
+  fr: {
+    dir:'ltr', logo:'Tableau <em>Financier</em>', live:'EN DIRECT', refresh:'↻ Actualiser',
+    loading:'Chargement…', liveData:'Données en direct', approxData:'Données approximatives',
+    needsKey:'Clé API requise pour les données en direct',
+    tabs:['Actualités','Métaux','Actions','Crypto','Pétrole','Change','Remise'],
+    newsTitle:'Actualités Économiques', cryptoSidebar:'Cryptomonnaies', fxSidebar:'Taux de Change',
+    metalsTitle:'Prix des Métaux Précieux', compareTitle:'Comparaison Détaillée', extraTitle:'Indicateurs Supplémentaires',
+    metal:'Métal', usd:'USD', sar:'SAR', change:'Variation', unit:'Unité',
+    METALS:[{ar:'Or'},{ar:'Argent'},{ar:'Platine'},{ar:'Palladium'},{ar:'Cuivre'}],
+    ounceTroy:'Once troy = 31,1 g', sarNote:'Prix SAR à 3,75/$',
+    stocksTitle:'Indices Boursiers Mondiaux', region:'Région', index:'Indice', value:'Valeur', points:'pts',
+    REGIONS:['États-Unis','États-Unis','États-Unis','Japon','Londres','Allemagne','Arabie Saoudite','Brésil'],
+    cryptoTitle:'Cryptomonnaies', rank:'#', currency:'Devise', usd24:'24h %', mktCap:'Capitalisation', vol:'Vol 24h',
+    COINS:['Bitcoin','Ethereum','Binance','Ripple','Solana','Cardano','Dogecoin','Litecoin','Chainlink','Polkadot','Avalanche','Polygon'],
+    oilTitle:'Prix du Pétrole', oilType:'Type', barrel:'/ baril', fuelSaudi:'Carburants Arabie Saoudite',
+    OILS:['Brent Brut','WTI Brut','Gaz Naturel','Fioul'],
+    newsOil:["L'OPEP+ envisage de prolonger les réductions","La demande chinoise soutient les prix","Les stocks US sous les attentes","L'AIE relève ses prévisions de demande","La Russie respecte les accords OPEP+"],
+    oct91:'Octane 91', oct95:'Octane 95', diesel:'Diesel',
+    forexTitle:'Taux de Change', converterTitle:'🔄 Convertisseur de Devises',
+    amountFrom:'Montant & Devise Source', targetCurr:'Devise Cible', fxTableTitle:'Taux vs USD',
+    currName:'Nom', pricePerUSD:'Prix / USD', usdPerUnit:'USD / Unité',
+    CURR_NAMES:['Riyal Saoudien','Dirham EAU','Dinar Koweïtien','Riyal Qatari','Dinar Bahreïni','Riyal Omanais','Euro','Livre Sterling','Yen Japonais','Franc Suisse','Yuan Chinois','Dollar Canadien','Dollar Australien','Livre Égyptienne','Livre Turque','Roupie Indienne'],
+    discTitle:'Calculateur de Remise', calcAfterTitle:'📉 Calculer le Prix Après Remise',
+    origPrice:'Prix Original (avant remise)', discPct:'Taux de Remise (%)',
+    calcBeforeTitle:'📈 Calculer le Prix Original depuis le Prix Réduit',
+    discPrice:'Prix Réduit', appliedDisc:'Remise Appliquée (%)',
+    calcMultiTitle:'🔢 Remises Multiples Cumulées',
+    origPrice2:'Prix Original', disc1:'Remise 1 (%)', disc2:'Remise 2 (%)', disc3:'Remise 3 (%)',
+    saved:'Vous économisez', savedOf:'Valeur de la remise', origPriceLabel:'Prix original',
+    effectiveDisc:'Remise effective', orReverse:'Ou inversement', multiDisc:'Remises multiples',
+    currency_sym:'€',
+  },
+  es: {
+    dir:'ltr', logo:'Panel <em>Financiero</em>', live:'EN VIVO', refresh:'↻ Actualizar',
+    loading:'Cargando…', liveData:'Datos en vivo', approxData:'Datos aproximados',
+    needsKey:'Se requiere clave API para datos en vivo',
+    tabs:['Noticias','Metales','Acciones','Cripto','Petróleo','Divisas','Descuento'],
+    newsTitle:'Noticias Económicas', cryptoSidebar:'Criptomonedas', fxSidebar:'Tipos de Cambio',
+    metalsTitle:'Precios de Metales Preciosos', compareTitle:'Comparación Detallada', extraTitle:'Indicadores Adicionales',
+    metal:'Metal', usd:'USD', sar:'SAR', change:'Cambio', unit:'Unidad',
+    METALS:[{ar:'Oro'},{ar:'Plata'},{ar:'Platino'},{ar:'Paladio'},{ar:'Cobre'}],
+    ounceTroy:'Onza troy = 31,1 g', sarNote:'Precios SAR a 3,75/$',
+    stocksTitle:'Índices Bursátiles Mundiales', region:'Región', index:'Índice', value:'Valor', points:'pts',
+    REGIONS:['EE.UU.','EE.UU.','EE.UU.','Japón','Londres','Alemania','Arabia Saudí','Brasil'],
+    cryptoTitle:'Criptomonedas', rank:'#', currency:'Divisa', usd24:'24h %', mktCap:'Cap. Mercado', vol:'Vol 24h',
+    COINS:['Bitcoin','Ethereum','Binance','Ripple','Solana','Cardano','Dogecoin','Litecoin','Chainlink','Polkadot','Avalanche','Polygon'],
+    oilTitle:'Precios del Petróleo', oilType:'Tipo', barrel:'/ barril', fuelSaudi:'Combustibles Arabia Saudí',
+    OILS:['Crudo Brent','Crudo WTI','Gas Natural','Gasóleo'],
+    newsOil:['OPEP+ estudia extender recortes de producción','Demanda china apoya precios del crudo','Inventarios EE.UU. por debajo de lo esperado','AIE eleva previsiones de demanda','Rusia cumple con los acuerdos OPEP+'],
+    oct91:'Octano 91', oct95:'Octano 95', diesel:'Diésel',
+    forexTitle:'Tipos de Cambio', converterTitle:'🔄 Convertidor de Divisas Instantáneo',
+    amountFrom:'Importe y Divisa Base', targetCurr:'Divisa Destino', fxTableTitle:'Tasas vs USD',
+    currName:'Nombre', pricePerUSD:'Precio / USD', usdPerUnit:'USD / Unidad',
+    CURR_NAMES:['Riyal Saudí','Dírham EAU','Dinar Kuwaití','Riyal Catarí','Dinar Bareiní','Riyal Omaní','Euro','Libra Esterlina','Yen Japonés','Franco Suizo','Yuan Chino','Dólar Canadiense','Dólar Australiano','Libra Egipcia','Lira Turca','Rupia India'],
+    discTitle:'Calculadora de Descuento', calcAfterTitle:'📉 Calcular Precio con Descuento',
+    origPrice:'Precio Original (antes del descuento)', discPct:'Porcentaje de Descuento (%)',
+    calcBeforeTitle:'📈 Calcular Precio Original desde Precio con Descuento',
+    discPrice:'Precio con Descuento', appliedDisc:'Descuento Aplicado (%)',
+    calcMultiTitle:'🔢 Descuentos Múltiples Acumulados',
+    origPrice2:'Precio Original', disc1:'Descuento 1 (%)', disc2:'Descuento 2 (%)', disc3:'Descuento 3 (%)',
+    saved:'Ahorras', savedOf:'Valor del descuento', origPriceLabel:'Precio original',
+    effectiveDisc:'Descuento efectivo', orReverse:'O al revés', multiDisc:'Descuentos múltiples',
+    currency_sym:'$',
+  }
+};
+
+const LANG_META = {
+  ar:{flag:'🇸🇦',label:'العربية'},
+  en:{flag:'🇬🇧',label:'English'},
+  fr:{flag:'🇫🇷',label:'Français'},
+  es:{flag:'🇪🇸',label:'Español'},
+};
+
+/* ═══════ LANG STATE ═══════ */
+let curLang = localStorage.getItem('maal-lang') || 'ar';
+let t = T[curLang];
+
+function setLang(lang) {
+  curLang = lang; t = T[lang];
+  localStorage.setItem('maal-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', t.dir);
+  document.documentElement.setAttribute('data-lang', lang);
+  // Update lang button
+  document.getElementById('langFlag').textContent = LANG_META[lang].flag;
+  document.getElementById('langLabel').textContent = LANG_META[lang].label;
+  document.querySelectorAll('.lang-opt').forEach(o => o.classList.toggle('active', o.dataset.lang===lang));
+  closeLangDD();
+  // Update static UI
+  document.getElementById('logoName').innerHTML = t.logo;
+  document.getElementById('liveBadge').textContent = t.live;
+  // Rebuild tabs
+  buildTabs();
+  // Reload active pane
+  const activeTab = document.querySelector('.tab-btn.active')?.dataset.id || 'news';
+  loaded.clear(); loaded.add('discount');
+  LOADERS[activeTab]?.();
+  loadDiscount();
+  // Clock locale
+  updateClock();
+}
+
+function toggleLangDD() {
+  document.getElementById('langDD').classList.toggle('open');
+}
+function closeLangDD() {
+  document.getElementById('langDD').classList.remove('open');
+}
+document.addEventListener('click', e => { if (!e.target.closest('.lang-sel')) closeLangDD(); });
 
 /* ═══════ THEME ═══════ */
-const initTheme=localStorage.getItem('maal-th')||'light';
-document.documentElement.setAttribute('data-theme',initTheme);
-document.getElementById('themeBtn').textContent=initTheme==='dark'?'☀️':'🌙';
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
-  document.documentElement.setAttribute('data-theme',t);
-  document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';
-  localStorage.setItem('maal-th',t);
+const initTheme = localStorage.getItem('maal-th') || 'light';
+document.documentElement.setAttribute('data-theme', initTheme);
+document.getElementById('themeBtn').textContent = initTheme==='dark' ? '☀️' : '🌙';
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const th = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', th);
+  document.getElementById('themeBtn').textContent = th==='dark' ? '☀️' : '🌙';
+  localStorage.setItem('maal-th', th);
 });
 
 /* ═══════ CLOCK ═══════ */
-const clkEl=document.getElementById('clock');
-setInterval(()=>{ clkEl.textContent=new Date().toLocaleTimeString('ar-SA',{hour12:false,timeZone:'Asia/Riyadh'}); },1000);
-clkEl.textContent=new Date().toLocaleTimeString('ar-SA',{hour12:false,timeZone:'Asia/Riyadh'});
+const clkEl = document.getElementById('clock');
+function updateClock() {
+  const locale = curLang==='ar' ? 'ar-SA' : 'en-US';
+  clkEl.textContent = new Date().toLocaleTimeString(locale, {hour12:false, timeZone:'Asia/Riyadh'});
+}
+setInterval(updateClock, 1000); updateClock();
 
-/* ═══════ TAB SETUP ═══════ */
-const tabsList=document.getElementById('tabsList');
-const loaded=new Set(['news','discount']);
-TABS.forEach((t,i)=>{
-  const b=document.createElement('button');
-  b.className='tab-btn'+(i===0?' active':'');
-  b.dataset.id=t.id;
-  b.innerHTML=`<span class="ti">${t.ico}</span><span class="tlbl">${t.lbl}</span>`;
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.pane').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    document.getElementById('pane-'+t.id).classList.add('active');
-    if(!loaded.has(t.id)){loaded.add(t.id);LOADERS[t.id]?.();}
+/* ═══════ TABS ═══════ */
+const TABS_IDS = ['news','metals','stocks','crypto','oil','forex','discount'];
+const TABS_ICO = ['📰','🥇','📈','₿','🛢️','💱','🏷️'];
+const loaded = new Set(['news','discount']);
+
+function buildTabs() {
+  const tl = document.getElementById('tabsList');
+  const activeId = document.querySelector('.tab-btn.active')?.dataset.id || 'news';
+  tl.innerHTML = '';
+  TABS_IDS.forEach((id, i) => {
+    const b = document.createElement('button');
+    b.className = 'tab-btn' + (id===activeId ? ' active' : '');
+    b.dataset.id = id;
+    b.innerHTML = `<span class="ti">${TABS_ICO[i]}</span><span class="tlbl">${t.tabs[i]}</span>`;
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.pane').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById('pane-'+id).classList.add('active');
+      if (!loaded.has(id)) { loaded.add(id); LOADERS[id]?.(); }
+    });
+    tl.appendChild(b);
   });
-  tabsList.appendChild(b);
-});
+}
 
 /* ═══════ HELPERS ═══════ */
-const fmt=(n,d=2)=>n==null||isNaN(n)?'—':(+n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-const fmtK=n=>{if(!n)return'—';if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';if(n>=1e9)return'$'+(n/1e9).toFixed(1)+'B';if(n>=1e6)return'$'+(n/1e6).toFixed(0)+'M';return'$'+fmt(n,0)};
-const cc=v=>(+v)>0?'up':(+v)<0?'down':'neu';
-const ctag=v=>{if(v==null||isNaN(v))return'<span class="tag tag-n">—</span>';const n=+v,c=n>0?'tag-up':n<0?'tag-dn':'tag-n',a=n>0?'▲':n<0?'▼':'';return`<span class="tag ${c}">${a} ${Math.abs(n).toFixed(2)}%</span>`};
-const note=m=>`<div class="api-note">⚠️ <span>${m}</span></div>`;
-const okNote=m=>`<div class="ok-note">✓ ${m}</div>`;
-const ldr=()=>`<div class="ldr"><div class="spin"></div>جاري التحميل…</div>`;
-const ago=d=>{const s=(Date.now()-new Date(d))/1000;if(s<60)return'الآن';if(s<3600)return`منذ ${~~(s/60)} د`;if(s<86400)return`منذ ${~~(s/3600)} س`;return`منذ ${~~(s/86400)} ي`};
+const fmt = (n,d=2) => n==null||isNaN(n) ? '—' : (+n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtK = n => { if(!n) return '—'; if(n>=1e12) return '$'+(n/1e12).toFixed(2)+'T'; if(n>=1e9) return '$'+(n/1e9).toFixed(1)+'B'; if(n>=1e6) return '$'+(n/1e6).toFixed(0)+'M'; return '$'+fmt(n,0); };
+const cc = v => (+v)>0 ? 'up' : (+v)<0 ? 'down' : 'neu';
+const ctag = v => { if(v==null||isNaN(v)) return '<span class="tag tag-n">—</span>'; const n=+v,c=n>0?'tag-up':n<0?'tag-dn':'tag-n',a=n>0?'▲':n<0?'▼':''; return `<span class="tag ${c}">${a} ${Math.abs(n).toFixed(2)}%</span>`; };
+const note = m => `<div class="api-note">⚠️ <span>${m}</span></div>`;
+const okNote = m => `<div class="ok-note">✓ ${m}</div>`;
+const ldr = () => `<div class="ldr"><div class="spin"></div>${t.loading}</div>`;
+const ago = d => { const s=(Date.now()-new Date(d))/1000; if(s<60)return curLang==='ar'?'الآن':'now'; if(s<3600)return curLang==='ar'?`منذ ${~~(s/60)} د`:`${~~(s/60)}m ago`; if(s<86400)return curLang==='ar'?`منذ ${~~(s/3600)} س`:`${~~(s/3600)}h ago`; return curLang==='ar'?`منذ ${~~(s/86400)} ي`:`${~~(s/86400)}d ago`; };
 
 /* ═══════ TICKER ═══════ */
-function setTicker(items){
-  const doubled=[...items,...items];
-  document.getElementById('tickerInner').innerHTML=doubled.map(x=>
-    `<span class="t-item"><span class="t-sym">${x.sym}</span><span class="${cc(x.c)}">${x.p>=100?'$'+fmt(x.p,0):'$'+fmt(x.p,3)} ${(+x.c)>0?'▲':'▼'}${Math.abs(+x.c||0).toFixed(2)}%</span></span><span class="t-item t-dot" style="color:rgba(200,160,12,.2)">◆</span>`
+function setTicker(items) {
+  const doubled = [...items,...items];
+  document.getElementById('tickerInner').innerHTML = doubled.map(x =>
+    `<span class="t-item"><span class="t-sym">${x.sym}</span><span class="${cc(x.c)}">${x.p>=100?'$'+fmt(x.p,0):'$'+fmt(x.p,3)} ${(+x.c)>0?'▲':'▼'}${Math.abs(+x.c||0).toFixed(2)}%</span></span><span class="t-item" style="color:rgba(200,160,12,.2)">◆</span>`
   ).join('');
 }
 
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════
    1. NEWS
-══════════════════════════════════════ */
-async function loadNews(){
-  const p=document.getElementById('pane-news');
-  p.innerHTML=ldr();
-  const FEEDS=[
-    {n:'Reuters عربي',u:'https://feeds.reuters.com/reuters/businessNews',f:'🌐'},
-    {n:'BBC عربي',u:'https://feeds.bbci.co.uk/arabic/business/rss.xml',f:'🇬🇧'},
-    {n:'العربية',u:'https://www.alarabiya.net/tools/rss/economy.xml',f:'🇦🇪'},
+═══════════════════════════════════ */
+async function loadNews() {
+  const p = document.getElementById('pane-news'); p.innerHTML = ldr();
+  const FEEDS = [
+    {n:'Reuters',u:'https://feeds.reuters.com/reuters/businessNews',f:'🌐'},
+    {n:'BBC',u:'https://feeds.bbci.co.uk/arabic/business/rss.xml',f:'🇬🇧'},
+    {n:'Al Arabiya',u:'https://www.alarabiya.net/tools/rss/economy.xml',f:'🇦🇪'},
   ];
-  let items=[];
-  for(const fd of FEEDS){
-    try{
-      const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(fd.u)}`);
-      if(!r.ok)continue;
-      const xml=new DOMParser().parseFromString((await r.json()).contents,'text/xml');
-      xml.querySelectorAll('item').forEach((it,i)=>{
-        if(i>=6)return;
+  let items = [];
+  for (const fd of FEEDS) {
+    try {
+      const r = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(fd.u)}`);
+      if (!r.ok) continue;
+      const xml = new DOMParser().parseFromString((await r.json()).contents,'text/xml');
+      xml.querySelectorAll('item').forEach((it,i) => {
+        if(i>=6) return;
         items.push({title:it.querySelector('title')?.textContent||'',
           desc:(it.querySelector('description')?.textContent||'').replace(/<[^>]+>/g,'').slice(0,140),
           pub:new Date(it.querySelector('pubDate')?.textContent||Date.now()),
-          link:it.querySelector('link')?.textContent||'#',src:fd.n,flag:fd.f});
+          link:it.querySelector('link')?.textContent||'#', src:fd.n, flag:fd.f});
       });
-    }catch(e){}
+    } catch(e) {}
   }
-  items.sort((a,b)=>b.pub-a.pub);
-  p.innerHTML=`
+  items.sort((a,b) => b.pub - a.pub);
+  p.innerHTML = `
   <div class="sec-hd">
-    <div class="sec-title"><span class="sec-ico">📰</span>الأخبار الاقتصادية</div>
-    <button class="btn-refresh" onclick="loadNews()">↻ تحديث</button>
+    <div class="sec-title">📰 ${t.newsTitle}</div>
+    <button class="btn-refresh" onclick="loadNews()">${t.refresh}</button>
   </div>
   <div class="news-grid">
-    <div id="newsMain">${items.length?items.slice(0,16).map(it=>`<a href="${it.link}" target="_blank" style="text-decoration:none;color:inherit">
+    <div id="newsMain">${items.length ? items.slice(0,16).map(it=>`<a href="${it.link}" target="_blank" style="text-decoration:none;color:inherit">
       <div class="ni"><div class="ni-src">${it.flag} ${it.src} <span class="ni-time">${ago(it.pub)}</span></div>
       <div class="ni-ttl">${it.title}</div>${it.desc?`<div class="ni-dsc">${it.desc}…</div>`:''}</div></a>`).join('')
-      :note('تعذّر التحميل — عرض أخبار نموذجية')+mockNews()}</div>
+      : note(t.approxData) + mockNews() }</div>
     <div>
       <div class="sidebar-sticky">
-        <div class="card mb16"><div class="card-lbl">العملات الرقمية</div><div id="sbCrypto">${ldr()}</div></div>
-        <div class="card"><div class="card-lbl">أسعار الصرف</div><div id="sbForex">${ldr()}</div></div>
+        <div class="card mb16"><div class="card-lbl">${t.cryptoSidebar}</div><div id="sbCrypto">${ldr()}</div></div>
+        <div class="card"><div class="card-lbl">${t.fxSidebar}</div><div id="sbForex">${ldr()}</div></div>
       </div>
     </div>
   </div>`;
-  fetchCG().then(d=>{
-    if(!d)return;
-    const el=document.getElementById('sbCrypto');
-    if(el)el.innerHTML=[{id:'bitcoin',s:'BTC',n:'بيتكوين'},{id:'ethereum',s:'ETH',n:'إيثيريوم'},{id:'solana',s:'SOL',n:'سولانا'},{id:'binancecoin',s:'BNB',n:'بينانس'}]
-      .map(c=>`<div class="mini-row"><span class="mini-nm">${c.n} <span style="color:var(--dim);font-size:.68rem">${c.s}</span></span>
+  fetchCG().then(d => {
+    if(!d) return;
+    const el = document.getElementById('sbCrypto');
+    if(el) el.innerHTML = [{id:'bitcoin',s:'BTC'},{id:'ethereum',s:'ETH'},{id:'solana',s:'SOL'},{id:'binancecoin',s:'BNB'}]
+      .map(c=>`<div class="mini-row"><span class="mini-nm">${t.COINS[['bitcoin','ethereum','binancecoin','ripple','cardano','solana','dogecoin','litecoin','chainlink','polkadot','avalanche-2','matic-network'].indexOf(c.id)]||c.s} <span style="color:var(--dim);font-size:.68rem">${c.s}</span></span>
         <span class="${cc(d[c.id]?.usd_24h_change)}" style="font-family:'JetBrains Mono',monospace;font-size:.79rem;font-weight:700">$${d[c.id]?.usd>=100?fmt(d[c.id].usd,0):fmt(d[c.id]?.usd||0,2)}</span></div>`).join('');
   });
-  fetchFX().then(f=>{
-    const rates=f?.rates||{SAR:3.75,EUR:0.916,GBP:0.787,AED:3.673,KWD:0.307};
-    const el=document.getElementById('sbForex');
-    if(el)el.innerHTML=[{c:'SAR',n:'ريال سعودي 🇸🇦'},{c:'EUR',n:'يورو 🇪🇺'},{c:'GBP',n:'إسترليني 🇬🇧'},{c:'AED',n:'درهم 🇦🇪'},{c:'KWD',n:'دينار 🇰🇼'}]
-      .map(x=>`<div class="mini-row"><span class="mini-nm">${x.n}</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:.79rem;font-weight:600">${fmt(rates[x.c]||0,4)}</span></div>`).join('');
+  fetchFX().then(f => {
+    const rates = f?.rates || {SAR:3.75,EUR:.916,GBP:.787,AED:3.673,KWD:.307};
+    const el = document.getElementById('sbForex');
+    const pairs = [{c:'SAR',i:0},{c:'EUR',i:6},{c:'GBP',i:7},{c:'AED',i:1},{c:'KWD',i:2}];
+    if(el) el.innerHTML = pairs.map(x=>`<div class="mini-row"><span class="mini-nm">${t.CURR_NAMES[x.i]} (${x.c})</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.79rem;font-weight:600">${fmt(rates[x.c]||0,4)}</span></div>`).join('');
   });
 }
-function mockNews(){
-  return[{t:'الفيدرالي يُبقي الفائدة وسط ترقّب لبيانات التضخم',s:'Reuters 🌐',a:'منذ ساعة',d:'أعلن البنك الاحتياطي الفيدرالي الإبقاء على أسعار الفائدة في انتظار بيانات اقتصادية جديدة.'},
-    {t:'الذهب يرتفع لمستويات قياسية وسط توترات جيوسياسية',s:'Bloomberg 💹',a:'منذ 2 ساعة',d:'واصل الذهب صعوده مستفيداً من الطلب على الملاذات الآمنة وضعف الدولار.'},
-    {t:'تداول السعودية يرتفع 1.4% بقيادة أرامكو والبنوك',s:'العربية 🇸🇦',a:'منذ 3 س',d:'أغلق مؤشر تداول على ارتفاع ملحوظ بدعم من صعود أسهم قطاعي الطاقة والمال.'},
-    {t:'البيتكوين يتجاوز 70 ألف دولار مع تدفقات ETF الإيجابية',s:'CoinDesk ₿',a:'منذ 4 س',d:'واصل البيتكوين صعوده فوق حاجز 70 ألف دولار وسط ارتفاع مستمر في صناديق ETF.'},
-    {t:'أوبك+ تدرس تمديد تخفيضات الإنتاج النفطي حتى 2025',s:'CNBC 🛢️',a:'منذ 5 س',d:'تدرس المجموعة الموسّعة تمديد اتفاق خفض الإنتاج لدعم استقرار الأسواق.'},
-    {t:'صندوق النقد يرفع توقعات نمو اقتصادات الخليج',s:'IMF 🌍',a:'أمس',d:'أشار الصندوق إلى تحسّن كبير في توقعات النمو الخليجي مدفوعاً بإصلاحات رؤية 2030.'}]
-    .map(n=>`<div class="ni"><div class="ni-src">${n.s} <span class="ni-time">${n.a}</span></div><div class="ni-ttl">${n.t}</div><div class="ni-dsc">${n.d}</div></div>`).join('');
+function mockNews() {
+  const news = {
+    ar:[{t:'الفيدرالي يُبقي الفائدة وسط ترقّب لبيانات التضخم',s:'Reuters',a:'منذ ساعة',d:'أعلن الفيدرالي الإبقاء على أسعار الفائدة في انتظار بيانات اقتصادية جديدة.'},
+      {t:'الذهب يرتفع لمستويات قياسية وسط توترات جيوسياسية',s:'Bloomberg',a:'منذ 2 ساعة',d:'واصل الذهب صعوده مستفيداً من الطلب على الملاذات الآمنة.'},
+      {t:'تداول السعودية يرتفع 1.4% بقيادة أرامكو والبنوك',s:'العربية',a:'منذ 3 س',d:'أغلق مؤشر تداول مرتفعاً بدعم من قطاعي الطاقة والمال.'},
+      {t:'البيتكوين يتجاوز 70 ألف دولار مع تدفقات ETF',s:'CoinDesk',a:'منذ 4 س',d:'عاد البيتكوين فوق مستوى 70,000 دولار وسط تدفقات إيجابية.'},
+      {t:'أوبك+ تدرس تمديد تخفيضات الإنتاج النفطي',s:'CNBC',a:'منذ 5 س',d:'تدرس المجموعة الموسّعة تمديد اتفاق خفض الإنتاج.'}],
+    en:[{t:'Fed holds rates amid inflation data wait',s:'Reuters',a:'1h ago',d:'The Federal Reserve kept rates unchanged pending new economic data.'},
+      {t:'Gold hits record highs amid geopolitical tensions',s:'Bloomberg',a:'2h ago',d:'Gold continued its rally as safe-haven demand surged.'},
+      {t:'Saudi Tadawul rises 1.4% led by Aramco and banks',s:'Arab News',a:'3h ago',d:'The Saudi index closed higher supported by energy and financial sectors.'},
+      {t:'Bitcoin surpasses $70K on ETF inflows',s:'CoinDesk',a:'4h ago',d:'Bitcoin returned above $70,000 amid positive ETF fund flows.'},
+      {t:'OPEC+ considers extending production cuts',s:'CNBC',a:'5h ago',d:'The expanded group is studying an extension of the output reduction deal.'}],
+    fr:[{t:'La Fed maintient ses taux en attendant les données d\'inflation',s:'Reuters',a:'il y a 1h',d:'La Réserve fédérale a maintenu ses taux en attendant de nouvelles données économiques.'},
+      {t:'L\'or atteint des niveaux records au milieu des tensions géopolitiques',s:'Bloomberg',a:'il y a 2h',d:'L\'or a poursuivi sa hausse grâce à la demande de valeurs refuges.'},
+      {t:'Bitcoin dépasse les 70 000 $ grâce aux flux ETF',s:'CoinDesk',a:'il y a 3h',d:'Le Bitcoin est revenu au-dessus de 70 000 $ avec des flux ETF positifs.'},
+      {t:'L\'OPEP+ envisage de prolonger les réductions de production',s:'CNBC',a:'il y a 4h',d:'Le groupe élargi étudie une prolongation de l\'accord de réduction de la production.'},
+      {t:'Le marché saoudien progresse grâce aux valeurs bancaires',s:'Arab News',a:'il y a 5h',d:'L\'indice Tadawul a clôturé en hausse soutenu par les secteurs de l\'énergie et de la finance.'}],
+    es:[{t:'La Fed mantiene tipos a la espera de datos de inflación',s:'Reuters',a:'hace 1h',d:'La Reserva Federal mantuvo los tipos sin cambios a la espera de nuevos datos económicos.'},
+      {t:'El oro alcanza máximos históricos en medio de tensiones geopolíticas',s:'Bloomberg',a:'hace 2h',d:'El oro continuó su rally gracias a la demanda de activos refugio.'},
+      {t:'Bitcoin supera los 70.000$ por flujos ETF',s:'CoinDesk',a:'hace 3h',d:'Bitcoin volvió por encima de 70.000$ en medio de flujos positivos de ETF.'},
+      {t:'La OPEP+ estudia extender los recortes de producción',s:'CNBC',a:'hace 4h',d:'El grupo ampliado estudia una prórroga del acuerdo de reducción de la producción.'},
+      {t:'La Bolsa saudí sube 1,4% liderada por Aramco',s:'Arab News',a:'hace 5h',d:'El índice Tadawul cerró al alza apoyado por los sectores energético y financiero.'}],
+  };
+  return (news[curLang]||news.en).map(n=>`<div class="ni">
+    <div class="ni-src">🌐 ${n.s} <span class="ni-time">${n.a}</span></div>
+    <div class="ni-ttl">${n.t}</div><div class="ni-dsc">${n.d}</div></div>`).join('');
 }
 
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════
    2. METALS
-══════════════════════════════════════ */
-async function loadMetals(){
-  const p=document.getElementById('pane-metals');p.innerHTML=ldr();
-  let live=null;
-  try{const r=await fetch('https://api.metals.live/v1/spot');if(r.ok){const d=await r.json();live={};if(Array.isArray(d))d.forEach(o=>Object.keys(o).forEach(k=>live[k.toUpperCase()]=o[k]))}}catch(e){}
+═══════════════════════════════════ */
+async function loadMetals() {
+  const p = document.getElementById('pane-metals'); p.innerHTML = ldr();
+  let live = null;
+  try { const r=await fetch('https://api.metals.live/v1/spot'); if(r.ok){const d=await r.json();live={};if(Array.isArray(d))d.forEach(o=>Object.keys(o).forEach(k=>live[k.toUpperCase()]=o[k]));} } catch(e) {}
   const FB={XAU:2320,XAG:27.4,XPT:996,XPD:1020,XCU:4.52,XRH:4800};
-  const CHG={XAU:0.42,XAG:-0.18,XPT:0.67,XPD:-0.91,XCU:1.2,XRH:0.5};
+  const CHG={XAU:.42,XAG:-.18,XPT:.67,XPD:-.91,XCU:1.2,XRH:.5};
   const data=live&&Object.keys(live).length>0?live:FB;
   const isLive=live&&Object.keys(live).length>0;
-  const M=[{k:'XAU',ar:'الذهب',en:'Gold',u:'أوقية',e:'🥇',c:'#b8960c'},
-    {k:'XAG',ar:'الفضة',en:'Silver',u:'أوقية',e:'🥈',c:'#888'},
-    {k:'XPT',ar:'البلاتين',en:'Platinum',u:'أوقية',e:'⬡',c:'#aaa'},
-    {k:'XPD',ar:'البلاديوم',en:'Palladium',u:'أوقية',e:'⬢',c:'#999'},
-    {k:'XCU',ar:'النحاس',en:'Copper',u:'رطل',e:'🟧',c:'#b87333'}];
+  const KEYS=['XAU','XAG','XPT','XPD','XCU'];
+  const EN=['Gold','Silver','Platinum','Palladium','Copper'];
+  const EM=['🥇','🥈','⬡','⬢','🟧'];
+  const COLS=['#b8960c','#888','#aaa','#999','#b87333'];
+  const UNITS = curLang==='ar'?['أوقية','أوقية','أوقية','أوقية','رطل']:['oz','oz','oz','oz','lb'];
   p.innerHTML=`
-  <div class="sec-hd"><div class="sec-title"><span class="sec-ico">🥇</span>أسعار المعادن الثمينة</div><button class="btn-refresh" onclick="loadMetals()">↻ تحديث</button></div>
-  ${isLive?okNote('بيانات حية من metals.live'):note('بيانات تقريبية — يلزم مفتاح metals-api.com للبيانات الحية')}
-  <div class="g5 mb20">${M.map(m=>{const pr=data[m.k]||FB[m.k],ch=CHG[m.k]||0;return`<div class="pc" style="border-top:2px solid ${m.c}35">
-    <div class="pc-sym" style="color:${m.c}">${m.e} ${m.en}</div><div class="pc-name">${m.ar}</div>
-    <div class="pc-price" style="color:${m.c}">$${fmt(pr)}</div>
-    <div class="pc-chg">${ctag(ch)}</div><div class="pc-meta">/ ${m.u}</div></div>`;}).join('')}</div>
+  <div class="sec-hd"><div class="sec-title">🥇 ${t.metalsTitle}</div><button class="btn-refresh" onclick="loadMetals()">${t.refresh}</button></div>
+  ${isLive?okNote(t.liveData+' — metals.live'):note(t.approxData+' — '+t.needsKey)}
+  <div class="g5 mb20">${KEYS.map((k,i)=>{const pr=data[k]||FB[k],ch=CHG[k]||0;return`<div class="pc" style="border-top:2px solid ${COLS[i]}35">
+    <div class="pc-sym" style="color:${COLS[i]}">${EM[i]} ${EN[i]}</div>
+    <div class="pc-name">${t.METALS[i].ar}</div>
+    <div class="pc-price" style="color:${COLS[i]}">$${fmt(pr)}</div>
+    <div class="pc-chg">${ctag(ch)}</div><div class="pc-meta">/ ${UNITS[i]}</div></div>`;}).join('')}</div>
   <div class="g2">
-    <div class="card"><div class="card-lbl">مقارنة تفصيلية</div>
-    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>المعدن</th><th>USD</th><th>SAR ﷼</th><th>التغيير</th><th>الوحدة</th></tr></thead>
-    <tbody>${M.map(m=>{const pr=data[m.k]||FB[m.k],ch=CHG[m.k]||0;return`<tr><td><strong style="color:${m.c}">${m.e} ${m.ar}</strong></td>
-    <td class="mn">$${fmt(pr)}</td><td class="mn">${fmt(pr*3.75)}</td><td>${ctag(ch)}</td>
-    <td style="color:var(--dim);font-size:.75rem">${m.u}</td></tr>`;}).join('')}</tbody></table></div></div>
-    <div class="card"><div class="card-lbl">معلومات إضافية</div>
-    <div class="mini-row"><span class="mini-nm">الروديوم 🔘</span><div><div class="mn" style="font-family:'JetBrains Mono',monospace;font-weight:700">$${fmt(data['XRH']||FB.XRH,0)}</div><div>${ctag(CHG.XRH)}</div></div></div>
-    <div class="orn">تحديث مستمر</div>
-    <p style="font-size:.73rem;color:var(--muted);line-height:1.7">• الأسعار بالدولار الأمريكي للأوقية التروية<br>• 1 أوقية ترويّة = 31.1 جرام<br>• أسعار SAR محسوبة بسعر 3.75 ﷼/$</p></div>
+    <div class="card"><div class="card-lbl">${t.compareTitle}</div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>${t.metal}</th><th>${t.usd}</th><th>${t.sar}</th><th>${t.change}</th></tr></thead>
+    <tbody>${KEYS.map((k,i)=>{const pr=data[k]||FB[k],ch=CHG[k]||0;return`<tr>
+      <td><strong style="color:${COLS[i]}">${EM[i]} ${t.METALS[i].ar}</strong></td>
+      <td class="mn">$${fmt(pr)}</td><td class="mn">${fmt(pr*3.75)}</td><td>${ctag(ch)}</td></tr>`;}).join('')}</tbody></table></div></div>
+    <div class="card"><div class="card-lbl">${t.extraTitle}</div>
+    <div class="mini-row"><span class="mini-nm">⬟ Rhodium</span><div><div class="mn" style="font-family:'JetBrains Mono',monospace;font-weight:700">$${fmt(data['XRH']||FB.XRH,0)}</div><div>${ctag(CHG.XRH)}</div></div></div>
+    <div class="orn">${t.sarNote}</div>
+    <p style="font-size:.73rem;color:var(--muted);line-height:1.7">${t.ounceTroy}</p></div>
   </div>`;
 }
 
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════
    3. STOCKS
-══════════════════════════════════════ */
-async function loadStocks(){
-  const p=document.getElementById('pane-stocks');p.innerHTML=ldr();
-  const IDX=[{s:'%5EGSPC',ar:'S&P 500',f:'🇺🇸',r:'أمريكا'},{s:'%5EDJI',ar:'داو جونز',f:'🇺🇸',r:'أمريكا'},
-    {s:'%5EIXIC',ar:'ناسداك',f:'🇺🇸',r:'أمريكا'},{s:'%5EN225',ar:'نيكاي 225',f:'🇯🇵',r:'اليابان'},
-    {s:'%5EFTSE',ar:'فتسي 100',f:'🇬🇧',r:'لندن'},{s:'%5EGDAXI',ar:'داكس',f:'🇩🇪',r:'ألمانيا'},
-    {s:'TASI.SR',ar:'تداول السعودية',f:'🇸🇦',r:'السعودية'},{s:'%5EBVSP',ar:'بوفيسبا',f:'🇧🇷',r:'البرازيل'}];
-  const FB={'%5EGSPC':{p:5204,c:18.2,pct:.35},'%5EDJI':{p:38996,c:134,pct:.34},'%5EIXIC':{p:16248,c:92,pct:.57},
-    '%5EN225':{p:38820,c:-156,pct:-.40},'%5EFTSE':{p:8148,c:22,pct:.27},'%5EGDAXI':{p:17921,c:45,pct:.25},
-    'TASI.SR':{p:11850,c:85,pct:.72},'%5EBVSP':{p:126400,c:-380,pct:-.30}};
+═══════════════════════════════════ */
+async function loadStocks() {
+  const p=document.getElementById('pane-stocks'); p.innerHTML=ldr();
+  const SYM=['%5EGSPC','%5EDJI','%5EIXIC','%5EN225','%5EFTSE','%5EGDAXI','TASI.SR','%5EBVSP'];
+  const NAMES=['S&P 500','Dow Jones','Nasdaq','Nikkei 225','FTSE 100','DAX','Tadawul','Bovespa'];
+  const FLAGS=['🇺🇸','🇺🇸','🇺🇸','🇯🇵','🇬🇧','🇩🇪','🇸🇦','🇧🇷'];
+  const FB={'%5EGSPC':{p:5204,c:18.2,pct:.35},'%5EDJI':{p:38996,c:134,pct:.34},'%5EIXIC':{p:16248,c:92,pct:.57},'%5EN225':{p:38820,c:-156,pct:-.40},'%5EFTSE':{p:8148,c:22,pct:.27},'%5EGDAXI':{p:17921,c:45,pct:.25},'TASI.SR':{p:11850,c:85,pct:.72},'%5EBVSP':{p:126400,c:-380,pct:-.30}};
   let live={};
-  for(const idx of IDX.slice(0,3)){
-    try{const url=`https://query1.finance.yahoo.com/v8/finance/chart/${idx.s}?interval=1d&range=1d`;
-      const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(4000)});
+  for(const s of SYM.slice(0,3)){
+    try{const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+s+'?interval=1d&range=1d')}`,{signal:AbortSignal.timeout(4000)});
       if(!r.ok)continue;const meta=JSON.parse((await r.json()).contents)?.chart?.result?.[0]?.meta;
-      if(meta)live[idx.s]={p:meta.regularMarketPrice,c:meta.regularMarketPrice-meta.previousClose,pct:((meta.regularMarketPrice-meta.previousClose)/meta.previousClose)*100};
+      if(meta)live[s]={p:meta.regularMarketPrice,c:meta.regularMarketPrice-meta.previousClose,pct:((meta.regularMarketPrice-meta.previousClose)/meta.previousClose)*100};
     }catch(e){}
   }
-  const data={...FB,...live};const isLive=Object.keys(live).length>0;
+  const data={...FB,...live}; const isLive=Object.keys(live).length>0;
   p.innerHTML=`
-  <div class="sec-hd"><div class="sec-title"><span class="sec-ico">📈</span>مؤشرات الأسهم العالمية</div><button class="btn-refresh" onclick="loadStocks()">↻ تحديث</button></div>
-  ${isLive?okNote('بيانات جزئية حية من Yahoo Finance'):note('بيانات تقريبية — يلزم مفتاح Alpha Vantage للبيانات الكاملة')}
-  <div class="g4 mb20">${IDX.map(idx=>{const d=data[idx.s]||FB[idx.s];return`<div class="pc">
-    <div class="pc-sym">${idx.f} ${idx.r}</div><div class="pc-name">${idx.ar}</div>
+  <div class="sec-hd"><div class="sec-title">📈 ${t.stocksTitle}</div><button class="btn-refresh" onclick="loadStocks()">${t.refresh}</button></div>
+  ${isLive?okNote(t.liveData+' — Yahoo Finance'):note(t.approxData+' — '+t.needsKey)}
+  <div class="g4 mb20">${SYM.map((s,i)=>{const d=data[s]||FB[s];return`<div class="pc">
+    <div class="pc-sym">${FLAGS[i]} ${t.REGIONS[i]}</div><div class="pc-name">${NAMES[i]}</div>
     <div class="pc-price">${fmt(d.p,0)}</div>
     <div class="pc-chg"><span class="${cc(d.pct)}" style="font-family:'JetBrains Mono',monospace;font-size:.73rem">${d.pct>0?'▲':'▼'} ${Math.abs(d.pct).toFixed(2)}%</span></div>
-    <div class="pc-meta">${d.c>0?'+':''}${fmt(d.c,1)} نقطة</div></div>`;}).join('')}</div>
-  <div class="card"><div class="card-lbl">جدول المؤشرات المفصّل</div>
-  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>المنطقة</th><th>المؤشر</th><th>القيمة</th><th>التغيير</th><th>%</th></tr></thead>
-  <tbody>${IDX.map(idx=>{const d=data[idx.s]||FB[idx.s];return`<tr>
-    <td>${idx.f} ${idx.r}</td><td><strong>${idx.ar}</strong></td>
-    <td class="mn">${fmt(d.p,0)}</td>
-    <td class="mn ${cc(d.c)}">${d.c>0?'+':''}${fmt(d.c,1)}</td>
+    <div class="pc-meta">${d.c>0?'+':''}${fmt(d.c,1)} ${t.points}</div></div>`;}).join('')}</div>
+  <div class="card"><div class="card-lbl">${t.stocksTitle}</div>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>${t.region}</th><th>${t.index}</th><th>${t.value}</th><th>${t.change}</th><th>%</th></tr></thead>
+  <tbody>${SYM.map((s,i)=>{const d=data[s]||FB[s];return`<tr>
+    <td>${FLAGS[i]} ${t.REGIONS[i]}</td><td><strong>${NAMES[i]}</strong></td>
+    <td class="mn">${fmt(d.p,0)}</td><td class="mn ${cc(d.c)}">${d.c>0?'+':''}${fmt(d.c,1)}</td>
     <td>${ctag(d.pct)}</td></tr>`;}).join('')}</tbody></table></div></div>`;
 }
 
-/* ══════════════════════════════════════
-   4. CRYPTO — CoinGecko free
-══════════════════════════════════════ */
+/* ═══════════════════════════════════
+   4. CRYPTO
+═══════════════════════════════════ */
 let cgCache=null;
 async function fetchCG(){
   if(cgCache)return cgCache;
@@ -516,77 +699,70 @@ async function fetchCG(){
     if(r.ok){cgCache=await r.json();return cgCache;}}catch(e){}return null;
 }
 async function loadCrypto(){
-  const p=document.getElementById('pane-crypto');p.innerHTML=ldr();
+  const p=document.getElementById('pane-crypto'); p.innerHTML=ldr();
   const d=await fetchCG();
   const FB={bitcoin:{usd:68420,sar:256575,usd_24h_change:1.42,usd_24h_vol:28e9,usd_market_cap:1.35e12},ethereum:{usd:3512,sar:13170,usd_24h_change:.87,usd_24h_vol:14e9,usd_market_cap:4.2e11},binancecoin:{usd:590,sar:2212,usd_24h_change:-.34,usd_24h_vol:2e9,usd_market_cap:8.8e10},ripple:{usd:.52,sar:1.95,usd_24h_change:2.1,usd_24h_vol:1.5e9,usd_market_cap:2.8e10},solana:{usd:172,sar:645,usd_24h_change:3.4,usd_24h_vol:4e9,usd_market_cap:7.8e10},cardano:{usd:.44,sar:1.65,usd_24h_change:-1.2,usd_24h_vol:400e6,usd_market_cap:1.6e10},dogecoin:{usd:.15,sar:.56,usd_24h_change:.5,usd_24h_vol:600e6,usd_market_cap:2.1e10},litecoin:{usd:82,sar:307,usd_24h_change:-.7,usd_24h_vol:300e6,usd_market_cap:6e9},chainlink:{usd:13.4,sar:50.2,usd_24h_change:1.8,usd_24h_vol:350e6,usd_market_cap:8e9},polkadot:{usd:6.9,sar:25.9,usd_24h_change:-.9,usd_24h_vol:200e6,usd_market_cap:9.5e9},'avalanche-2':{usd:36,sar:135,usd_24h_change:2.3,usd_24h_vol:450e6,usd_market_cap:1.5e10},'matic-network':{usd:.71,sar:2.66,usd_24h_change:-.5,usd_24h_vol:300e6,usd_market_cap:6.5e9}};
-  const data=d||FB;const isLive=!!d;
-  const C=[{id:'bitcoin',ar:'بيتكوين',s:'BTC',c:'#f7931a'},{id:'ethereum',ar:'إيثيريوم',s:'ETH',c:'#627eea'},
-    {id:'binancecoin',ar:'بينانس',s:'BNB',c:'#f3ba2f'},{id:'ripple',ar:'ريبل',s:'XRP',c:'#00aae4'},
-    {id:'solana',ar:'سولانا',s:'SOL',c:'#9945ff'},{id:'cardano',ar:'كاردانو',s:'ADA',c:'#0055d4'},
-    {id:'dogecoin',ar:'دوج',s:'DOGE',c:'#c2a633'},{id:'litecoin',ar:'لايتكوين',s:'LTC',c:'#345d9d'},
-    {id:'chainlink',ar:'تشين لينك',s:'LINK',c:'#2a5ada'},{id:'polkadot',ar:'بولكادوت',s:'DOT',c:'#e6007a'},
-    {id:'avalanche-2',ar:'أفالانش',s:'AVAX',c:'#e84142'},{id:'matic-network',ar:'بولايجون',s:'MATIC',c:'#8247e5'}];
-  setTicker(C.slice(0,6).map(x=>{const cd=data[x.id]||FB[x.id];return{sym:x.s,p:cd.usd,c:cd.usd_24h_change}}));
+  const data=d||FB; const isLive=!!d;
+  const IDS=['bitcoin','ethereum','binancecoin','ripple','solana','cardano','dogecoin','litecoin','chainlink','polkadot','avalanche-2','matic-network'];
+  const SYMS=['BTC','ETH','BNB','XRP','SOL','ADA','DOGE','LTC','LINK','DOT','AVAX','MATIC'];
+  const COLS=['#f7931a','#627eea','#f3ba2f','#00aae4','#9945ff','#0055d4','#c2a633','#345d9d','#2a5ada','#e6007a','#e84142','#8247e5'];
+  setTicker(IDS.slice(0,6).map((id,i)=>{const cd=data[id]||FB[id];return{sym:SYMS[i],p:cd.usd,c:cd.usd_24h_change}}));
   p.innerHTML=`
-  <div class="sec-hd"><div class="sec-title"><span class="sec-ico">₿</span>العملات الرقمية</div><button class="btn-refresh" onclick="loadCrypto()">↻ تحديث</button></div>
-  ${isLive?okNote('بيانات حية من CoinGecko'):note('بيانات تقريبية — CoinGecko قد يكون محدوداً')}
-  <div class="g5 mb20">${C.slice(0,5).map(x=>{const cd=data[x.id]||FB[x.id];return`<div class="pc" style="border-top:2px solid ${x.c}45">
-    <div class="pc-sym" style="color:${x.c}">${x.s}</div><div class="pc-name">${x.ar}</div>
-    <div class="pc-price" style="color:${x.c}">${cd.usd>=100?'$'+fmt(cd.usd,0):'$'+fmt(cd.usd,3)}</div>
+  <div class="sec-hd"><div class="sec-title">₿ ${t.cryptoTitle}</div><button class="btn-refresh" onclick="loadCrypto()">${t.refresh}</button></div>
+  ${isLive?okNote(t.liveData+' — CoinGecko'):note(t.approxData)}
+  <div class="g5 mb20">${IDS.slice(0,5).map((id,i)=>{const cd=data[id]||FB[id];return`<div class="pc" style="border-top:2px solid ${COLS[i]}45">
+    <div class="pc-sym" style="color:${COLS[i]}">${SYMS[i]}</div><div class="pc-name">${t.COINS[i]}</div>
+    <div class="pc-price" style="color:${COLS[i]}">${cd.usd>=100?'$'+fmt(cd.usd,0):'$'+fmt(cd.usd,3)}</div>
     <div class="pc-chg">${ctag(cd.usd_24h_change)}</div><div class="pc-meta">${fmtK(cd.usd_market_cap)}</div></div>`;}).join('')}</div>
-  <div class="card"><div class="card-lbl">جدول العملات الكامل</div>
-  <div class="tbl-wrap scroll-box"><table class="tbl"><thead><tr><th>#</th><th>العملة</th><th>USD</th><th>SAR ﷼</th><th>24 ساعة</th><th>القيمة السوقية</th><th>الحجم 24س</th></tr></thead>
-  <tbody>${C.map((x,i)=>{const cd=data[x.id]||FB[x.id];return`<tr>
+  <div class="card"><div class="card-lbl">${t.cryptoTitle}</div>
+  <div class="tbl-wrap scroll-box"><table class="tbl"><thead><tr><th>${t.rank}</th><th>${t.currency}</th><th>USD</th><th>SAR</th><th>${t.usd24}</th><th>${t.mktCap}</th><th>${t.vol}</th></tr></thead>
+  <tbody>${IDS.map((id,i)=>{const cd=data[id]||FB[id];return`<tr>
     <td style="color:var(--dim)">${i+1}</td>
-    <td><span style="color:${x.c};font-weight:700">${x.s}</span> <span style="color:var(--muted);font-size:.73rem">${x.ar}</span></td>
+    <td><span style="color:${COLS[i]};font-weight:700">${SYMS[i]}</span> <span style="color:var(--muted);font-size:.73rem">${t.COINS[i]}</span></td>
     <td class="mn">${cd.usd>=100?'$'+fmt(cd.usd,0):'$'+fmt(cd.usd,3)}</td>
     <td class="mn">${fmt(cd.sar||cd.usd*3.75,2)}</td>
     <td>${ctag(cd.usd_24h_change)}</td>
     <td class="mn" style="font-size:.77rem;color:var(--muted)">${fmtK(cd.usd_market_cap)}</td>
-    <td class="mn" style="font-size:.77rem;color:var(--muted)">${fmtK(cd.usd_24h_vol)}</td>
-    </tr>`;}).join('')}</tbody></table></div></div>`;
+    <td class="mn" style="font-size:.77rem;color:var(--muted)">${fmtK(cd.usd_24h_vol)}</td></tr>`;}).join('')}</tbody></table></div></div>`;
 }
 
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════
    5. OIL
-══════════════════════════════════════ */
+═══════════════════════════════════ */
 async function loadOil(){
-  const p=document.getElementById('pane-oil');p.innerHTML=ldr();
+  const p=document.getElementById('pane-oil'); p.innerHTML=ldr();
   let brent=null;
   try{const r=await fetch('https://api.eia.gov/v2/petroleum/pri/spt/data/?api_key=DEMO_KEY&data[0]=value&facets[series][]=RBRTE&length=1&sort[0][column]=period&sort[0][direction]=desc');
     if(r.ok)brent=(await r.json())?.response?.data?.[0]?.value;}catch(e){}
   const b=parseFloat(brent)||86.42;
-  const O=[{ar:'خام برنت',en:'Brent Crude',p:b,ch:.68,c:'#c0440a',e:'🛢️'},
-    {ar:'خام WTI',en:'WTI',p:b-2.1,ch:.63,c:'#e06030',e:'⛽'},
-    {ar:'غاز طبيعي',en:'Nat. Gas',p:2.18,ch:-1.8,c:'#2070d0',e:'🔥'},
-    {ar:'مازوت',en:'Heating Oil',p:2.64,ch:.76,c:'#208060',e:'🌡️'}];
-  const news=['أوبك+ تدرس تمديد تخفيضات الإنتاج حتى 2025','الطلب الصيني على الخام يدعم الأسعار العالمية','مخزونات أمريكية أقل من المتوقع للأسبوع الثالث','وكالة الطاقة الدولية ترفع توقعات الطلب','روسيا تلتزم بخفض الإنتاج ضمن أوبك+'];
+  const PRICES=[b,b-2.1,2.18,2.64]; const CHGS=[.68,.63,-1.8,.76];
+  const COLS=['#c0440a','#e06030','#2070d0','#208060']; const EM=['🛢️','⛽','🔥','🌡️'];
   p.innerHTML=`
-  <div class="sec-hd"><div class="sec-title"><span class="sec-ico">🛢️</span>أسعار النفط</div><button class="btn-refresh" onclick="loadOil()">↻ تحديث</button></div>
-  ${brent?okNote('بيانات جزئية من EIA API'):note('بيانات تقريبية — يلزم OilPrice API للبيانات الحية')}
-  <div class="g4 mb20">${O.map(o=>`<div class="pc" style="border-top:2px solid ${o.c}40">
-    <div class="pc-sym" style="color:${o.c}">${o.e} ${o.en}</div><div class="pc-name">${o.ar}</div>
-    <div class="pc-price" style="color:${o.c}">$${fmt(o.p)}</div>
-    <div class="pc-chg">${ctag(o.ch)}</div><div class="pc-meta">/ برميل</div></div>`).join('')}</div>
+  <div class="sec-hd"><div class="sec-title">🛢️ ${t.oilTitle}</div><button class="btn-refresh" onclick="loadOil()">${t.refresh}</button></div>
+  ${brent?okNote(t.liveData+' — EIA'):note(t.approxData+' — '+t.needsKey)}
+  <div class="g4 mb20">${t.OILS.map((name,i)=>`<div class="pc" style="border-top:2px solid ${COLS[i]}40">
+    <div class="pc-sym" style="color:${COLS[i]}">${EM[i]}</div><div class="pc-name">${name}</div>
+    <div class="pc-price" style="color:${COLS[i]}">$${fmt(PRICES[i])}</div>
+    <div class="pc-chg">${ctag(CHGS[i])}</div><div class="pc-meta">${t.barrel}</div></div>`).join('')}</div>
   <div class="g2">
-    <div class="card"><div class="card-lbl">مقارنة أسعار النفط</div>
-    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>النوع</th><th>USD</th><th>SAR ﷼</th><th>التغيير</th></tr></thead>
-    <tbody>${O.map(o=>`<tr><td><strong style="color:${o.c}">${o.e} ${o.ar}</strong></td>
-    <td class="mn">$${fmt(o.p)}</td><td class="mn">${fmt(o.p*3.75)}</td><td>${ctag(o.ch)}</td></tr>`).join('')}</tbody></table></div></div>
-    <div class="card"><div class="card-lbl">الوقود بالسعودية</div>
+    <div class="card"><div class="card-lbl">${t.oilTitle}</div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>${t.oilType}</th><th>USD</th><th>SAR</th><th>${t.change}</th></tr></thead>
+    <tbody>${t.OILS.map((name,i)=>`<tr><td><strong style="color:${COLS[i]}">${EM[i]} ${name}</strong></td>
+    <td class="mn">$${fmt(PRICES[i])}</td><td class="mn">${fmt(PRICES[i]*3.75)}</td><td>${ctag(CHGS[i])}</td></tr>`).join('')}</tbody></table></div></div>
+    <div class="card"><div class="card-lbl">${t.fuelSaudi}</div>
     <div class="fuel-row">
-      <div class="fuel-item"><div class="fuel-lbl">91 أوكتان</div><div class="fuel-val">0.92 ﷼</div></div>
-      <div class="fuel-item"><div class="fuel-lbl">95 أوكتان</div><div class="fuel-val">1.07 ﷼</div></div>
-      <div class="fuel-item"><div class="fuel-lbl">ديزل</div><div class="fuel-val">0.70 ﷼</div></div>
+      <div class="fuel-item"><div class="fuel-lbl">${t.oct91}</div><div class="fuel-val">0.92 ﷼</div></div>
+      <div class="fuel-item"><div class="fuel-lbl">${t.oct95}</div><div class="fuel-val">1.07 ﷼</div></div>
+      <div class="fuel-item"><div class="fuel-lbl">${t.diesel}</div><div class="fuel-val">0.70 ﷼</div></div>
     </div>
-    <div class="orn" style="margin-top:14px">أحدث الأخبار</div>
-    <div>${news.map(n=>`<div class="mini-row"><span style="font-size:.78rem">⚡ ${n}</span></div>`).join('')}</div></div>
+    <div class="orn" style="margin-top:14px"></div>
+    <div>${t.newsOil.map(n=>`<div class="mini-row"><span style="font-size:.78rem">⚡ ${n}</span></div>`).join('')}</div></div>
   </div>`;
 }
 
-/* ══════════════════════════════════════
-   6. FOREX — Frankfurter.app free
-══════════════════════════════════════ */
+/* ═══════════════════════════════════
+   6. FOREX
+═══════════════════════════════════ */
 let fxCache=null;
 async function fetchFX(){
   if(fxCache)return fxCache;
@@ -594,34 +770,31 @@ async function fetchFX(){
     if(r.ok){fxCache=await r.json();return fxCache;}}catch(e){}return null;
 }
 async function loadForex(){
-  const p=document.getElementById('pane-forex');p.innerHTML=ldr();
+  const p=document.getElementById('pane-forex'); p.innerHTML=ldr();
   const d=await fetchFX();
   const FB={SAR:3.75,EUR:.916,GBP:.787,JPY:151.4,AED:3.673,KWD:.307,EGP:48.6,TRY:32.1,CNY:7.24,CHF:.892,CAD:1.363,AUD:1.527,QAR:3.641,BHD:.376,OMR:.385,INR:83.4};
-  const rates=d?.rates||FB;const isLive=!!d;
-  const CRS=[{c:'SAR',ar:'ريال سعودي',f:'🇸🇦'},{c:'AED',ar:'درهم إماراتي',f:'🇦🇪'},{c:'KWD',ar:'دينار كويتي',f:'🇰🇼'},
-    {c:'QAR',ar:'ريال قطري',f:'🇶🇦'},{c:'BHD',ar:'دينار بحريني',f:'🇧🇭'},{c:'OMR',ar:'ريال عماني',f:'🇴🇲'},
-    {c:'EUR',ar:'يورو',f:'🇪🇺'},{c:'GBP',ar:'إسترليني',f:'🇬🇧'},{c:'JPY',ar:'ين ياباني',f:'🇯🇵'},
-    {c:'CHF',ar:'فرنك سويسري',f:'🇨🇭'},{c:'CNY',ar:'يوان صيني',f:'🇨🇳'},{c:'CAD',ar:'دولار كندي',f:'🇨🇦'},
-    {c:'AUD',ar:'دولار أسترالي',f:'🇦🇺'},{c:'EGP',ar:'جنيه مصري',f:'🇪🇬'},{c:'TRY',ar:'ليرة تركية',f:'🇹🇷'},{c:'INR',ar:'روبية هندية',f:'🇮🇳'}];
-  const ALL=[{c:'USD',ar:'دولار أمريكي',f:'🇺🇸'},...CRS];
+  const rates=d?.rates||FB; const isLive=!!d;
+  const CODES=['SAR','AED','KWD','QAR','BHD','OMR','EUR','GBP','JPY','CHF','CNY','CAD','AUD','EGP','TRY','INR'];
+  const FLAGS2=['🇸🇦','🇦🇪','🇰🇼','🇶🇦','🇧🇭','🇴🇲','🇪🇺','🇬🇧','🇯🇵','🇨🇭','🇨🇳','🇨🇦','🇦🇺','🇪🇬','🇹🇷','🇮🇳'];
+  const ALL=[{c:'USD',n:'USD',f:'🇺🇸'},...CODES.map((c,i)=>({c,n:c,f:FLAGS2[i]}))];
   p.innerHTML=`
-  <div class="sec-hd"><div class="sec-title"><span class="sec-ico">💱</span>أسعار الصرف</div><button class="btn-refresh" onclick="loadForex()">↻ تحديث</button></div>
-  ${isLive?okNote('بيانات حية من Frankfurter.app'):note('بيانات تقريبية')}
+  <div class="sec-hd"><div class="sec-title">💱 ${t.forexTitle}</div><button class="btn-refresh" onclick="loadForex()">${t.refresh}</button></div>
+  ${isLive?okNote(t.liveData+' — Frankfurter.app'):note(t.approxData)}
   <div class="conv-box">
-    <div class="conv-title">🔄 محوّل العملات الفوري</div>
-    <div class="fld"><label>المبلغ والعملة الأصلية</label>
-      <div class="irow"><input type="number" id="fxA" value="100" placeholder="المبلغ" oninput="doConv()">
+    <div class="conv-title">${t.converterTitle}</div>
+    <div class="fld"><label>${t.amountFrom}</label>
+      <div class="irow"><input type="number" id="fxA" value="100" oninput="doConv()">
       <select id="fxF" onchange="doConv()">${ALL.map(x=>`<option value="${x.c}" ${x.c==='USD'?'selected':''}>${x.f} ${x.c}</option>`).join('')}</select></div></div>
     <button class="swap-btn" onclick="swpFX()">⇅</button>
-    <div class="fld"><label>العملة المستهدفة</label>
-      <div class="irow"><input type="number" id="fxR" placeholder="النتيجة" readonly style="cursor:default;opacity:.85">
+    <div class="fld"><label>${t.targetCurr}</label>
+      <div class="irow"><input type="number" id="fxR" readonly style="cursor:default;opacity:.85">
       <select id="fxT" onchange="doConv()">${ALL.map(x=>`<option value="${x.c}" ${x.c==='SAR'?'selected':''}>${x.f} ${x.c}</option>`).join('')}</select></div></div>
     <div id="fxOut" class="rbox r-gold" style="display:none"></div>
   </div>
-  <div class="card"><div class="card-lbl">جدول أسعار الصرف مقابل USD</div>
-  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>العملة</th><th>الاسم</th><th>السعر / USD</th><th>USD / وحدة</th></tr></thead>
-  <tbody>${CRS.map(x=>{const r=rates[x.c]||FB[x.c];return`<tr>
-    <td><strong>${x.f} ${x.c}</strong></td><td style="color:var(--muted)">${x.ar}</td>
+  <div class="card"><div class="card-lbl">${t.fxTableTitle}</div>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>${t.currency}</th><th>${t.currName}</th><th>${t.pricePerUSD}</th><th>${t.usdPerUnit}</th></tr></thead>
+  <tbody>${CODES.map((c,i)=>{const r=rates[c]||FB[c];return`<tr>
+    <td><strong>${FLAGS2[i]} ${c}</strong></td><td style="color:var(--muted)">${t.CURR_NAMES[i]}</td>
     <td class="mn">${fmt(r,4)}</td><td class="mn" style="color:var(--muted)">${fmt(1/r,6)}</td></tr>`;}).join('')}</tbody></table></div></div>`;
   doConv();
 }
@@ -632,42 +805,42 @@ function doConv(){
   const FB2={USD:1,SAR:3.75,EUR:.916,GBP:.787,JPY:151.4,AED:3.673,KWD:.307,EGP:48.6,TRY:32.1,CNY:7.24,CHF:.892,CAD:1.363,AUD:1.527,QAR:3.641,BHD:.376,OMR:.385,INR:83.4};
   const r=fxCache?.rates?{USD:1,...fxCache.rates}:FB2;
   const res=(amt/(r[from]||1))*(r[to]||1),rate=(r[to]||1)/(r[from]||1);
-  const el=document.getElementById('fxR');if(el)el.value=fmt(res,4);
+  const el=document.getElementById('fxR'); if(el)el.value=fmt(res,4);
   const out=document.getElementById('fxOut');
   if(out&&amt>0){out.style.display='block';out.innerHTML=`<div class="rnum">${fmt(res,2)} <span style="font-size:1rem">${to}</span></div>
     <div class="rlbl">${fmt(amt,0)} ${from} = ${fmt(res,4)} ${to}<br><span style="font-size:.7rem;color:var(--dim)">1 ${from} = ${fmt(rate,6)} ${to}</span></div>`;}
 }
 function swpFX(){const a=document.getElementById('fxF'),b=document.getElementById('fxT');if(!a||!b)return;[a.value,b.value]=[b.value,a.value];doConv();}
 
-/* ══════════════════════════════════════
-   7. DISCOUNT CALCULATOR
-══════════════════════════════════════ */
+/* ═══════════════════════════════════
+   7. DISCOUNT
+═══════════════════════════════════ */
 function loadDiscount(){
   const p=document.getElementById('pane-discount');
   p.innerHTML=`
-  <div class="sec-hd"><div class="sec-title"><span class="sec-ico">🏷️</span>حاسبة الخصم</div></div>
+  <div class="sec-hd"><div class="sec-title">🏷️ ${t.discTitle}</div></div>
   <div style="max-width:540px;margin:0 auto">
     <div class="calc-box">
-      <div class="calc-title">📉 احسب السعر بعد الخصم</div>
-      <div class="fld"><label>السعر الأصلي (قبل الخصم)</label><input type="number" id="a1" placeholder="مثال: 500 ﷼" oninput="calcA()"></div>
-      <div class="fld"><label>نسبة الخصم (%)</label><input type="number" id="a2" placeholder="مثال: 20" min="0" max="100" oninput="calcA()"></div>
+      <div class="calc-title">${t.calcAfterTitle}</div>
+      <div class="fld"><label>${t.origPrice}</label><input type="number" id="a1" placeholder="500" oninput="calcA()"></div>
+      <div class="fld"><label>${t.discPct}</label><input type="number" id="a2" placeholder="20" min="0" max="100" oninput="calcA()"></div>
       <div id="aOut" class="rbox r-green" style="display:none"></div>
     </div>
-    <div class="orn">أو العكس تماماً</div>
+    <div class="orn">${t.orReverse}</div>
     <div class="calc-box">
-      <div class="calc-title">📈 احسب السعر الأصلي من السعر المخفَّض</div>
-      <div class="fld"><label>السعر بعد الخصم</label><input type="number" id="b1" placeholder="مثال: 400 ﷼" oninput="calcB()"></div>
-      <div class="fld"><label>نسبة الخصم المُطبَّقة (%)</label><input type="number" id="b2" placeholder="مثال: 20" min="0" max="99" oninput="calcB()"></div>
+      <div class="calc-title">${t.calcBeforeTitle}</div>
+      <div class="fld"><label>${t.discPrice}</label><input type="number" id="b1" placeholder="400" oninput="calcB()"></div>
+      <div class="fld"><label>${t.appliedDisc}</label><input type="number" id="b2" placeholder="20" min="0" max="99" oninput="calcB()"></div>
       <div id="bOut" class="rbox r-gold" style="display:none"></div>
     </div>
-    <div class="orn">خصومات متتالية</div>
+    <div class="orn">${t.multiDisc}</div>
     <div class="calc-box">
-      <div class="calc-title">🔢 ثلاثة خصومات متراكمة</div>
-      <div class="fld"><label>السعر الأصلي</label><input type="number" id="c0" placeholder="السعر الأصلي" oninput="calcC()"></div>
+      <div class="calc-title">${t.calcMultiTitle}</div>
+      <div class="fld"><label>${t.origPrice2}</label><input type="number" id="c0" placeholder="1000" oninput="calcC()"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:13px">
-        <div class="fld" style="margin:0"><label>خصم 1 (%)</label><input type="number" id="c1" placeholder="مثال: 10" oninput="calcC()" style="text-align:center"></div>
-        <div class="fld" style="margin:0"><label>خصم 2 (%)</label><input type="number" id="c2" placeholder="مثال: 5" oninput="calcC()" style="text-align:center"></div>
-        <div class="fld" style="margin:0"><label>خصم 3 (%)</label><input type="number" id="c3" placeholder="اختياري" oninput="calcC()" style="text-align:center"></div>
+        <div class="fld" style="margin:0"><label>${t.disc1}</label><input type="number" id="c1" placeholder="10" oninput="calcC()" style="text-align:center"></div>
+        <div class="fld" style="margin:0"><label>${t.disc2}</label><input type="number" id="c2" placeholder="5" oninput="calcC()" style="text-align:center"></div>
+        <div class="fld" style="margin:0"><label>${t.disc3}</label><input type="number" id="c3" placeholder="-" oninput="calcC()" style="text-align:center"></div>
       </div>
       <div id="cOut" class="rbox r-pur" style="display:none"></div>
     </div>
@@ -677,13 +850,15 @@ function calcA(){
   const o=+document.getElementById('a1').value,pct=+document.getElementById('a2').value,box=document.getElementById('aOut');
   if(!o||isNaN(pct)){box.style.display='none';return;}
   const s=o*pct/100,f=o-s;box.style.display='block';
-  box.innerHTML=`<div class="rnum">${fmt(f)} <span style="font-size:1rem">﷼</span></div><div class="rlbl">وفّرت <strong style="color:var(--green)">${fmt(s)} ﷼</strong> بخصم ${pct}%</div>`;
+  box.innerHTML=`<div class="rnum">${fmt(f)} <span style="font-size:1rem">${t.currency_sym}</span></div>
+    <div class="rlbl">${t.saved} <strong style="color:var(--green)">${fmt(s)} ${t.currency_sym}</strong> (${pct}%)</div>`;
 }
 function calcB(){
   const d=+document.getElementById('b1').value,pct=+document.getElementById('b2').value,box=document.getElementById('bOut');
   if(!d||!pct||pct>=100){box.style.display='none';return;}
   const o=d/(1-pct/100),s=o-d;box.style.display='block';
-  box.innerHTML=`<div class="rnum">${fmt(o)} <span style="font-size:1rem">﷼</span></div><div class="rlbl">السعر الأصلي • قيمة الخصم <strong style="color:var(--gold)">${fmt(s)} ﷼</strong></div>`;
+  box.innerHTML=`<div class="rnum">${fmt(o)} <span style="font-size:1rem">${t.currency_sym}</span></div>
+    <div class="rlbl">${t.origPriceLabel} • ${t.savedOf} <strong style="color:var(--gold)">${fmt(s)} ${t.currency_sym}</strong></div>`;
 }
 function calcC(){
   const o=+document.getElementById('c0').value;
@@ -691,19 +866,25 @@ function calcC(){
   const box=document.getElementById('cOut');if(!o){box.style.display='none';return;}
   let pr=o;if(d1)pr*=(1-d1/100);if(d2)pr*=(1-d2/100);if(d3)pr*=(1-d3/100);
   const sv=o-pr,eff=((sv/o)*100).toFixed(2);box.style.display='block';
-  box.innerHTML=`<div class="rnum">${fmt(pr)} <span style="font-size:1rem">﷼</span></div><div class="rlbl">وفّرت <strong>${fmt(sv)} ﷼</strong> • نسبة الخصم الفعلية <strong>${eff}%</strong></div>`;
+  box.innerHTML=`<div class="rnum">${fmt(pr)} <span style="font-size:1rem">${t.currency_sym}</span></div>
+    <div class="rlbl">${t.saved} <strong>${fmt(sv)} ${t.currency_sym}</strong> • ${t.effectiveDisc} <strong>${eff}%</strong></div>`;
 }
 
-/* ══════════════════════════════════════
+/* ═══════════════════════════════════
    LOADERS MAP & BOOT
-══════════════════════════════════════ */
+═══════════════════════════════════ */
 const LOADERS={news:loadNews,metals:loadMetals,stocks:loadStocks,crypto:loadCrypto,oil:loadOil,forex:loadForex,discount:loadDiscount};
+
+// Apply saved lang on load
+setLang(curLang);
+buildTabs();
 loadNews();
 loadDiscount();
 fetchCG().then(d=>{
   if(!d)return;
-  const C=['bitcoin','ethereum','solana','ripple','binancecoin'],S=['BTC','ETH','SOL','XRP','BNB'];
-  setTicker(C.map((id,i)=>({sym:S[i],p:d[id]?.usd||0,c:d[id]?.usd_24h_change||0})).filter(x=>x.p>0));
+  const IDS=['bitcoin','ethereum','solana','ripple','binancecoin'];
+  const SYMS=['BTC','ETH','SOL','XRP','BNB'];
+  setTicker(IDS.map((id,i)=>({sym:SYMS[i],p:d[id]?.usd||0,c:d[id]?.usd_24h_change||0})).filter(x=>x.p>0));
 });
 </script>
 </body>
