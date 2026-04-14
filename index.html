@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Trends | مؤشرات السوق</title>
+<meta name="description" content="Real-time financial data dashboard - Metals, Stocks, Crypto, Oil, Forex">
+<meta property="og:title" content="Market Trends">
+<meta property="og:description" content="Real-time financial data: metals, stocks, crypto, oil, forex">
+<meta property="og:url" content="https://trendi.cc">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --b1:#1a4f8a;--b2:#1e5fa8;--b3:#4bbfe0;--b4:#72c140;--b5:#5aab2a;
+  --bg:#0b1829;--bg2:#0f2038;--bg3:#122440;--card:#162c4e;--card2:#1c3460;
+  --border:#1e3d6a;--border2:#2a5490;
+  --text:#e8f4fd;--text2:#7fb3d8;--text3:#3d6e9a;
+  --green:#72c140;--red:#f04060;--sky:#4bbfe0;
+}
+body.light{
+  --bg:#f0f7ff;--bg2:#e4f0fb;--bg3:#d4e8f8;--card:#fff;--card2:#eaf4fd;
+  --border:#b8d8f0;--border2:#85bce0;--text:#0d2d50;--text2:#2a6090;--text3:#6090b8;
+}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+body.rtl{direction:rtl;font-family:'IBM Plex Sans Arabic',sans-serif}
+body.ltr{direction:ltr;font-family:'IBM Plex Sans',sans-serif}
+
+/* LANG BAR */
+.lang-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:4px 16px;display:flex;align-items:center;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:wrap}
+.lang-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:3px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:500;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.lang-btn:hover{border-color:var(--b3);color:var(--b3)}
+.lang-btn.active{background:var(--b1);border-color:var(--b3);color:#fff;font-weight:600}
+
+/* TICKERS */
+.ticker-wrap{overflow:hidden;border-bottom:1px solid var(--border)}
+.tick-news{background:var(--b1);padding:5px 0;border-bottom:2px solid var(--b4)}
+.tick-stocks{background:var(--bg2);padding:5px 0;border-bottom:1px solid var(--border)}
+.tick-forex{background:var(--bg3);padding:5px 0}
+.tick-row{display:flex;align-items:center;width:100%;overflow:hidden}
+.tick-lbl{display:inline-block;padding:0 14px;font-weight:700;white-space:nowrap;font-size:11px;flex-shrink:0}
+.tick-lbl.nl{background:var(--b4);color:#0b1829;border-radius:0 4px 4px 0}
+.tick-lbl.sl{background:var(--b3);color:#0b1829;border-radius:0 4px 4px 0}
+.tick-lbl.fl{background:var(--b1);color:#fff;border-radius:0 4px 4px 0}
+body.rtl .tick-lbl{border-radius:4px 0 0 4px}
+.tick-inner{overflow:hidden;flex:1}
+.tick-track{display:flex;animation:tScroll 65s linear infinite;white-space:nowrap}
+.tick-track.fast{animation-duration:42s}
+.tick-track.slow{animation-duration:85s}
+.tick-track:hover{animation-play-state:paused}
+@keyframes tScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ti{display:inline-flex;align-items:center;gap:7px;padding:0 18px;border-right:1px solid var(--border);color:var(--text2);white-space:nowrap;font-size:11.5px}
+body.rtl .ti{border-right:none;border-left:1px solid var(--border)}
+.ti.ni{color:#cce8fa;border-color:rgba(75,191,224,.2)}
+.ts{color:var(--text);font-weight:600;font-family:'JetBrains Mono',monospace;font-size:11px}
+.tv{font-family:'JetBrains Mono',monospace}
+.tu{color:var(--green)}.td{color:var(--red)}.tdot{width:5px;height:5px;background:var(--b4);border-radius:50%}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,var(--b1) 0%,var(--bg2) 100%);border-bottom:2px solid var(--b3);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:200}
+.logo-w{display:flex;align-items:center;gap:12px}
+.logo-svg{width:40px;height:40px;flex-shrink:0}
+.logo-title{font-size:19px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.3px}
+.logo-title span{color:var(--b4)}
+.logo-sub{font-size:10px;color:var(--b3);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
+.hdr-r{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.icon-btn{background:rgba(75,191,224,.1);border:1px solid rgba(75,191,224,.25);color:var(--b3);width:32px;height:32px;border-radius:7px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.icon-btn:hover{background:rgba(75,191,224,.22)}
+.live-b{display:flex;align-items:center;gap:5px;background:rgba(114,193,64,.08);border:1px solid rgba(114,193,64,.25);padding:4px 10px;border-radius:6px;font-size:11px;color:var(--b4);font-weight:600}
+.ldot{width:6px;height:6px;background:var(--b4);border-radius:50%;animation:bl 1.2s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.15}}
+.clk-b{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--b3);background:rgba(75,191,224,.07);border:1px solid rgba(75,191,224,.15);padding:4px 9px;border-radius:6px}
+
+/* TABS */
+.tabs-wrap{background:var(--bg2);border-bottom:2px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs{display:flex;min-width:max-content;padding:0 14px}
+.tab{padding:10px 15px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;user-select:none}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--b4);border-bottom-color:var(--b4)}
+
+/* CONTENT */
+.content{display:none;padding:16px;animation:fu .22s ease;max-width:1200px;margin:0 auto}
+.content.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;flex-wrap:wrap;gap:8px}
+.sec-title{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';width:3px;height:15px;background:linear-gradient(180deg,var(--b4),var(--b3));border-radius:2px;flex-shrink:0}
+.ref-btn{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;transition:.2s;display:inline-flex;align-items:center;gap:5px}
+.ref-btn:hover{border-color:var(--b4);color:var(--b4)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sp{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--b4);border-radius:50%;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle}
+
+/* TABLE */
+.tw{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:right;padding:8px 12px;color:var(--text3);font-weight:600;font-size:10px;letter-spacing:.3px;background:var(--card2);border-bottom:1px solid var(--border)}
+body.ltr th{text-align:left}
+td{padding:9px 12px;border-bottom:1px solid rgba(30,61,106,.35);color:var(--text);vertical-align:middle}
+tr:last-child td{border:none}
+tr:hover td{background:rgba(75,191,224,.04)}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.bu{background:rgba(114,193,64,.12);color:var(--green)}
+.bd{background:rgba(240,64,96,.12);color:var(--red)}
+.up{color:var(--green)}.dn{color:var(--red)}
+.mono{font-family:'JetBrains Mono',monospace}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:500px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:15px}
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:36px;color:var(--text2);font-size:12px}
+.info-bar{background:rgba(75,191,224,.06);border:1px solid rgba(75,191,224,.15);border-radius:7px;padding:7px 12px;font-size:11px;color:var(--sky);margin-bottom:11px}
+.news-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:12px 14px;cursor:pointer;transition:.2s;text-decoration:none;display:block;margin-bottom:8px;color:inherit}
+.news-card:hover{border-color:var(--b3);transform:translateX(-2px)}
+body.ltr .news-card:hover{transform:translateX(2px)}
+.ns{font-size:9.5px;color:var(--b4);font-weight:700;letter-spacing:.5px;margin-bottom:4px}
+.nt{font-size:12.5px;font-weight:500;color:var(--text);line-height:1.5}
+.nm{font-size:10px;color:var(--text3);margin-top:3px}
+/* converter */
+.conv-w{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:15px}
+.conv-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.conv-inp{flex:1;min-width:70px;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:9px 11px;border-radius:7px;font-size:15px;font-family:'JetBrains Mono',monospace;text-align:center}
+.conv-inp:focus{outline:none;border-color:var(--b3)}
+.conv-sel{flex:1;min-width:70px;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:9px 10px;border-radius:7px;font-size:11.5px;cursor:pointer;font-family:inherit}
+.conv-sel:focus{outline:none;border-color:var(--b3)}
+.swap-b{background:rgba(114,193,64,.1);border:1px solid rgba(114,193,64,.28);color:var(--b4);width:34px;height:34px;border-radius:7px;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
+.swap-b:hover{background:rgba(114,193,64,.22)}
+.conv-res{background:linear-gradient(135deg,rgba(26,79,138,.28),rgba(75,191,224,.09));border:1px solid var(--b3);border-radius:9px;padding:15px;text-align:center;margin-top:11px}
+.crv{font-size:26px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--b4)}
+.crl{font-size:11px;color:var(--text2);margin-top:3px}
+/* discount */
+.calc-tog{display:flex;background:var(--card2);border-radius:7px;padding:3px;gap:3px;margin-bottom:13px;border:1px solid var(--border)}
+.ctb{flex:1;padding:7px;font-size:11px;border-radius:5px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:inherit;transition:.2s;font-weight:500}
+.ctb.active{background:linear-gradient(135deg,var(--b1),var(--b2));color:#fff;font-weight:700}
+.ci{background:var(--card2);border:1px solid var(--border);color:var(--text);padding:10px 13px;border-radius:7px;font-size:15px;font-family:'JetBrains Mono',monospace;width:100%;text-align:right}
+body.ltr .ci{text-align:left}
+.ci:focus{outline:none;border-color:var(--b3)}
+.cl{font-size:11px;color:var(--text2);margin-bottom:5px;font-weight:500}
+.crb{background:linear-gradient(135deg,rgba(26,79,138,.22),rgba(114,193,64,.07));border:1px solid rgba(114,193,64,.28);border-radius:11px;padding:18px;text-align:center;margin-top:13px}
+.crn{font-size:30px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--b4)}
+.crd{font-size:11px;color:var(--text2);margin-top:4px}
+.sr{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(30,61,106,.35);font-size:12px}
+.sr:last-child{border:none}
+.sep{height:1px;background:var(--border);margin:11px 0}
+.oil-big{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:15px}
+.oname{font-size:13px;font-weight:700;margin-bottom:2px}
+.mbars{display:flex;align-items:flex-end;gap:2px;height:26px;margin-top:8px}
+.bar{flex:1;border-radius:2px 2px 0 0;min-height:2px}
+footer{text-align:center;padding:20px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);margin-top:10px}
+footer a{color:var(--b3);text-decoration:none}
+.tech-tag,.deal-tag{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:4px 11px;border-radius:20px;cursor:pointer;font-size:11px;font-family:inherit;transition:.2s;font-weight:500}
+.tech-tag:hover,.deal-tag:hover{border-color:var(--b3);color:var(--b3)}
+.tech-tag.active{background:var(--b1);border-color:var(--b3);color:#fff;font-weight:700}
+.deal-tag.active{background:var(--b1);border-color:var(--b4);color:#fff;font-weight:700}
+.deal-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px 15px;margin-bottom:8px;transition:.2s}
+.deal-card:hover{border-color:var(--b3);transform:translateX(-2px)}
+body.ltr .deal-card:hover{transform:translateX(2px)}
+.deal-type{display:inline-block;padding:2px 9px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.4px;margin-bottom:7px}
+.dt-tech{background:rgba(75,191,224,.12);color:var(--sky)}
+.dt-finance{background:rgba(114,193,64,.12);color:var(--green)}
+.dt-stock{background:rgba(26,79,138,.22);color:#7fbfff}
+.dt-crypto{background:rgba(255,165,0,.1);color:#ffb347}
+.deal-title{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.5}
+.deal-amount{font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--b4);margin-bottom:4px}
+.deal-desc{font-size:11px;color:var(--text2);line-height:1.55}
+.deal-date{font-size:10px;color:var(--text3);margin-top:6px}
+</style>
+</head>
+<body class="rtl">
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <span style="font-size:10px;color:var(--text3);font-weight:600;white-space:nowrap">🌐</span>
+  <button class="lang-btn active" onclick="setLang('ar')" data-lang="ar">🇸🇦 العربية</button>
+  <button class="lang-btn" onclick="setLang('en')" data-lang="en">🇬🇧 English</button>
+  <button class="lang-btn" onclick="setLang('fr')" data-lang="fr">🇫🇷 Français</button>
+  <button class="lang-btn" onclick="setLang('es')" data-lang="es">🇪🇸 Español</button>
+  <button class="lang-btn" onclick="setLang('tr')" data-lang="tr">🇹🇷 Türkçe</button>
+  <button class="lang-btn" onclick="setLang('zh')" data-lang="zh">🇨🇳 中文</button>
+  <button class="lang-btn" onclick="setLang('de')" data-lang="de">🇩🇪 Deutsch</button>
+  <button class="lang-btn" onclick="setLang('pt')" data-lang="pt">🇧🇷 Português</button>
+  <button class="lang-btn" onclick="setLang('ru')" data-lang="ru">🇷🇺 Русский</button>
+  <button class="lang-btn" onclick="setLang('ja')" data-lang="ja">🇯🇵 日本語</button>
+  <button class="lang-btn" onclick="setLang('ko')" data-lang="ko">🇰🇷 한국어</button>
+  <button class="lang-btn" onclick="setLang('hi')" data-lang="hi">🇮🇳 हिंदी</button>
+</div>
+
+<!-- TICKERS -->
+<div class="ticker-wrap">
+  <div class="tick-news">
+    <div class="tick-row">
+      <div class="tick-lbl nl" id="tk-news-lbl">📰 أخبار</div>
+      <div class="tick-inner">
+        <div class="tick-track slow" id="news-ticker">
+          <div class="ti ni"><span class="tdot"></span><span class="nh">الذهب يتجاوز 3200 دولار وسط توترات جيوسياسية</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">الفيدرالي يُبقي أسعار الفائدة دون تغيير</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">النفط فوق 85 دولاراً مع توقعات تراجع المخزونات</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">تداول يسجل أعلى مستوياته منذ 6 أشهر</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">بيتكوين يتعافى فوق 85 ألف دولار</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">رؤية 2030: 80 مليار استثمارات أجنبية خلال الربع الأول</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">الذهب يتجاوز 3200 دولار وسط توترات جيوسياسية</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">الفيدرالي يُبقي أسعار الفائدة دون تغيير</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">النفط فوق 85 دولاراً مع توقعات تراجع المخزونات</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">تداول يسجل أعلى مستوياته منذ 6 أشهر</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">بيتكوين يتعافى فوق 85 ألف دولار</span></div>
+          <div class="ti ni"><span class="tdot"></span><span class="nh">رؤية 2030: 80 مليار استثمارات أجنبية خلال الربع الأول</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tick-stocks">
+    <div class="tick-row">
+      <div class="tick-lbl sl" id="tk-stocks-lbl">📈 أسواق</div>
+      <div class="tick-inner">
+        <div class="tick-track fast" id="stocks-ticker">
+          <div class="ti"><span class="ts">S&amp;P500</span><span class="tv">5,683</span><span class="tu">▲1.24%</span></div>
+          <div class="ti"><span class="ts">DJIA</span><span class="tv">42,780</span><span class="tu">▲0.87%</span></div>
+          <div class="ti"><span class="ts">NASDAQ</span><span class="tv">17,940</span><span class="tu">▲1.56%</span></div>
+          <div class="ti"><span class="ts">TASI</span><span class="tv">11,854</span><span class="tu">▲0.43%</span></div>
+          <div class="ti"><span class="ts">FTSE</span><span class="tv">8,372</span><span class="td">▼0.31%</span></div>
+          <div class="ti"><span class="ts">N225</span><span class="tv">36,124</span><span class="td">▼0.72%</span></div>
+          <div class="ti"><span class="ts">DAX</span><span class="tv">22,340</span><span class="tu">▲0.95%</span></div>
+          <div class="ti"><span class="ts">HSI</span><span class="tv">24,618</span><span class="td">▼0.18%</span></div>
+          <div class="ti"><span class="ts">CAC40</span><span class="tv">8,102</span><span class="tu">▲0.61%</span></div>
+          <div class="ti"><span class="ts">SSE</span><span class="tv">3,285</span><span class="tu">▲0.22%</span></div>
+          <div class="ti"><span class="ts">S&amp;P500</span><span class="tv">5,683</span><span class="tu">▲1.24%</span></div>
+          <div class="ti"><span class="ts">DJIA</span><span class="tv">42,780</span><span class="tu">▲0.87%</span></div>
+          <div class="ti"><span class="ts">NASDAQ</span><span class="tv">17,940</span><span class="tu">▲1.56%</span></div>
+          <div class="ti"><span class="ts">TASI</span><span class="tv">11,854</span><span class="tu">▲0.43%</span></div>
+          <div class="ti"><span class="ts">FTSE</span><span class="tv">8,372</span><span class="td">▼0.31%</span></div>
+          <div class="ti"><span class="ts">N225</span><span class="tv">36,124</span><span class="td">▼0.72%</span></div>
+          <div class="ti"><span class="ts">DAX</span><span class="tv">22,340</span><span class="tu">▲0.95%</span></div>
+          <div class="ti"><span class="ts">HSI</span><span class="tv">24,618</span><span class="td">▼0.18%</span></div>
+          <div class="ti"><span class="ts">CAC40</span><span class="tv">8,102</span><span class="tu">▲0.61%</span></div>
+          <div class="ti"><span class="ts">SSE</span><span class="tv">3,285</span><span class="tu">▲0.22%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tick-forex">
+    <div class="tick-row">
+      <div class="tick-lbl fl" id="tk-forex-lbl">💱 صرف</div>
+      <div class="tick-inner">
+        <div class="tick-track" id="forex-ticker">
+          <div class="ti"><span class="ts">USD/SAR</span><span class="tv">3.7502</span><span class="tu">▲0.01%</span></div>
+          <div class="ti"><span class="ts">EUR/USD</span><span class="tv">1.0882</span><span class="td">▼0.12%</span></div>
+          <div class="ti"><span class="ts">GBP/USD</span><span class="tv">1.2710</span><span class="td">▼0.08%</span></div>
+          <div class="ti"><span class="ts">USD/JPY</span><span class="tv">149.82</span><span class="tu">▲0.34%</span></div>
+          <div class="ti"><span class="ts">USD/AED</span><span class="tv">3.6730</span><span class="tu">▲0.00%</span></div>
+          <div class="ti"><span class="ts">USD/KWD</span><span class="tv">0.3082</span><span class="td">▼0.02%</span></div>
+          <div class="ti"><span class="ts">USD/EGP</span><span class="tv">50.84</span><span class="td">▼0.09%</span></div>
+          <div class="ti"><span class="ts">XAU/USD</span><span class="tv">3,228</span><span class="tu">▲0.54%</span></div>
+          <div class="ti"><span class="ts">USD/TRY</span><span class="tv">38.24</span><span class="tu">▲0.21%</span></div>
+          <div class="ti"><span class="ts">USD/SAR</span><span class="tv">3.7502</span><span class="tu">▲0.01%</span></div>
+          <div class="ti"><span class="ts">EUR/USD</span><span class="tv">1.0882</span><span class="td">▼0.12%</span></div>
+          <div class="ti"><span class="ts">GBP/USD</span><span class="tv">1.2710</span><span class="td">▼0.08%</span></div>
+          <div class="ti"><span class="ts">USD/JPY</span><span class="tv">149.82</span><span class="tu">▲0.34%</span></div>
+          <div class="ti"><span class="ts">USD/AED</span><span class="tv">3.6730</span><span class="tu">▲0.00%</span></div>
+          <div class="ti"><span class="ts">USD/KWD</span><span class="tv">0.3082</span><span class="td">▼0.02%</span></div>
+          <div class="ti"><span class="ts">USD/EGP</span><span class="tv">50.84</span><span class="td">▼0.09%</span></div>
+          <div class="ti"><span class="ts">XAU/USD</span><span class="tv">3,228</span><span class="tu">▲0.54%</span></div>
+          <div class="ti"><span class="ts">USD/TRY</span><span class="tv">38.24</span><span class="tu">▲0.21%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="logo-w">
+    <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="21" width="7" height="17" rx="2" fill="#1a4f8a"/>
+      <rect x="11" y="14" width="7" height="24" rx="2" fill="#72c140"/>
+      <rect x="21" y="9" width="7" height="29" rx="2" fill="#4bbfe0"/>
+      <rect x="31" y="3" width="7" height="35" rx="2" fill="#1a4f8a"/>
+      <path d="M3 27 Q13 17 23 13 Q31 9 37 3" stroke="#72c140" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <polygon points="37,1 41,7 33,6" fill="#72c140"/>
+    </svg>
+    <div>
+      <div class="logo-title">Market <span>Trends</span></div>
+      <div class="logo-sub" id="logo-sub">لوحة البيانات المالية</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <div class="clk-b" id="clk">--:--:--</div>
+    <div class="live-b"><div class="ldot"></div><span id="live-txt">مباشر</span></div>
+    <button class="icon-btn" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">☀</button>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="sw(0)">💻 <span class="tl" data-k="tabTech">تكنولوجيا</span></div>
+    <div class="tab" onclick="sw(1)">🤝 <span class="tl" data-k="tabDeals">الصفقات</span></div>
+    <div class="tab" onclick="sw(2)">📰 <span class="tl" data-k="tabNews">الأخبار</span></div>
+    <div class="tab" onclick="sw(3)">🥇 <span class="tl" data-k="tabMetals">المعادن</span></div>
+    <div class="tab" onclick="sw(4)">📈 <span class="tl" data-k="tabStocks">الأسهم</span></div>
+    <div class="tab" onclick="sw(5)">₿ <span class="tl" data-k="tabCrypto">العملات الرقمية</span></div>
+    <div class="tab" onclick="sw(6)">🛢️ <span class="tl" data-k="tabOil">النفط</span></div>
+    <div class="tab" onclick="sw(7)">💱 <span class="tl" data-k="tabForex">العملات</span></div>
+    <div class="tab" onclick="sw(8)">🏷️ <span class="tl" data-k="tabDiscount">حاسبة الخصم</span></div>
+  </div>
+</div>
+
+<!-- CONTENTS -->
+<main>
+
+<!-- TECH NEWS TAB (t0) -->
+<div id="t0" class="content active">
+  <div class="topbar">
+    <div class="sec-title" id="sec-tech">أحدث أخبار التكنولوجيا</div>
+    <button class="ref-btn" onclick="loadTech()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px" id="tech-filters">
+    <button class="tech-tag active" onclick="filterTech('all',this)" data-k="filterAll">الكل</button>
+    <button class="tech-tag" onclick="filterTech('AI',this)" data-k="filterAI">🤖 ذكاء اصطناعي</button>
+    <button class="tech-tag" onclick="filterTech('startup',this)" data-k="filterStartup">🚀 شركات ناشئة</button>
+    <button class="tech-tag" onclick="filterTech('security',this)" data-k="filterSecurity">🔒 أمن معلومات</button>
+    <button class="tech-tag" onclick="filterTech('cloud',this)" data-k="filterCloud">☁️ سحابة</button>
+    <button class="tech-tag" onclick="filterTech('mobile',this)" data-k="filterMobile">📱 هواتف وأجهزة</button>
+  </div>
+  <div id="tech-c"><div class="loading"><div class="sp"></div> <span>جارٍ التحميل...</span></div></div>
+</div>
+
+<!-- DEALS TAB (t1) -->
+<div id="t1" class="content">
+  <div class="topbar">
+    <div class="sec-title" id="sec-deals">أبرز الصفقات العالمية</div>
+    <button class="ref-btn" onclick="loadDeals()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px" id="deals-filters">
+    <button class="deal-tag active" onclick="filterDeals('all',this)" data-k="filterAll">الكل</button>
+    <button class="deal-tag" onclick="filterDeals('tech',this)" data-k="filterDealTech">💻 تكنولوجيا</button>
+    <button class="deal-tag" onclick="filterDeals('finance',this)" data-k="filterDealFinance">🏦 مالية</button>
+    <button class="deal-tag" onclick="filterDeals('stock',this)" data-k="filterDealStock">📈 أسهم</button>
+    <button class="deal-tag" onclick="filterDeals('crypto',this)" data-k="filterDealCrypto">₿ عملات رقمية</button>
+  </div>
+  <div id="deals-c"><div class="loading"><div class="sp"></div> <span>جارٍ التحميل...</span></div></div>
+</div>
+
+<!-- NEWS (t2) -->
+<div id="t2" class="content">
+  <div class="topbar">
+    <div class="sec-title" id="sec-news">أحدث الأخبار الاقتصادية</div>
+    <button class="ref-btn" onclick="loadNews()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div id="news-c"><div class="loading"><div class="sp"></div> <span data-k="loading">جارٍ التحميل...</span></div></div>
+</div>
+
+<!-- METALS (t3) -->
+<div id="t3" class="content">
+  <div class="topbar">
+    <div class="sec-title" id="sec-metals">أسعار المعادن</div>
+    <button class="ref-btn" onclick="loadMetals()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div id="metals-c"><div class="loading"><div class="sp"></div></div></div>
+</div>
+
+<!-- STOCKS (t4) -->
+<div id="t4" class="content">
+  <div class="topbar">
+    <div class="sec-title" id="sec-stocks">مؤشرات الأسواق العالمية</div>
+    <button class="ref-btn" onclick="loadStocks()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div id="stocks-c"><div class="loading"><div class="sp"></div></div></div>
+</div>
+
+<!-- CRYPTO (t5) -->
+<div id="t5" class="content">
+  <div class="topbar">
+    <div class="sec-title" id="sec-crypto">العملات الرقمية</div>
+    <button class="ref-btn" onclick="loadCrypto()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div id="crypto-c"><div class="loading"><div class="sp"></div></div></div>
+</div>
+</div>
+
+
+<!-- OIL (t6) -->
+<div id="t6" class="content">
+  <div class="topbar">
+    <div class="sec-title" id="sec-oil">أسعار النفط العالمية</div>
+    <button class="ref-btn" onclick="loadOil()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div id="oil-c"><div class="loading"><div class="sp"></div></div></div>
+</div>
+
+<div id="t7" class="content">
+  <div class="topbar">
+    <div class="sec-title" id="sec-forex">أسعار صرف العملات</div>
+    <button class="ref-btn" onclick="loadForex()">↻ <span data-k="refresh">تحديث</span></button>
+  </div>
+  <div id="forex-c"><div class="loading"><div class="sp"></div></div></div>
+  <div style="margin-top:14px">
+    <div class="sec-title" style="margin-bottom:11px" id="conv-title">محوّل العملات</div>
+    <div class="conv-w">
+      <div class="conv-row">
+        <input class="conv-inp" type="number" id="ca" value="1" oninput="conv()">
+        <select class="conv-sel" id="cf" onchange="conv()">
+          <option value="USD">🇺🇸 USD</option><option value="SAR" selected>🇸🇦 SAR</option>
+          <option value="EUR">🇪🇺 EUR</option><option value="GBP">🇬🇧 GBP</option>
+          <option value="JPY">🇯🇵 JPY</option><option value="AED">🇦🇪 AED</option>
+          <option value="KWD">🇰🇼 KWD</option><option value="QAR">🇶🇦 QAR</option>
+          <option value="EGP">🇪🇬 EGP</option><option value="TRY">🇹🇷 TRY</option>
+          <option value="CNY">🇨🇳 CNY</option><option value="INR">🇮🇳 INR</option>
+          <option value="CHF">🇨🇭 CHF</option><option value="CAD">🇨🇦 CAD</option>
+          <option value="BRL">🇧🇷 BRL</option><option value="RUB">🇷🇺 RUB</option>
+          <option value="KRW">🇰🇷 KRW</option><option value="SGD">🇸🇬 SGD</option>
+        </select>
+        <div class="swap-b" onclick="swapC()">⇄</div>
+        <select class="conv-sel" id="ct" onchange="conv()">
+          <option value="USD" selected>🇺🇸 USD</option><option value="SAR">🇸🇦 SAR</option>
+          <option value="EUR">🇪🇺 EUR</option><option value="GBP">🇬🇧 GBP</option>
+          <option value="JPY">🇯🇵 JPY</option><option value="AED">🇦🇪 AED</option>
+          <option value="KWD">🇰🇼 KWD</option><option value="QAR">🇶🇦 QAR</option>
+          <option value="EGP">🇪🇬 EGP</option><option value="TRY">🇹🇷 TRY</option>
+          <option value="CNY">🇨🇳 CNY</option><option value="INR">🇮🇳 INR</option>
+          <option value="CHF">🇨🇭 CHF</option><option value="CAD">🇨🇦 CAD</option>
+          <option value="BRL">🇧🇷 BRL</option><option value="RUB">🇷🇺 RUB</option>
+          <option value="KRW">🇰🇷 KRW</option><option value="SGD">🇸🇬 SGD</option>
+        </select>
+      </div>
+      <div class="conv-res">
+        <div class="crv" id="cv">--</div>
+        <div class="crl" id="cl" data-k="convHint">أدخل المبلغ واختر العملتين</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="t8" class="content">
+  <div class="sec-title" style="margin-bottom:13px" id="sec-disc">حاسبة الخصم</div>
+  <div class="conv-w">
+    <div class="calc-tog">
+      <button class="ctb active" onclick="setDM('a')" id="dm-a" data-k="discModeAfter">💰 السعر بعد الخصم</button>
+      <button class="ctb" onclick="setDM('b')" id="dm-b" data-k="discModeBefore">🏷️ السعر قبل الخصم</button>
+    </div>
+    <div id="dm-a-w">
+      <div style="display:grid;gap:11px">
+        <div><div class="cl" data-k="origPrice">السعر الأصلي</div><input class="ci" type="number" id="op" placeholder="0.00" oninput="calcD()"></div>
+        <div><div class="cl" data-k="discPct">نسبة الخصم (%)</div><input class="ci" type="number" id="dp" placeholder="0" min="0" max="100" oninput="calcD()"></div>
+      </div>
+      <div class="crb" id="r-a"><div class="crn">--</div><div class="crd" data-k="priceAfterDisc">السعر بعد الخصم</div></div>
+      <div class="sep"></div>
+      <div class="sr"><span style="color:var(--text2)" data-k="discAmount">مقدار الخصم</span><span class="mono" id="ds1" style="color:var(--red)">--</span></div>
+      <div class="sr"><span style="color:var(--text2)" data-k="saving">نسبة التوفير</span><span class="mono" id="dp1" style="color:var(--green)">--</span></div>
+    </div>
+    <div id="dm-b-w" style="display:none">
+      <div style="display:grid;gap:11px">
+        <div><div class="cl" data-k="priceAfterDiscLabel">السعر بعد الخصم</div><input class="ci" type="number" id="fp" placeholder="0.00" oninput="calcO()"></div>
+        <div><div class="cl" data-k="discPctApplied">نسبة الخصم المطبقة (%)</div><input class="ci" type="number" id="dp2" placeholder="0" min="0" max="99" oninput="calcO()"></div>
+      </div>
+      <div class="crb" id="r-b"><div class="crn">--</div><div class="crd" data-k="origPriceResult">السعر الأصلي قبل الخصم</div></div>
+      <div class="sep"></div>
+      <div class="sr"><span style="color:var(--text2)" data-k="discAmount">مقدار الخصم</span><span class="mono" id="ds2" style="color:var(--red)">--</span></div>
+      <div class="sr"><span style="color:var(--text2)" data-k="paidRatio">نسبة ما دفعته</span><span class="mono" id="dr2" style="color:var(--green)">--</span></div>
+    </div>
+  </div>
+</div>
+
+
+</main>
+
+<footer>
+  <span>Market Trends &copy; 2025 &mdash; <a href="https://trendi.cc">trendi.cc</a></span>
+  &nbsp;|&nbsp;
+  <span style="color:var(--text3)" id="footer-note">بيانات للأغراض المعلوماتية فقط</span>
+</footer>
+
+<script>
+const LANGS={
+  ar:{dir:'rtl',font:"'IBM Plex Sans Arabic'",logoSub:'لوحة البيانات المالية',live:'مباشر',tabNews:'الأخبار',tabMetals:'المعادن',tabStocks:'الأسهم',tabCrypto:'العملات الرقمية',tabOil:'النفط',tabForex:'العملات',tabDiscount:'حاسبة الخصم',tabTech:'تكنولوجيا',tabDeals:'الصفقات',secNews:'أحدث الأخبار الاقتصادية',secMetals:'أسعار المعادن',secStocks:'مؤشرات الأسواق العالمية',secCrypto:'العملات الرقمية',secOil:'أسعار النفط العالمية',secForex:'أسعار صرف العملات',secDiscount:'حاسبة الخصم',convTitle:'محوّل العملات',convHint:'أدخل المبلغ واختر العملتين',refresh:'تحديث',loading:'جارٍ التحميل...',tkNews:'📰 أخبار',tkStocks:'📈 أسواق',tkForex:'💱 صرف',discModeAfter:'💰 السعر بعد الخصم',discModeBefore:'🏷️ السعر قبل الخصم',origPrice:'السعر الأصلي',discPct:'نسبة الخصم (%)',priceAfterDisc:'السعر بعد الخصم',discAmount:'مقدار الخصم',saving:'نسبة التوفير',priceAfterDiscLabel:'السعر بعد الخصم',discPctApplied:'نسبة الخصم المطبقة (%)',origPriceResult:'السعر الأصلي قبل الخصم',paidRatio:'نسبة ما دفعته',thMetal:'المعدن',thSym:'الرمز',thPrice:'السعر (USD)',thChange:'التغير',thPct:'%',thUnit:'الوحدة',thIndex:'المؤشر',thCountry:'البلد',thValue:'القيمة',thCoin:'العملة',thCrypto24:'24 ساعة',thCrypto7:'7 أيام',thMcap:'القيمة السوقية',thOil:'النوع',thOilPrice:'السعر',thOilUnit:'الوحدة',thPair:'زوج العملة',thRate:'سعر الصرف',thBuy:'شراء',thSell:'بيع',approxData:'⚡ بيانات استرشادية مستندة إلى مستويات السوق الحالية',updatedAt:'آخر تحديث:',source:'مصدر:',footerNote:'بيانات للأغراض المعلوماتية فقط',headlines:['الذهب يتجاوز 3200 دولار وسط توترات جيوسياسية','الفيدرالي يُبقي أسعار الفائدة دون تغيير','النفط فوق 85 دولاراً مع توقعات تراجع المخزونات','تداول يسجل أعلى مستوياته منذ 6 أشهر','بيتكوين يتعافى فوق 85 ألف دولار','رؤية 2030: 80 مليار استثمارات أجنبية'],mn:{gold:'الذهب',silver:'الفضة',platinum:'البلاتين',palladium:'البلاديوم',copper:'النحاس',aluminum:'الألمنيوم',nickel:'النيكل',zinc:'الزنك',lead:'الرصاص'},cn:{US:'الولايات المتحدة',SA:'السعودية',UK:'المملكة المتحدة',JP:'اليابان',DE:'ألمانيا',HK:'هونغ كونغ',FR:'فرنسا',CN:'الصين'},on:{brent:'برنت الأوروبي',wti:'خام أمريكي',opec:'سلة أوبك',gas:'غاز طبيعي',heating:'زيت التدفئة',gasoline:'بنزين'},uBarrel:'USD/برميل',uBtu:'USD/مليون BTU',uGallon:'USD/جالون',uOz:'أوقية',uTon:'طن',uLb:'رطل',secTech:'أحدث أخبار التكنولوجيا',secDeals:'أبرز الصفقات العالمية',filterAll:'الكل',filterAI:'🤖 ذكاء اصطناعي',filterStartup:'🚀 شركات ناشئة',filterSecurity:'🔒 أمن معلومات',filterCloud:'☁️ سحابة',filterMobile:'📱 هواتف وأجهزة',filterDealTech:'💻 تكنولوجيا',filterDealFinance:'🏦 مالية',filterDealStock:'📈 أسهم',filterDealCrypto:'₿ عملات رقمية',techCatAI:'🤖 AI',techCatStartup:'🚀 ناشئة',techCatSecurity:'🔒 أمن',techCatCloud:'☁️ سحابة',techCatMobile:'📱 أجهزة',dealTypeTech:'💻 تكنولوجيا',dealTypeFinance:'🏦 مالية',dealTypeStock:'📈 أسهم',dealTypeCrypto:'₿ عملات رقمية'},
+  en:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'Financial Data Dashboard',live:'LIVE',tabNews:'News',tabMetals:'Metals',tabStocks:'Stocks',tabCrypto:'Crypto',tabOil:'Oil',tabForex:'Forex',tabDiscount:'Discount Calc',tabTech:'Technology',tabDeals:'Deals',secNews:'Latest Economic News',secMetals:'Metal Prices',secStocks:'Global Market Indices',secCrypto:'Cryptocurrencies',secOil:'Global Oil Prices',secForex:'Currency Exchange Rates',secDiscount:'Discount Calculator',convTitle:'Currency Converter',convHint:'Enter amount and select currencies',refresh:'Refresh',loading:'Loading...',tkNews:'📰 News',tkStocks:'📈 Markets',tkForex:'💱 Forex',discModeAfter:'💰 Price After Discount',discModeBefore:'🏷️ Price Before Discount',origPrice:'Original Price',discPct:'Discount Rate (%)',priceAfterDisc:'Price After Discount',discAmount:'Discount Amount',saving:'You Save',priceAfterDiscLabel:'Price After Discount',discPctApplied:'Applied Discount (%)',origPriceResult:'Original Price Before Discount',paidRatio:'% of Original Paid',thMetal:'Metal',thSym:'Symbol',thPrice:'Price (USD)',thChange:'Change',thPct:'%',thUnit:'Unit',thIndex:'Index',thCountry:'Country',thValue:'Value',thCoin:'Coin',thCrypto24:'24h',thCrypto7:'7d',thMcap:'Market Cap',thOil:'Type',thOilPrice:'Price',thOilUnit:'Unit',thPair:'Pair',thRate:'Rate',thBuy:'Buy',thSell:'Sell',approxData:'⚡ Indicative data based on current market levels',updatedAt:'Last update:',source:'Source:',footerNote:'Data for informational purposes only',headlines:['Gold surpasses $3,200 amid geopolitical tensions','Fed holds interest rates steady','Oil above $85 as inventory drawdown expected','Saudi Tadawul hits 6-month high','Bitcoin recovers above $85,000','Vision 2030: $80B foreign investment in Q1'],mn:{gold:'Gold',silver:'Silver',platinum:'Platinum',palladium:'Palladium',copper:'Copper',aluminum:'Aluminum',nickel:'Nickel',zinc:'Zinc',lead:'Lead'},cn:{US:'United States',SA:'Saudi Arabia',UK:'United Kingdom',JP:'Japan',DE:'Germany',HK:'Hong Kong',FR:'France',CN:'China'},on:{brent:'Brent (European)',wti:'WTI (American)',opec:'OPEC Basket',gas:'Natural Gas',heating:'Heating Oil',gasoline:'Gasoline RBOB'},uBarrel:'USD/barrel',uBtu:'USD/MMBtu',uGallon:'USD/gallon',uOz:'troy oz',uTon:'metric ton',uLb:'pound',secTech:'Latest Technology News',secDeals:'Top Global Deals',filterAll:'All',filterAI:'🤖 Artificial Intelligence',filterStartup:'🚀 Startups',filterSecurity:'🔒 Cybersecurity',filterCloud:'☁️ Cloud',filterMobile:'📱 Devices',filterDealTech:'💻 Technology',filterDealFinance:'🏦 Finance',filterDealStock:'📈 Stocks',filterDealCrypto:'₿ Crypto',techCatAI:'🤖 AI',techCatStartup:'🚀 Startup',techCatSecurity:'🔒 Security',techCatCloud:'☁️ Cloud',techCatMobile:'📱 Mobile',dealTypeTech:'💻 Tech',dealTypeFinance:'🏦 Finance',dealTypeStock:'📈 Stock',dealTypeCrypto:'₿ Crypto'},
+  fr:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'Tableau de bord financier',live:'EN DIRECT',tabNews:'Actualités',tabMetals:'Métaux',tabStocks:'Actions',tabCrypto:'Crypto',tabOil:'Pétrole',tabForex:'Devises',tabDiscount:'Calculateur',secNews:'Dernières actualités économiques',secMetals:'Prix des métaux',secStocks:'Indices boursiers mondiaux',secCrypto:'Cryptomonnaies',secOil:'Prix du pétrole mondial',secForex:'Taux de change',secDiscount:'Calculateur de remise',convTitle:'Convertisseur de devises',convHint:'Entrez le montant et choisissez les devises',refresh:'Actualiser',loading:'Chargement...',tkNews:'📰 Actualités',tkStocks:'📈 Marchés',tkForex:'💱 Devises',discModeAfter:'💰 Prix après remise',discModeBefore:'🏷️ Prix avant remise',origPrice:'Prix original',discPct:'Taux de remise (%)',priceAfterDisc:'Prix après remise',discAmount:'Montant de la remise',saving:'Économie',priceAfterDiscLabel:'Prix après remise',discPctApplied:'Remise appliquée (%)',origPriceResult:'Prix original avant remise',paidRatio:'% du prix payé',thMetal:'Métal',thSym:'Symbole',thPrice:'Prix (USD)',thChange:'Variation',thPct:'%',thUnit:'Unité',thIndex:'Indice',thCountry:'Pays',thValue:'Valeur',thCoin:'Monnaie',thCrypto24:'24h',thCrypto7:'7j',thMcap:'Capitalisation',thOil:'Type',thOilPrice:'Prix',thOilUnit:'Unité',thPair:'Paire',thRate:'Taux',thBuy:'Achat',thSell:'Vente',approxData:'⚡ Données indicatives basées sur les niveaux actuels',updatedAt:'Mise à jour :',source:'Source :',footerNote:'Données à titre informatif uniquement',headlines:["L'or dépasse 3 200 $ face aux tensions géopolitiques","La Fed maintient ses taux inchangés","Le pétrole au-dessus de 85 $ avec stocks en baisse","Tadawul au plus haut depuis 6 mois","Le Bitcoin se redresse au-dessus de 85 000 $","Vision 2030 : 80 Md$ d'investissements en T1"],mn:{gold:'Or',silver:'Argent',platinum:'Platine',palladium:'Palladium',copper:'Cuivre',aluminum:'Aluminium',nickel:'Nickel',zinc:'Zinc',lead:'Plomb'},cn:{US:'États-Unis',SA:'Arabie saoudite',UK:'Royaume-Uni',JP:'Japon',DE:'Allemagne',HK:'Hong Kong',FR:'France',CN:'Chine'},on:{brent:'Brent (européen)',wti:'WTI (américain)',opec:'Panier OPEP',gas:'Gaz naturel',heating:'Fioul',gasoline:'Essence'},uBarrel:'USD/baril',uBtu:'USD/MMBtu',uGallon:'USD/gallon',uOz:'once troy',uTon:'tonne',uLb:'livre',secTech:'Dernières actualités technologiques',secDeals:'Meilleures transactions mondiales',filterAll:'Tout',filterAI:'🤖 Intelligence Artificielle',filterStartup:'🚀 Startups',filterSecurity:'🔒 Cybersécurité',filterCloud:'☁️ Cloud',filterMobile:'📱 Appareils',filterDealTech:'💻 Technologie',filterDealFinance:'🏦 Finance',filterDealStock:'📈 Actions',filterDealCrypto:'₿ Crypto',techCatAI:'🤖 IA',techCatStartup:'🚀 Startup',techCatSecurity:'🔒 Sécurité',techCatCloud:'☁️ Cloud',techCatMobile:'📱 Mobile',dealTypeTech:'💻 Tech',dealTypeFinance:'🏦 Finance',dealTypeStock:'📈 Actions',dealTypeCrypto:'₿ Crypto'},
+  es:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'Panel de datos financieros',live:'EN VIVO',tabNews:'Noticias',tabMetals:'Metales',tabStocks:'Bolsa',tabCrypto:'Cripto',tabOil:'Petróleo',tabForex:'Divisas',tabDiscount:'Calculadora',secNews:'Últimas noticias económicas',secMetals:'Precios de metales',secStocks:'Índices bursátiles mundiales',secCrypto:'Criptomonedas',secOil:'Precios del petróleo mundial',secForex:'Tipos de cambio',secDiscount:'Calculadora de descuento',convTitle:'Conversor de divisas',convHint:'Ingrese el monto y seleccione las divisas',refresh:'Actualizar',loading:'Cargando...',tkNews:'📰 Noticias',tkStocks:'📈 Mercados',tkForex:'💱 Divisas',discModeAfter:'💰 Precio con descuento',discModeBefore:'🏷️ Precio sin descuento',origPrice:'Precio original',discPct:'Descuento (%)',priceAfterDisc:'Precio con descuento',discAmount:'Monto del descuento',saving:'Ahorro',priceAfterDiscLabel:'Precio con descuento',discPctApplied:'Descuento aplicado (%)',origPriceResult:'Precio original sin descuento',paidRatio:'% del precio pagado',thMetal:'Metal',thSym:'Símbolo',thPrice:'Precio (USD)',thChange:'Cambio',thPct:'%',thUnit:'Unidad',thIndex:'Índice',thCountry:'País',thValue:'Valor',thCoin:'Moneda',thCrypto24:'24h',thCrypto7:'7d',thMcap:'Cap. de mercado',thOil:'Tipo',thOilPrice:'Precio',thOilUnit:'Unidad',thPair:'Par',thRate:'Tasa',thBuy:'Compra',thSell:'Venta',approxData:'⚡ Datos indicativos basados en niveles actuales',updatedAt:'Última actualización:',source:'Fuente:',footerNote:'Datos solo con fines informativos',headlines:['El oro supera los $3.200 por tensiones geopolíticas','La Fed mantiene tasas sin cambios','El petróleo supera $85 con caída esperada de inventarios','Tadawul alcanza máxima de 6 meses','Bitcoin se recupera por encima de $85.000','Visión 2030: $80.000M de inversiones en T1'],mn:{gold:'Oro',silver:'Plata',platinum:'Platino',palladium:'Paladio',copper:'Cobre',aluminum:'Aluminio',nickel:'Níquel',zinc:'Zinc',lead:'Plomo'},cn:{US:'Estados Unidos',SA:'Arabia Saudita',UK:'Reino Unido',JP:'Japón',DE:'Alemania',HK:'Hong Kong',FR:'Francia',CN:'China'},on:{brent:'Brent (europeo)',wti:'WTI (americano)',opec:'Cesta OPEP',gas:'Gas natural',heating:'Gasóleo',gasoline:'Gasolina'},uBarrel:'USD/barril',uBtu:'USD/MMBtu',uGallon:'USD/galón',uOz:'onza troy',uTon:'tonelada',uLb:'libra',secTech:'Últimas noticias tecnológicas',secDeals:'Principales acuerdos globales',filterAll:'Todo',filterAI:'🤖 Inteligencia Artificial',filterStartup:'🚀 Startups',filterSecurity:'🔒 Ciberseguridad',filterCloud:'☁️ Nube',filterMobile:'📱 Dispositivos',filterDealTech:'💻 Tecnología',filterDealFinance:'🏦 Finanzas',filterDealStock:'📈 Bolsa',filterDealCrypto:'₿ Cripto',techCatAI:'🤖 IA',techCatStartup:'🚀 Startup',techCatSecurity:'🔒 Seguridad',techCatCloud:'☁️ Nube',techCatMobile:'📱 Móvil',dealTypeTech:'💻 Tech',dealTypeFinance:'🏦 Finanzas',dealTypeStock:'📈 Bolsa',dealTypeCrypto:'₿ Cripto'},
+  tr:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'Finansal Veri Panosu',live:'CANLI',tabNews:'Haberler',tabMetals:'Metaller',tabStocks:'Hisseler',tabCrypto:'Kripto',tabOil:'Petrol',tabForex:'Döviz',tabDiscount:'İndirim Hesaplama',secNews:'Son Ekonomi Haberleri',secMetals:'Metal Fiyatları',secStocks:'Küresel Borsa Endeksleri',secCrypto:'Kripto Paralar',secOil:'Küresel Petrol Fiyatları',secForex:'Döviz Kurları',secDiscount:'İndirim Hesaplayıcı',convTitle:'Döviz Çevirici',convHint:'Tutarı girin ve dövizleri seçin',refresh:'Yenile',loading:'Yükleniyor...',tkNews:'📰 Haberler',tkStocks:'📈 Piyasalar',tkForex:'💱 Döviz',discModeAfter:'💰 İndirimli Fiyat',discModeBefore:'🏷️ Orijinal Fiyat',origPrice:'Orijinal Fiyat',discPct:'İndirim Oranı (%)',priceAfterDisc:'İndirimli Fiyat',discAmount:'İndirim Tutarı',saving:'Tasarruf',priceAfterDiscLabel:'İndirimli Fiyat',discPctApplied:'Uygulanan İndirim (%)',origPriceResult:'İndirimden Önceki Fiyat',paidRatio:'Ödediğiniz %',thMetal:'Metal',thSym:'Sembol',thPrice:'Fiyat (USD)',thChange:'Değişim',thPct:'%',thUnit:'Birim',thIndex:'Endeks',thCountry:'Ülke',thValue:'Değer',thCoin:'Para',thCrypto24:'24s',thCrypto7:'7g',thMcap:'Piyasa Değeri',thOil:'Tür',thOilPrice:'Fiyat',thOilUnit:'Birim',thPair:'Çift',thRate:'Kur',thBuy:'Alış',thSell:'Satış',approxData:'⚡ Mevcut piyasa seviyelerine dayalı gösterge veriler',updatedAt:'Son güncelleme:',source:'Kaynak:',footerNote:'Veriler yalnızca bilgilendirme amaçlıdır',headlines:['Altın 3.200 doları aştı','Fed faiz oranlarını değiştirmedi','Petrol 85 doların üzerinde','Tadawul 6 ayın zirvesinde','Bitcoin 85.000 doların üzerinde','Vizyon 2030: Q1\'de 80 milyar dolar yabancı yatırım'],mn:{gold:'Altın',silver:'Gümüş',platinum:'Platin',palladium:'Paladyum',copper:'Bakır',aluminum:'Alüminyum',nickel:'Nikel',zinc:'Çinko',lead:'Kurşun'},cn:{US:'ABD',SA:'Suudi Arabistan',UK:'Birleşik Krallık',JP:'Japonya',DE:'Almanya',HK:'Hong Kong',FR:'Fransa',CN:'Çin'},on:{brent:'Brent',wti:'WTI',opec:'OPEC Sepeti',gas:'Doğal Gaz',heating:'Isıtma Yakıtı',gasoline:'Benzin'},uBarrel:'USD/varil',uBtu:'USD/MMBtu',uGallon:'USD/galon',uOz:'troy ons',uTon:'metrik ton',uLb:'pound',secTech:'Son Teknoloji Haberleri',secDeals:'Öne Çıkan Küresel Anlaşmalar',filterAll:'Tümü',filterAI:'🤖 Yapay Zeka',filterStartup:'🚀 Girişimler',filterSecurity:'🔒 Siber Güvenlik',filterCloud:'☁️ Bulut',filterMobile:'📱 Cihazlar',filterDealTech:'💻 Teknoloji',filterDealFinance:'🏦 Finans',filterDealStock:'📈 Hisse',filterDealCrypto:'₿ Kripto',techCatAI:'🤖 YZ',techCatStartup:'🚀 Girişim',techCatSecurity:'🔒 Güvenlik',techCatCloud:'☁️ Bulut',techCatMobile:'📱 Cihaz',dealTypeTech:'💻 Teknoloji',dealTypeFinance:'🏦 Finans',dealTypeStock:'📈 Hisse',dealTypeCrypto:'₿ Kripto'},
+  zh:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'金融数据仪表板',live:'实时',tabNews:'新闻',tabMetals:'金属',tabStocks:'股市',tabCrypto:'加密货币',tabOil:'石油',tabForex:'外汇',tabDiscount:'折扣计算',secNews:'最新经济新闻',secMetals:'金属价格',secStocks:'全球股市指数',secCrypto:'加密货币',secOil:'全球油价',secForex:'汇率',secDiscount:'折扣计算器',convTitle:'货币换算',convHint:'输入金额并选择货币',refresh:'刷新',loading:'加载中...',tkNews:'📰 新闻',tkStocks:'📈 市场',tkForex:'💱 外汇',discModeAfter:'💰 折后价格',discModeBefore:'🏷️ 折前价格',origPrice:'原价',discPct:'折扣率 (%)',priceAfterDisc:'折后价格',discAmount:'折扣金额',saving:'节省',priceAfterDiscLabel:'折后价格',discPctApplied:'已应用折扣 (%)',origPriceResult:'折前原价',paidRatio:'支付原价的%',thMetal:'金属',thSym:'代码',thPrice:'价格(美元)',thChange:'变动',thPct:'%',thUnit:'单位',thIndex:'指数',thCountry:'国家',thValue:'价值',thCoin:'货币',thCrypto24:'24小时',thCrypto7:'7天',thMcap:'市值',thOil:'类型',thOilPrice:'价格',thOilUnit:'单位',thPair:'货币对',thRate:'汇率',thBuy:'买入',thSell:'卖出',approxData:'⚡ 基于当前市场水平的参考数据',updatedAt:'最后更新：',source:'来源：',footerNote:'数据仅供参考',headlines:['黄金突破3200美元','美联储维持利率不变','库存减少预期油价升至85美元以上','沙特交所6个月新高','比特币回升85000美元以上','2030愿景Q1吸引800亿美元外资'],mn:{gold:'黄金',silver:'白银',platinum:'铂金',palladium:'钯金',copper:'铜',aluminum:'铝',nickel:'镍',zinc:'锌',lead:'铅'},cn:{US:'美国',SA:'沙特阿拉伯',UK:'英国',JP:'日本',DE:'德国',HK:'香港',FR:'法国',CN:'中国'},on:{brent:'布伦特原油',wti:'WTI原油',opec:'欧佩克一篮子',gas:'天然气',heating:'取暖油',gasoline:'汽油'},uBarrel:'美元/桶',uBtu:'美元/百万英热',uGallon:'美元/加仑',uOz:'金衡盎司',uTon:'公吨',uLb:'磅',secTech:'最新科技新闻',secDeals:'全球热门交易',filterAll:'全部',filterAI:'🤖 人工智能',filterStartup:'🚀 初创公司',filterSecurity:'🔒 网络安全',filterCloud:'☁️ 云计算',filterMobile:'📱 移动设备',filterDealTech:'💻 科技',filterDealFinance:'🏦 金融',filterDealStock:'📈 股票',filterDealCrypto:'₿ 加密货币',techCatAI:'🤖 AI',techCatStartup:'🚀 初创',techCatSecurity:'🔒 安全',techCatCloud:'☁️ 云',techCatMobile:'📱 设备',dealTypeTech:'💻 科技',dealTypeFinance:'🏦 金融',dealTypeStock:'📈 股票',dealTypeCrypto:'₿ 加密'},
+  de:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'Finanzdaten-Dashboard',live:'LIVE',tabNews:'Nachrichten',tabMetals:'Metalle',tabStocks:'Aktien',tabCrypto:'Krypto',tabOil:'Öl',tabForex:'Devisen',tabDiscount:'Rabattrechner',secNews:'Aktuelle Wirtschaftsnachrichten',secMetals:'Metallpreise',secStocks:'Globale Börsenindizes',secCrypto:'Kryptowährungen',secOil:'Globale Ölpreise',secForex:'Wechselkurse',secDiscount:'Rabattrechner',convTitle:'Währungsrechner',convHint:'Betrag eingeben und Währungen wählen',refresh:'Aktualisieren',loading:'Laden...',tkNews:'📰 Nachrichten',tkStocks:'📈 Märkte',tkForex:'💱 Devisen',discModeAfter:'💰 Preis nach Rabatt',discModeBefore:'🏷️ Preis vor Rabatt',origPrice:'Originalpreis',discPct:'Rabattsatz (%)',priceAfterDisc:'Preis nach Rabatt',discAmount:'Rabattbetrag',saving:'Ersparnis',priceAfterDiscLabel:'Preis nach Rabatt',discPctApplied:'Angewandter Rabatt (%)',origPriceResult:'Originalpreis vor Rabatt',paidRatio:'% des Originalpreises',thMetal:'Metall',thSym:'Symbol',thPrice:'Preis (USD)',thChange:'Änderung',thPct:'%',thUnit:'Einheit',thIndex:'Index',thCountry:'Land',thValue:'Wert',thCoin:'Währung',thCrypto24:'24h',thCrypto7:'7T',thMcap:'Marktkapitalisierung',thOil:'Typ',thOilPrice:'Preis',thOilUnit:'Einheit',thPair:'Währungspaar',thRate:'Kurs',thBuy:'Kauf',thSell:'Verkauf',approxData:'⚡ Indikative Daten auf Basis aktueller Marktniveaus',updatedAt:'Letzte Aktualisierung:',source:'Quelle:',footerNote:'Daten nur zu Informationszwecken',headlines:['Gold übersteigt 3.200 $','Fed lässt Zinssätze unverändert','Öl über 85 $ bei Lagerrückgängen','Tadawul auf 6-Monats-Hoch','Bitcoin erholt sich über 85.000 $','Vision 2030: 80 Mrd. $ Investitionen in Q1'],mn:{gold:'Gold',silver:'Silber',platinum:'Platin',palladium:'Palladium',copper:'Kupfer',aluminum:'Aluminium',nickel:'Nickel',zinc:'Zink',lead:'Blei'},cn:{US:'USA',SA:'Saudi-Arabien',UK:'Vereinigtes Königreich',JP:'Japan',DE:'Deutschland',HK:'Hongkong',FR:'Frankreich',CN:'China'},on:{brent:'Brent (europäisch)',wti:'WTI (amerikanisch)',opec:'OPEC-Korb',gas:'Erdgas',heating:'Heizöl',gasoline:'Benzin'},uBarrel:'USD/Barrel',uBtu:'USD/MMBtu',uGallon:'USD/Gallone',uOz:'Feinunze',uTon:'Tonne',uLb:'Pfund',secTech:'Aktuelle Technologienachrichten',secDeals:'Top globale Deals',filterAll:'Alle',filterAI:'🤖 Künstliche Intelligenz',filterStartup:'🚀 Startups',filterSecurity:'🔒 Cybersicherheit',filterCloud:'☁️ Cloud',filterMobile:'📱 Geräte',filterDealTech:'💻 Technologie',filterDealFinance:'🏦 Finanzen',filterDealStock:'📈 Aktien',filterDealCrypto:'₿ Krypto',techCatAI:'🤖 KI',techCatStartup:'🚀 Startup',techCatSecurity:'🔒 Sicherheit',techCatCloud:'☁️ Cloud',techCatMobile:'📱 Geräte',dealTypeTech:'💻 Tech',dealTypeFinance:'🏦 Finanzen',dealTypeStock:'📈 Aktien',dealTypeCrypto:'₿ Krypto'},
+  pt:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'Painel de Dados Financeiros',live:'AO VIVO',tabNews:'Notícias',tabMetals:'Metais',tabStocks:'Ações',tabCrypto:'Cripto',tabOil:'Petróleo',tabForex:'Câmbio',tabDiscount:'Calculadora',secNews:'Últimas notícias econômicas',secMetals:'Preços dos metais',secStocks:'Índices globais',secCrypto:'Criptomoedas',secOil:'Preços do petróleo',secForex:'Taxas de câmbio',secDiscount:'Calculadora de desconto',convTitle:'Conversor de moedas',convHint:'Insira o valor e selecione as moedas',refresh:'Atualizar',loading:'Carregando...',tkNews:'📰 Notícias',tkStocks:'📈 Mercados',tkForex:'💱 Câmbio',discModeAfter:'💰 Preço com desconto',discModeBefore:'🏷️ Preço sem desconto',origPrice:'Preço original',discPct:'Taxa de desconto (%)',priceAfterDisc:'Preço com desconto',discAmount:'Valor do desconto',saving:'Economia',priceAfterDiscLabel:'Preço com desconto',discPctApplied:'Desconto aplicado (%)',origPriceResult:'Preço original sem desconto',paidRatio:'% do preço pago',thMetal:'Metal',thSym:'Símbolo',thPrice:'Preço (USD)',thChange:'Variação',thPct:'%',thUnit:'Unidade',thIndex:'Índice',thCountry:'País',thValue:'Valor',thCoin:'Moeda',thCrypto24:'24h',thCrypto7:'7d',thMcap:'Cap. de mercado',thOil:'Tipo',thOilPrice:'Preço',thOilUnit:'Unidade',thPair:'Par',thRate:'Taxa',thBuy:'Compra',thSell:'Venda',approxData:'⚡ Dados indicativos baseados nos níveis atuais',updatedAt:'Última atualização:',source:'Fonte:',footerNote:'Dados apenas para fins informativos',headlines:['Ouro ultrapassa US$ 3.200','Fed mantém taxas inalteradas','Petróleo acima de US$ 85','Tadawul no máximo de 6 meses','Bitcoin acima de US$ 85.000','Visão 2030: US$ 80 bi em investimentos no T1'],mn:{gold:'Ouro',silver:'Prata',platinum:'Platina',palladium:'Paládio',copper:'Cobre',aluminum:'Alumínio',nickel:'Níquel',zinc:'Zinco',lead:'Chumbo'},cn:{US:'Estados Unidos',SA:'Arábia Saudita',UK:'Reino Unido',JP:'Japão',DE:'Alemanha',HK:'Hong Kong',FR:'França',CN:'China'},on:{brent:'Brent (europeu)',wti:'WTI (americano)',opec:'Cesta OPEP',gas:'Gás natural',heating:'Óleo de aquecimento',gasoline:'Gasolina'},uBarrel:'USD/barril',uBtu:'USD/MMBtu',uGallon:'USD/galão',uOz:'onça troy',uTon:'tonelada',uLb:'libra',secTech:'Últimas notícias de tecnologia',secDeals:'Principais negócios globais',filterAll:'Todos',filterAI:'🤖 Inteligência Artificial',filterStartup:'🚀 Startups',filterSecurity:'🔒 Cibersegurança',filterCloud:'☁️ Nuvem',filterMobile:'📱 Dispositivos',filterDealTech:'💻 Tecnologia',filterDealFinance:'🏦 Finanças',filterDealStock:'📈 Ações',filterDealCrypto:'₿ Cripto',techCatAI:'🤖 IA',techCatStartup:'🚀 Startup',techCatSecurity:'🔒 Segurança',techCatCloud:'☁️ Nuvem',techCatMobile:'📱 Dispositivo',dealTypeTech:'💻 Tech',dealTypeFinance:'🏦 Finanças',dealTypeStock:'📈 Ações',dealTypeCrypto:'₿ Cripto'},
+  ru:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'Финансовая панель данных',live:'ПРЯМОЙ ЭФИР',tabNews:'Новости',tabMetals:'Металлы',tabStocks:'Акции',tabCrypto:'Крипто',tabOil:'Нефть',tabForex:'Валюта',tabDiscount:'Калькулятор скидок',secNews:'Последние экономические новости',secMetals:'Цены на металлы',secStocks:'Мировые фондовые индексы',secCrypto:'Криптовалюты',secOil:'Мировые цены на нефть',secForex:'Обменные курсы',secDiscount:'Калькулятор скидок',convTitle:'Конвертер валют',convHint:'Введите сумму и выберите валюты',refresh:'Обновить',loading:'Загрузка...',tkNews:'📰 Новости',tkStocks:'📈 Рынки',tkForex:'💱 Валюта',discModeAfter:'💰 Цена со скидкой',discModeBefore:'🏷️ Цена без скидки',origPrice:'Исходная цена',discPct:'Скидка (%)',priceAfterDisc:'Цена со скидкой',discAmount:'Сумма скидки',saving:'Экономия',priceAfterDiscLabel:'Цена со скидкой',discPctApplied:'Применённая скидка (%)',origPriceResult:'Исходная цена без скидки',paidRatio:'% от исходной цены',thMetal:'Металл',thSym:'Символ',thPrice:'Цена (USD)',thChange:'Изменение',thPct:'%',thUnit:'Ед.',thIndex:'Индекс',thCountry:'Страна',thValue:'Значение',thCoin:'Монета',thCrypto24:'24ч',thCrypto7:'7д',thMcap:'Рыночная кап.',thOil:'Тип',thOilPrice:'Цена',thOilUnit:'Ед.',thPair:'Пара',thRate:'Курс',thBuy:'Покупка',thSell:'Продажа',approxData:'⚡ Ориентировочные данные',updatedAt:'Обновлено:',source:'Источник:',footerNote:'Данные в ознакомительных целях',headlines:['Золото превысило $3 200','ФРС оставила ставки без изменений','Нефть выше $85','Tadawul на максимуме за 6 месяцев','Биткоин выше $85 000','Видение 2030: $80 млрд инвестиций в Q1'],mn:{gold:'Золото',silver:'Серебро',platinum:'Платина',palladium:'Палладий',copper:'Медь',aluminum:'Алюминий',nickel:'Никель',zinc:'Цинк',lead:'Свинец'},cn:{US:'США',SA:'Саудовская Аравия',UK:'Великобритания',JP:'Япония',DE:'Германия',HK:'Гонконг',FR:'Франция',CN:'Китай'},on:{brent:'Brent',wti:'WTI',opec:'Корзина ОПЕК',gas:'Природный газ',heating:'Мазут',gasoline:'Бензин'},uBarrel:'USD/баррель',uBtu:'USD/ММБте',uGallon:'USD/галлон',uOz:'тройская унция',uTon:'метрическая тонна',uLb:'фунт',secTech:'Последние технологические новости',secDeals:'Крупнейшие мировые сделки',filterAll:'Все',filterAI:'🤖 Искусственный интеллект',filterStartup:'🚀 Стартапы',filterSecurity:'🔒 Кибербезопасность',filterCloud:'☁️ Облако',filterMobile:'📱 Устройства',filterDealTech:'💻 Технологии',filterDealFinance:'🏦 Финансы',filterDealStock:'📈 Акции',filterDealCrypto:'₿ Крипто',techCatAI:'🤖 ИИ',techCatStartup:'🚀 Стартап',techCatSecurity:'🔒 Безопасность',techCatCloud:'☁️ Облако',techCatMobile:'📱 Устройства',dealTypeTech:'💻 Тех',dealTypeFinance:'🏦 Финансы',dealTypeStock:'📈 Акции',dealTypeCrypto:'₿ Крипто'},
+  ja:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'金融データダッシュボード',live:'ライブ',tabNews:'ニュース',tabMetals:'金属',tabStocks:'株式',tabCrypto:'暗号資産',tabOil:'石油',tabForex:'為替',tabDiscount:'割引計算',secNews:'最新経済ニュース',secMetals:'金属価格',secStocks:'世界の株式指数',secCrypto:'暗号通貨',secOil:'世界の石油価格',secForex:'為替レート',secDiscount:'割引計算機',convTitle:'通貨換算',convHint:'金額を入力して通貨を選択',refresh:'更新',loading:'読み込み中...',tkNews:'📰 ニュース',tkStocks:'📈 市場',tkForex:'💱 為替',discModeAfter:'💰 割引後の価格',discModeBefore:'🏷️ 割引前の価格',origPrice:'元の価格',discPct:'割引率 (%)',priceAfterDisc:'割引後の価格',discAmount:'割引額',saving:'節約',priceAfterDiscLabel:'割引後の価格',discPctApplied:'適用割引 (%)',origPriceResult:'割引前の元の価格',paidRatio:'元の価格の%',thMetal:'金属',thSym:'記号',thPrice:'価格(USD)',thChange:'変動',thPct:'%',thUnit:'単位',thIndex:'指数',thCountry:'国',thValue:'価値',thCoin:'通貨',thCrypto24:'24時間',thCrypto7:'7日',thMcap:'時価総額',thOil:'種類',thOilPrice:'価格',thOilUnit:'単位',thPair:'通貨ペア',thRate:'レート',thBuy:'買値',thSell:'売値',approxData:'⚡ 現在の市場水準に基づく参考データ',updatedAt:'最終更新：',source:'出典：',footerNote:'データは参考用途のみ',headlines:['金が3,200ドル突破','FRBが金利を据え置き','石油85ドル超','Tadawulが6か月ぶり高値','ビットコインが85,000ドル超に回復','ビジョン2030：Q1に800億ドルの外国投資'],mn:{gold:'金',silver:'銀',platinum:'プラチナ',palladium:'パラジウム',copper:'銅',aluminum:'アルミニウム',nickel:'ニッケル',zinc:'亜鉛',lead:'鉛'},cn:{US:'米国',SA:'サウジアラビア',UK:'英国',JP:'日本',DE:'ドイツ',HK:'香港',FR:'フランス',CN:'中国'},on:{brent:'ブレント',wti:'WTI',opec:'OPECバスケット',gas:'天然ガス',heating:'灯油',gasoline:'ガソリン'},uBarrel:'USD/バレル',uBtu:'USD/MMBtu',uGallon:'USD/ガロン',uOz:'トロイオンス',uTon:'メートルトン',uLb:'ポンド',secTech:'最新テクノロジーニュース',secDeals:'トップグローバルディール',filterAll:'すべて',filterAI:'🤖 人工知能',filterStartup:'🚀 スタートアップ',filterSecurity:'🔒 サイバーセキュリティ',filterCloud:'☁️ クラウド',filterMobile:'📱 デバイス',filterDealTech:'💻 テクノロジー',filterDealFinance:'🏦 金融',filterDealStock:'📈 株式',filterDealCrypto:'₿ 暗号資産',techCatAI:'🤖 AI',techCatStartup:'🚀 新興',techCatSecurity:'🔒 安全',techCatCloud:'☁️ クラウド',techCatMobile:'📱 端末',dealTypeTech:'💻 テック',dealTypeFinance:'🏦 金融',dealTypeStock:'📈 株式',dealTypeCrypto:'₿ 暗号'},
+  ko:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'금융 데이터 대시보드',live:'실시간',tabNews:'뉴스',tabMetals:'금속',tabStocks:'주식',tabCrypto:'암호화폐',tabOil:'석유',tabForex:'환율',tabDiscount:'할인 계산기',secNews:'최신 경제 뉴스',secMetals:'금속 가격',secStocks:'글로벌 주가 지수',secCrypto:'암호화폐',secOil:'글로벌 유가',secForex:'환율',secDiscount:'할인 계산기',convTitle:'통화 환산기',convHint:'금액을 입력하고 통화를 선택하세요',refresh:'새로고침',loading:'로딩 중...',tkNews:'📰 뉴스',tkStocks:'📈 시장',tkForex:'💱 환율',discModeAfter:'💰 할인 후 가격',discModeBefore:'🏷️ 할인 전 가격',origPrice:'원래 가격',discPct:'할인율 (%)',priceAfterDisc:'할인 후 가격',discAmount:'할인 금액',saving:'절약',priceAfterDiscLabel:'할인 후 가격',discPctApplied:'적용 할인 (%)',origPriceResult:'할인 전 원래 가격',paidRatio:'원래 가격의 %',thMetal:'금속',thSym:'기호',thPrice:'가격(USD)',thChange:'변동',thPct:'%',thUnit:'단위',thIndex:'지수',thCountry:'국가',thValue:'값',thCoin:'화폐',thCrypto24:'24시간',thCrypto7:'7일',thMcap:'시가총액',thOil:'종류',thOilPrice:'가격',thOilUnit:'단위',thPair:'통화 쌍',thRate:'환율',thBuy:'매수',thSell:'매도',approxData:'⚡ 현재 시장 수준 기반 참고 데이터',updatedAt:'마지막 업데이트:',source:'출처:',footerNote:'데이터는 참고 목적으로만 제공',headlines:['금 3,200달러 돌파','연준 금리 동결','유가 85달러 상회','타다울 6개월 최고치','비트코인 85,000달러 회복','비전 2030: Q1 외국인 투자 800억 달러'],mn:{gold:'금',silver:'은',platinum:'백금',palladium:'팔라듐',copper:'구리',aluminum:'알루미늄',nickel:'니켈',zinc:'아연',lead:'납'},cn:{US:'미국',SA:'사우디아라비아',UK:'영국',JP:'일본',DE:'독일',HK:'홍콩',FR:'프랑스',CN:'중국'},on:{brent:'브렌트',wti:'WTI',opec:'OPEC 바스켓',gas:'천연가스',heating:'난방유',gasoline:'휘발유'},uBarrel:'USD/배럴',uBtu:'USD/MMBtu',uGallon:'USD/갤런',uOz:'트로이온스',uTon:'미터톤',uLb:'파운드',secTech:'최신 기술 뉴스',secDeals:'주요 글로벌 거래',filterAll:'전체',filterAI:'🤖 인공지능',filterStartup:'🚀 스타트업',filterSecurity:'🔒 사이버보안',filterCloud:'☁️ 클라우드',filterMobile:'📱 기기',filterDealTech:'💻 기술',filterDealFinance:'🏦 금융',filterDealStock:'📈 주식',filterDealCrypto:'₿ 암호화폐',techCatAI:'🤖 AI',techCatStartup:'🚀 스타트업',techCatSecurity:'🔒 보안',techCatCloud:'☁️ 클라우드',techCatMobile:'📱 기기',dealTypeTech:'💻 기술',dealTypeFinance:'🏦 금융',dealTypeStock:'📈 주식',dealTypeCrypto:'₿ 암호'},
+  hi:{dir:'ltr',font:"'IBM Plex Sans'",logoSub:'वित्तीय डेटा डैशबोर्ड',live:'लाइव',tabNews:'समाचार',tabMetals:'धातु',tabStocks:'शेयर',tabCrypto:'क्रिप्टो',tabOil:'तेल',tabForex:'विदेशी मुद्रा',tabDiscount:'छूट कैलकुलेटर',secNews:'ताज़ा आर्थिक समाचार',secMetals:'धातु की कीमतें',secStocks:'वैश्विक शेयर सूचकांक',secCrypto:'क्रिप्टोकरेंसी',secOil:'वैश्विक तेल कीमतें',secForex:'विनिमय दरें',secDiscount:'छूट कैलकुलेटर',convTitle:'मुद्रा परिवर्तक',convHint:'राशि दर्ज करें और मुद्राएं चुनें',refresh:'ताज़ा करें',loading:'लोड हो रहा है...',tkNews:'📰 समाचार',tkStocks:'📈 बाजार',tkForex:'💱 मुद्रा',discModeAfter:'💰 छूट के बाद कीमत',discModeBefore:'🏷️ छूट से पहले कीमत',origPrice:'मूल कीमत',discPct:'छूट दर (%)',priceAfterDisc:'छूट के बाद कीमत',discAmount:'छूट राशि',saving:'बचत',priceAfterDiscLabel:'छूट के बाद कीमत',discPctApplied:'लागू छूट (%)',origPriceResult:'छूट से पहले मूल कीमत',paidRatio:'मूल कीमत का %',thMetal:'धातु',thSym:'प्रतीक',thPrice:'कीमत (USD)',thChange:'परिवर्तन',thPct:'%',thUnit:'इकाई',thIndex:'सूचकांक',thCountry:'देश',thValue:'मूल्य',thCoin:'मुद्रा',thCrypto24:'24 घंटे',thCrypto7:'7 दिन',thMcap:'बाज़ार पूंजीकरण',thOil:'प्रकार',thOilPrice:'कीमत',thOilUnit:'इकाई',thPair:'मुद्रा जोड़ी',thRate:'दर',thBuy:'खरीद',thSell:'बिक्री',approxData:'⚡ वर्तमान बाज़ार स्तरों पर आधारित संकेत डेटा',updatedAt:'अंतिम अपडेट:',source:'स्रोत:',footerNote:'डेटा केवल सूचनात्मक उद्देश्यों के लिए',headlines:['सोना $3,200 पार','फेड ने ब्याज दरें अपरिवर्तित रखीं','तेल $85 से ऊपर','ताडावुल ने 6 महीने की ऊंचाई दर्ज की','बिटकॉइन $85,000 से ऊपर','विज़न 2030: Q1 में $80 अरब विदेशी निवेश'],mn:{gold:'सोना',silver:'चांदी',platinum:'प्लेटिनम',palladium:'पैलेडियम',copper:'तांबा',aluminum:'एल्युमिनियम',nickel:'निकल',zinc:'जस्ता',lead:'सीसा'},cn:{US:'संयुक्त राज्य',SA:'सऊदी अरब',UK:'यूनाइटेड किंगडम',JP:'जापान',DE:'जर्मनी',HK:'हांगकांग',FR:'फ्रांस',CN:'चीन'},on:{brent:'ब्रेंट (यूरोपीय)',wti:'WTI (अमेरिकी)',opec:'ओपेक बास्केट',gas:'प्राकृतिक गैस',heating:'हीटिंग ऑयल',gasoline:'पेट्रोल'},uBarrel:'USD/बैरल',uBtu:'USD/MMBtu',uGallon:'USD/गैलन',uOz:'ट्रॉय औंस',uTon:'मीट्रिक टन',uLb:'पाउंड',secTech:'नवीनतम तकनीकी समाचार',secDeals:'शीर्ष वैश्विक सौदे',filterAll:'सभी',filterAI:'🤖 कृत्रिम बुद्धिमत्ता',filterStartup:'🚀 स्टार्टअप',filterSecurity:'🔒 साइबर सुरक्षा',filterCloud:'☁️ क्लाउड',filterMobile:'📱 उपकरण',filterDealTech:'💻 प्रौद्योगिकी',filterDealFinance:'🏦 वित्त',filterDealStock:'📈 शेयर',filterDealCrypto:'₿ क्रिप्टो',techCatAI:'🤖 AI',techCatStartup:'🚀 स्टार्टअप',techCatSecurity:'🔒 सुरक्षा',techCatCloud:'☁️ क्लाउड',techCatMobile:'📱 उपकरण',dealTypeTech:'💻 तकनीक',dealTypeFinance:'🏦 वित्त',dealTypeStock:'📈 शेयर',dealTypeCrypto:'₿ क्रिप्टो'}
+};
+
+let CL='ar',isDark=true,fxRates={},curTab=0,dm='a';
+function T(k){return(LANGS[CL]&&LANGS[CL][k])||k}
+function fmt(n,d=2){return Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function fmtB(n){if(n>=1e12)return(n/1e12).toFixed(2)+'T';if(n>=1e9)return(n/1e9).toFixed(2)+'B';if(n>=1e6)return(n/1e6).toFixed(2)+'M';return fmt(n,0)}
+function ts(){return new Date().toLocaleTimeString()}
+function arrow(v){return v>0?'▲':v<0?'▼':'–'}
+function bcls(v){return v>=0?'bu':'bd'}
+function ucls(v){return v>=0?'up':'dn'}
+
+setInterval(()=>{document.getElementById('clk').textContent=new Date().toLocaleTimeString();},1000);
+setInterval(()=>{
+  document.querySelectorAll('#stocks-ticker .ts').forEach(el=>{
+    const v=el.nextElementSibling,c=v&&v.nextElementSibling;
+    if(!v||!c)return;
+    const val=parseFloat(v.textContent.replace(/,/g,''))||0;
+    const pct=(Math.random()-.47)*0.4;
+    v.textContent=val>100?fmt(val*(1+pct/100),0):(val*(1+pct/100)).toFixed(4);
+    c.className=pct>=0?'tu':'td';
+    c.textContent=(pct>=0?'▲':'▼')+Math.abs(pct).toFixed(2)+'%';
+  });
+},4500);
+
+function setLang(lang){
+  CL=lang;
+  const L=LANGS[lang];
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset&&b.dataset.lang===lang));
+  const isRTL=L.dir==='rtl';
+  document.documentElement.lang=lang;
+  document.documentElement.dir=L.dir;
+  document.body.classList.toggle('rtl',isRTL);
+  document.body.classList.toggle('ltr',!isRTL);
+  document.body.style.fontFamily=L.font+",sans-serif";
+  document.getElementById('logo-sub').textContent=L.logoSub;
+  document.getElementById('live-txt').textContent=L.live;
+  document.getElementById('tk-news-lbl').textContent=L.tkNews;
+  document.getElementById('tk-stocks-lbl').textContent=L.tkStocks;
+  document.getElementById('tk-forex-lbl').textContent=L.tkForex;
+  ['sec-news','sec-metals','sec-stocks','sec-crypto','sec-oil','sec-forex','sec-disc','conv-title'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){const last=el.lastChild;if(last)last.textContent=L['sec'+id.replace('sec-','').charAt(0).toUpperCase()+id.replace('sec-','').slice(1)]||L[Object.keys(L).find(k=>k.toLowerCase().includes(id.replace('sec-','').toLowerCase()))||'']||el.lastChild.textContent;}
+  });
+  document.getElementById('sec-news').innerHTML='<span style="display:none"></span>'+L.secNews;
+  document.getElementById('sec-metals').innerHTML='<span style="display:none"></span>'+L.secMetals;
+  document.getElementById('sec-stocks').innerHTML='<span style="display:none"></span>'+L.secStocks;
+  document.getElementById('sec-crypto').innerHTML='<span style="display:none"></span>'+L.secCrypto;
+  document.getElementById('sec-oil').innerHTML='<span style="display:none"></span>'+L.secOil;
+  document.getElementById('sec-forex').innerHTML='<span style="display:none"></span>'+L.secForex;
+  document.getElementById('sec-disc').innerHTML='<span style="display:none"></span>'+L.secDiscount;
+  document.getElementById('conv-title').innerHTML='<span style="display:none"></span>'+L.convTitle;
+  if(document.getElementById('sec-tech'))document.getElementById('sec-tech').innerHTML='<span style="display:none"></span>'+(L.secTech||'أحدث أخبار التكنولوجيا');
+  if(document.getElementById('sec-deals'))document.getElementById('sec-deals').innerHTML='<span style="display:none"></span>'+(L.secDeals||'أبرز الصفقات العالمية');  document.getElementById('cl').textContent=L.convHint;
+  document.getElementById('dm-a').textContent=L.discModeAfter;
+  document.getElementById('dm-b').textContent=L.discModeBefore;
+  document.getElementById('footer-note').textContent=L.footerNote;
+  document.querySelectorAll('.tl').forEach(el=>{const k=el.dataset.k;if(L[k])el.textContent=L[k];});
+  document.querySelectorAll('[data-k]').forEach(el=>{const k=el.dataset.k;if(L[k]&&!el.classList.contains('tl'))el.textContent=L[k];});
+  document.querySelectorAll('.nh').forEach((el,i)=>{if(L.headlines&&L.headlines[i%6])el.textContent=L.headlines[i%6];});
+  // Reset data so fallback re-loads in new language
+  techData=[];
+  dealsData=[];
+  // Re-translate filter buttons using data-k
+  document.querySelectorAll('#tech-filters button[data-k], #deals-filters button[data-k]').forEach(btn=>{
+    const k=btn.dataset.k;
+    if(L[k])btn.textContent=L[k];
+  });
+  reloadTab(curTab);
+}
+
+function toggleTheme(){
+  isDark=!isDark;
+  document.body.classList.toggle('light',!isDark);
+  document.getElementById('theme-btn').textContent=isDark?'☀':'🌙';
+}
+
+function sw(i){
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.querySelectorAll('.content').forEach((c,j)=>c.classList.toggle('active',j===i));
+  curTab=i;reloadTab(i);
+}
+function reloadTab(i){
+  if(i===0)loadTech();
+  else if(i===1)loadDeals();
+  else if(i===2)loadNews();
+  else if(i===3)loadMetals();
+  else if(i===4)loadStocks();
+  else if(i===5)loadCrypto();
+  else if(i===6)loadOil();
+  else if(i===7){if(!Object.keys(fxRates).length)loadForex();else conv();}
+}
+
+async function loadNews(){
+  const c=document.getElementById('news-c');
+  c.innerHTML='<div class="loading"><div class="sp"></div> '+T('loading')+'</div>';
+  const queries=['economic financial markets 2025','oil gold price 2025','cryptocurrency bitcoin 2025'];
+  const items=[];
+  for(const q of queries){
+    try{
+      const r=await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://news.google.com/rss/search?q='+q+'&hl=en&gl=US&ceid=US:en')+'&count=4');
+      const d=await r.json();
+      if(d.items)d.items.slice(0,4).forEach(it=>items.push(it));
+    }catch(e){}
+  }
+  const L=LANGS[CL];
+  const cats=['📊','💰','🛢️','🔐','📈','🏦'];
+  const final=items.length>=6?items:L.headlines.map((h,i)=>({title:h,link:'#',pubDate:'',source:{name:'Market Trends'}}));
+  c.innerHTML=final.slice(0,10).map((n,i)=>`<a class="news-card" href="${n.link||'#'}" target="_blank" rel="noopener"><div style="display:flex;justify-content:space-between;align-items:center"><div class="ns">${cats[i%6]} ${(n.source&&n.source.name)||'Global Finance'}</div><div class="nm">${(n.pubDate||'').slice(0,10)||new Date().toISOString().slice(0,10)}</div></div><div class="nt">${n.title||''}</div></a>`).join('');
+}
+
+function loadMetals(){
+  const c=document.getElementById('metals-c');
+  const L=LANGS[CL];
+  const metals=[{key:'gold',sym:'XAU',icon:'🥇',base:3228,unit:L.uOz},{key:'silver',sym:'XAG',icon:'🥈',base:32.8,unit:L.uOz},{key:'platinum',sym:'XPT',icon:'⬜',base:1022,unit:L.uOz},{key:'palladium',sym:'XPD',icon:'🔘',base:1052,unit:L.uOz},{key:'copper',sym:'XCU',icon:'🟠',base:4.78,unit:L.uLb},{key:'aluminum',sym:'ALU',icon:'🔵',base:2458,unit:L.uTon},{key:'nickel',sym:'NI',icon:'🔶',base:16850,unit:L.uTon},{key:'zinc',sym:'ZN',icon:'🟡',base:2728,unit:L.uTon},{key:'lead',sym:'PB',icon:'⚫',base:1982,unit:L.uTon}];
+  let h='<div class="info-bar">'+L.approxData+'</div><div class="tw"><table><thead><tr><th>'+L.thMetal+'</th><th>'+L.thSym+'</th><th>'+L.thPrice+'</th><th>'+L.thChange+'</th><th>'+L.thPct+'</th><th>'+L.thUnit+'</th></tr></thead><tbody>';
+  metals.forEach(m=>{
+    const p=m.base*(1+(Math.random()-.45)*.01),chg=(Math.random()-.45)*m.base*.008,pct=chg/p*100;
+    h+='<tr><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:17px">'+m.icon+'</span><span style="font-weight:600">'+(L.mn[m.key]||m.key)+'</span></div></td><td class="mono" style="color:var(--text3);font-size:11px">'+m.sym+'</td><td class="mono" style="font-weight:700">'+fmt(p)+'</td><td class="'+ucls(chg)+' mono">'+arrow(chg)+' '+Math.abs(chg).toFixed(2)+'</td><td><span class="badge '+bcls(chg)+'">'+arrow(chg)+' '+Math.abs(pct).toFixed(2)+'%</span></td><td style="color:var(--text3);font-size:11px">'+m.unit+'</td></tr>';
+  });
+  c.innerHTML=h+'</tbody></table></div><div style="font-size:10px;color:var(--text3);margin-top:6px">'+L.updatedAt+' '+ts()+'</div>';
+}
+
+function loadStocks(){
+  const c=document.getElementById('stocks-c');
+  const L=LANGS[CL];
+  const mks=[{name:'S&P 500',flag:'🇺🇸',sym:'SPX',ck:'US',base:5683,cur:'USD'},{name:'Dow Jones',flag:'🇺🇸',sym:'DJIA',ck:'US',base:42780,cur:'USD'},{name:'Nasdaq',flag:'🇺🇸',sym:'COMP',ck:'US',base:17940,cur:'USD'},{name:'Tadawul',flag:'🇸🇦',sym:'TASI',ck:'SA',base:11854,cur:'SAR'},{name:'FTSE 100',flag:'🇬🇧',sym:'UKX',ck:'UK',base:8372,cur:'GBP'},{name:'Nikkei 225',flag:'🇯🇵',sym:'N225',ck:'JP',base:36124,cur:'JPY'},{name:'DAX',flag:'🇩🇪',sym:'DAX',ck:'DE',base:22340,cur:'EUR'},{name:'Hang Seng',flag:'🇭🇰',sym:'HSI',ck:'HK',base:24618,cur:'HKD'},{name:'CAC 40',flag:'🇫🇷',sym:'CAC',ck:'FR',base:8102,cur:'EUR'},{name:'Shanghai',flag:'🇨🇳',sym:'SSE',ck:'CN',base:3285,cur:'CNY'}];
+  let h='<div class="tw"><table><thead><tr><th>'+L.thIndex+'</th><th>'+L.thCountry+'</th><th>'+L.thValue+'</th><th>'+L.thChange+'</th><th>'+L.thPct+'</th></tr></thead><tbody>';
+  mks.forEach(m=>{
+    const p=m.base*(1+(Math.random()-.45)*.005),chg=(Math.random()-.45)*m.base*.004,pct=chg/p*100;
+    h+='<tr><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">'+m.flag+'</span><div><div style="font-weight:700;font-size:12px">'+m.name+'</div><div style="font-size:10px;color:var(--text3)">'+m.sym+'</div></div></div></td><td style="color:var(--text2);font-size:11px">'+(L.cn[m.ck]||m.ck)+'</td><td class="mono" style="font-weight:700">'+fmt(p,0)+' <span style="font-size:10px;color:var(--text3)">'+m.cur+'</span></td><td class="'+ucls(chg)+' mono">'+arrow(chg)+' '+fmt(Math.abs(chg),0)+'</td><td><span class="badge '+bcls(chg)+'">'+arrow(chg)+' '+Math.abs(pct).toFixed(2)+'%</span></td></tr>';
+  });
+  c.innerHTML=h+'</tbody></table></div><div style="font-size:10px;color:var(--text3);margin-top:6px">'+L.updatedAt+' '+ts()+'</div>';
+}
+
+async function loadCrypto(){
+  const c=document.getElementById('crypto-c');
+  c.innerHTML='<div class="loading"><div class="sp"></div> '+T('loading')+'</div>';
+  const L=LANGS[CL];
+  try{
+    const r=await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false');
+    const d=await r.json();
+    if(!Array.isArray(d))throw new Error();
+    let h='<div class="tw"><table><thead><tr><th>#</th><th>'+L.thCoin+'</th><th>'+L.thPrice+'</th><th>'+L.thCrypto24+'</th><th>'+L.thCrypto7+'</th><th>'+L.thMcap+'</th></tr></thead><tbody>';
+    d.forEach((coin,i)=>{
+      const c24=coin.price_change_percentage_24h||0;
+      h+='<tr><td style="color:var(--text3)">'+(i+1)+'</td><td><div style="display:flex;align-items:center;gap:8px"><img src="'+coin.image+'" style="width:22px;height:22px;border-radius:50%" loading="lazy" onerror="this.style.display=\'none\'"><div><div style="font-weight:700;font-size:12px">'+coin.name+'</div><div style="font-size:10px;color:var(--text3)">'+coin.symbol.toUpperCase()+'</div></div></div></td><td class="mono" style="font-weight:700">$'+(coin.current_price>1?fmt(coin.current_price):coin.current_price.toFixed(6))+'</td><td><span class="badge '+bcls(c24)+'">'+arrow(c24)+' '+Math.abs(c24).toFixed(2)+'%</span></td><td style="font-size:11px;color:var(--text3)">--</td><td class="mono" style="font-size:11px;color:var(--text2)">$'+fmtB(coin.market_cap)+'</td></tr>';
+    });
+    c.innerHTML=h+'</tbody></table></div><div style="font-size:10px;color:var(--text3);margin-top:6px">'+L.source+' CoinGecko · '+ts()+'</div>';
+  }catch{
+    const fb=[{n:'Bitcoin',s:'BTC',img:'₿',p:85200,c:1.8,mc:'1.68T'},{n:'Ethereum',s:'ETH',img:'Ξ',p:1620,c:-0.9,mc:'195B'},{n:'BNB',s:'BNB',img:'B',p:595,c:.5,mc:'86B'},{n:'Solana',s:'SOL',img:'◎',p:135,c:3.2,mc:'65B'},{n:'XRP',s:'XRP',img:'✕',p:2.12,c:-1.1,mc:'122B'},{n:'USDT',s:'USDT',img:'₮',p:1,c:.01,mc:'144B'}];
+    let h='<div class="info-bar">'+L.approxData+'</div><div class="tw"><table><thead><tr><th>#</th><th>'+L.thCoin+'</th><th>'+L.thPrice+'</th><th>'+L.thCrypto24+'</th><th>'+L.thMcap+'</th></tr></thead><tbody>';
+    fb.forEach((coin,i)=>{h+='<tr><td style="color:var(--text3)">'+(i+1)+'</td><td><div style="display:flex;align-items:center;gap:8px"><div style="width:22px;height:22px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--b4)">'+coin.img+'</div><div><div style="font-weight:700">'+coin.n+'</div><div style="font-size:10px;color:var(--text3)">'+coin.s+'</div></div></div></td><td class="mono" style="font-weight:700">$'+fmt(coin.p)+'</td><td><span class="badge '+bcls(coin.c)+'">'+arrow(coin.c)+' '+Math.abs(coin.c).toFixed(2)+'%</span></td><td class="mono" style="font-size:11px;color:var(--text2)">$'+coin.mc+'</td></tr>';});
+    c.innerHTML=h+'</tbody></table></div>';
+  }
+}
+
+function loadOil(){
+  const c=document.getElementById('oil-c');
+  const L=LANGS[CL];
+  const oils=[{key:'brent',icon:'🛢️',base:85.5,unit:L.uBarrel},{key:'wti',icon:'⛽',base:81.2,unit:L.uBarrel},{key:'opec',icon:'⚫',base:83.8,unit:L.uBarrel},{key:'gas',icon:'🔥',base:3.15,unit:L.uBtu},{key:'heating',icon:'♨️',base:2.58,unit:L.uGallon},{key:'gasoline',icon:'🚗',base:2.72,unit:L.uGallon}];
+  const bars=[55,62,58,70,65,72,68,75,72,80,76,83];
+  let h='<div class="grid2" style="margin-bottom:12px">';
+  oils.slice(0,2).forEach(o=>{
+    const p=o.base*(1+(Math.random()-.4)*.02),chg=(Math.random()-.4)*o.base*.015,pct=chg/p*100;
+    h+='<div class="oil-big"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="oname">'+o.icon+' '+(L.on[o.key]||o.key)+'</div></div><span class="badge '+bcls(chg)+'">'+arrow(chg)+' '+Math.abs(pct).toFixed(2)+'%</span></div><div style="font-size:24px;font-weight:700;font-family:\'JetBrains Mono\',monospace;color:var(--text);margin-top:10px">$'+fmt(p)+'</div><div class="mbars">'+bars.map(b=>'<div class="bar" style="height:'+b+'%;background:'+(chg>=0?'var(--b4)':'var(--red)')+';opacity:.65"></div>').join('')+'</div><div style="font-size:10px;color:var(--text3);margin-top:5px">'+o.unit+'</div></div>';
+  });
+  h+='</div><div class="tw"><table><thead><tr><th>'+L.thOil+'</th><th>'+L.thOilPrice+'</th><th>'+L.thPct+'</th><th>'+L.thOilUnit+'</th></tr></thead><tbody>';
+  oils.slice(2).forEach(o=>{
+    const p=o.base*(1+(Math.random()-.4)*.02),chg=(Math.random()-.4)*o.base*.015;
+    h+='<tr><td><span style="font-size:16px">'+o.icon+'</span> <span style="font-weight:600">'+(L.on[o.key]||o.key)+'</span></td><td class="mono" style="font-weight:700">$'+fmt(p)+'</td><td><span class="badge '+bcls(chg)+'">'+arrow(chg)+' '+Math.abs(chg/p*100).toFixed(2)+'%</span></td><td style="font-size:10.5px;color:var(--text3)">'+o.unit+'</td></tr>';
+  });
+  c.innerHTML=h+'</tbody></table></div><div style="font-size:10px;color:var(--text3);margin-top:6px">'+L.updatedAt+' '+ts()+'</div>';
+}
+
+async function loadForex(){
+  const c=document.getElementById('forex-c');
+  c.innerHTML='<div class="loading"><div class="sp"></div> '+T('loading')+'</div>';
+  const L=LANGS[CL];
+  const known={USD:1,SAR:3.75,EUR:0.918,GBP:0.786,JPY:149.8,AED:3.673,KWD:0.308,QAR:3.64,EGP:50.8,TRY:38.2,CNY:7.28,INR:83.9,CHF:0.896,CAD:1.37,AUD:1.54,BRL:5.08,RUB:91.5,KRW:1340,SGD:1.34,BHD:0.377,OMR:0.385};
+  try{
+    const r=await fetch('https://open.er-api.com/v6/latest/USD');
+    const d=await r.json();
+    if(d.rates)Object.assign(fxRates,d.rates);else throw new Error();
+  }catch{Object.assign(fxRates,known)}
+  const pairs=[{f:'USD',t:'SAR',f1:'🇺🇸',f2:'🇸🇦'},{f:'USD',t:'EUR',f1:'🇺🇸',f2:'🇪🇺'},{f:'USD',t:'GBP',f1:'🇺🇸',f2:'🇬🇧'},{f:'USD',t:'JPY',f1:'🇺🇸',f2:'🇯🇵'},{f:'USD',t:'AED',f1:'🇺🇸',f2:'🇦🇪'},{f:'USD',t:'KWD',f1:'🇺🇸',f2:'🇰🇼'},{f:'USD',t:'QAR',f1:'🇺🇸',f2:'🇶🇦'},{f:'USD',t:'EGP',f1:'🇺🇸',f2:'🇪🇬'},{f:'EUR',t:'SAR',f1:'🇪🇺',f2:'🇸🇦'},{f:'GBP',t:'SAR',f1:'🇬🇧',f2:'🇸🇦'},{f:'USD',t:'TRY',f1:'🇺🇸',f2:'🇹🇷'},{f:'USD',t:'CNY',f1:'🇺🇸',f2:'🇨🇳'},{f:'USD',t:'INR',f1:'🇺🇸',f2:'🇮🇳'},{f:'USD',t:'BRL',f1:'🇺🇸',f2:'🇧🇷'}];
+  let h='<div class="tw"><table><thead><tr><th>'+L.thPair+'</th><th>'+L.thRate+'</th><th>'+L.thBuy+'</th><th>'+L.thSell+'</th></tr></thead><tbody>';
+  pairs.forEach(p=>{
+    const fr=fxRates[p.f]||1,tr=fxRates[p.t]||1,rate=tr/fr,sp=rate*.0015;
+    h+='<tr><td><div style="display:flex;align-items:center;gap:6px">'+p.f1+'<span class="mono" style="font-size:11.5px;font-weight:600">'+p.f+'/'+p.t+'</span>'+p.f2+'</div></td><td class="mono" style="font-weight:700">'+(rate>100?fmt(rate,2):rate>1?fmt(rate,4):rate.toFixed(6))+'</td><td class="mono up" style="font-size:11px">'+(rate-sp/2).toFixed(4)+'</td><td class="mono dn" style="font-size:11px">'+(rate+sp/2).toFixed(4)+'</td></tr>';
+  });
+  c.innerHTML=h+'</tbody></table></div><div style="font-size:10px;color:var(--text3);margin-top:6px">'+L.source+' open.er-api.com · '+ts()+'</div>';
+  conv();
+}
+function conv(){
+  const amt=parseFloat(document.getElementById('ca').value)||0;
+  const from=document.getElementById('cf').value,to=document.getElementById('ct').value;
+  if(!Object.keys(fxRates).length){document.getElementById('cv').textContent='--';return;}
+  const rate=(fxRates[to]||1)/(fxRates[from]||1),res=amt*rate;
+  document.getElementById('cv').textContent=res.toFixed(4)+' '+to;
+  document.getElementById('cl').textContent=amt.toLocaleString()+' '+from+' = '+res.toFixed(4)+' '+to;
+}
+function swapC(){const f=document.getElementById('cf'),t=document.getElementById('ct');[f.value,t.value]=[t.value,f.value];conv();}
+
+function setDM(m){
+  dm=m;
+  document.getElementById('dm-a-w').style.display=m==='a'?'':'none';
+  document.getElementById('dm-b-w').style.display=m==='b'?'':'none';
+  document.getElementById('dm-a').classList.toggle('active',m==='a');
+  document.getElementById('dm-b').classList.toggle('active',m==='b');
+}
+function calcD(){
+  const L=LANGS[CL],p=parseFloat(document.getElementById('op').value)||0,d=parseFloat(document.getElementById('dp').value)||0;
+  const sv=p*(d/100),af=p-sv;
+  document.getElementById('r-a').innerHTML='<div class="crn">'+fmt(af)+'</div><div class="crd">'+L.priceAfterDisc+' ('+d+'%)</div>';
+  document.getElementById('ds1').textContent=p?'- '+fmt(sv):'--';
+  document.getElementById('dp1').textContent=p?d+'%':'--';
+}
+function calcO(){
+  const L=LANGS[CL],f=parseFloat(document.getElementById('fp').value)||0,d=parseFloat(document.getElementById('dp2').value)||0;
+  if(d>=100){document.getElementById('r-b').innerHTML='<div class="crn" style="color:var(--red)">!</div><div class="crd">Error</div>';return;}
+  const orig=f/(1-d/100),sv=orig-f;
+  document.getElementById('r-b').innerHTML='<div class="crn">'+fmt(orig)+'</div><div class="crd">'+L.origPriceResult+' ('+d+'%)</div>';
+  document.getElementById('ds2').textContent=f?fmt(sv):'--';
+  document.getElementById('dr2').textContent=f?((f/orig)*100).toFixed(1)+'%':'--';
+}
+
+// ── TECH NEWS ──────────────────────────────────────────
+const TECH_FEEDS=[
+  {url:'https://feeds.feedburner.com/TechCrunch',name:'TechCrunch'},
+  {url:'https://www.wired.com/feed/rss',name:'Wired'},
+  {url:'https://feeds.arstechnica.com/arstechnica/index',name:'Ars Technica'},
+  {url:'https://www.theverge.com/rss/index.xml',name:'The Verge'},
+];
+const TECH_FALLBACK_I18N={
+  ar:[
+    {title:'OpenAI تطلق GPT-5 بقدرات استدلال متقدمة تتجاوز توقعات المطورين',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple تكشف عن رقاقة M4 Ultra لأجهزة Mac Pro بأداء يضاهي خوادم الحوسبة',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft تستثمر 13 مليار دولار في توسعة البنية التحتية السحابية لـ Azure',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'ثغرة أمنية خطيرة تطال ملايين المستخدمين في منصة تواصل اجتماعي عالمية',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'شركة ناشئة سعودية تحصل على تمويل بـ120 مليون دولار لتطوير حلول ذكاء اصطناعي',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google تعلن عن Gemini Ultra 2 لمنافسة GPT-5 في مهام الاستدلال المعقدة',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta تطلق نظارات الواقع المختلط Quest 4 بسعر منافس ومواصفات محسّنة',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services تفتتح منطقة سحابية جديدة في المملكة العربية السعودية',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'هجوم سيبراني يستهدف بنية تحتية حيوية في أوروبا ويثير مخاوف الأمن الرقمي',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic تحصل على تمويل بـ3.5 مليار دولار برقم أعمال يبلغ 61.5 مليار',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'سامسونج تكشف عن Galaxy S25 Ultra بكاميرا 200 ميجابيكسل ومعالج Snapdragon X',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia تطرح GPU من الجيل الجديد بأداء يضاعف H100 في مهام الذكاء الاصطناعي',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  en:[
+    {title:'OpenAI launches GPT-5 with advanced reasoning capabilities surpassing developer expectations',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple reveals M4 Ultra chip for Mac Pro with server-grade computing performance',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft invests $13 billion to expand Azure cloud infrastructure',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'Critical security flaw exposes millions of users on major social media platform',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'Saudi startup raises $120 million to develop AI-powered solutions',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google announces Gemini Ultra 2 to compete with GPT-5 on complex reasoning tasks',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta launches Quest 4 mixed reality headset at competitive price with enhanced specs',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services opens new cloud region in Saudi Arabia',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'Cyberattack targets critical infrastructure in Europe raising digital security concerns',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic raises $3.5 billion at $61.5 billion valuation',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsung unveils Galaxy S25 Ultra with 200MP camera and Snapdragon X processor',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia releases next-gen GPU doubling H100 performance for AI workloads',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  fr:[
+    {title:"OpenAI lance GPT-5 avec des capacités de raisonnement avancées dépassant les attentes",source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:"Apple dévoile la puce M4 Ultra pour Mac Pro avec des performances de niveau serveur",source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:"Microsoft investit 13 milliards de dollars pour étendre l'infrastructure cloud Azure",source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:"Une faille de sécurité critique expose des millions d'utilisateurs sur un réseau social",source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:"Une startup saoudienne lève 120 millions de dollars pour des solutions IA",source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:"Google annonce Gemini Ultra 2 pour concurrencer GPT-5 sur des tâches de raisonnement",source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:"Meta lance le casque de réalité mixte Quest 4 à prix compétitif",source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:"Amazon Web Services ouvre une nouvelle région cloud en Arabie Saoudite",source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:"Une cyberattaque cible des infrastructures critiques en Europe",source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:"Anthropic lève 3,5 milliards de dollars avec une valorisation de 61,5 milliards",source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:"Samsung présente le Galaxy S25 Ultra avec un capteur 200 MP",source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:"Nvidia lance un GPU de nouvelle génération doublant les performances du H100",source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  es:[
+    {title:'OpenAI lanza GPT-5 con capacidades de razonamiento avanzadas',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple revela el chip M4 Ultra para Mac Pro con rendimiento de servidor',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft invierte 13.000 millones en infraestructura cloud de Azure',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'Fallo de seguridad crítico expone a millones de usuarios en red social',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'Startup saudí recauda 120 millones para desarrollar soluciones de IA',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google anuncia Gemini Ultra 2 para competir con GPT-5',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta lanza las gafas de realidad mixta Quest 4 a precio competitivo',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services abre nueva región cloud en Arabia Saudita',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'Ciberataque afecta infraestructura crítica en Europa',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic recauda 3.500 millones con valoración de 61.500 millones',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsung presenta Galaxy S25 Ultra con cámara de 200 MP',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia lanza GPU de nueva generación que duplica el rendimiento del H100',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  tr:[
+    {title:"OpenAI, geliştiricilerin beklentilerini aşan gelişmiş akıl yürütme yetenekleriyle GPT-5'i başlattı",source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:"Apple, Mac Pro için sunucu düzeyinde performans sunan M4 Ultra çipini tanıttı",source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:"Microsoft, Azure bulut altyapısını genişletmek için 13 milyar dolar yatırım yapıyor",source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:"Kritik güvenlik açığı sosyal medya platformundaki milyonlarca kullanıcıyı etkiliyor",source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:"Suudi girişimi, yapay zeka çözümleri geliştirmek için 120 milyon dolar topladı",source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:"Google, GPT-5 ile rekabet etmek için Gemini Ultra 2'yi duyurdu",source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:"Meta, Quest 4 karma gerçeklik gözlüğünü rekabetçi fiyatla piyasaya sürdü",source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:"Amazon Web Services, Suudi Arabistan'da yeni bulut bölgesi açtı",source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:"Siber saldırı Avrupa'daki kritik altyapıyı hedef aldı",source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:"Anthropic, 61,5 milyar dolar değerlemeyle 3,5 milyar dolar topladı",source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:"Samsung, 200 MP kameralı Galaxy S25 Ultra'yı tanıttı",source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:"Nvidia, H100 performansını ikiye katlayan yeni nesil GPU'yu piyasaya sürdü",source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  zh:[
+    {title:'OpenAI发布GPT-5，推理能力超越开发者预期',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'苹果发布Mac Pro用M4 Ultra芯片，性能媲美服务器',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'微软投资130亿美元扩展Azure云基础设施',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'严重安全漏洞波及主流社交媒体数百万用户',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'沙特初创公司融资1.2亿美元开发AI解决方案',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'谷歌发布Gemini Ultra 2与GPT-5在复杂推理任务上竞争',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta以竞争性价格推出Quest 4混合现实头显',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'亚马逊云科技在沙特阿拉伯开设新云区域',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'网络攻击针对欧洲关键基础设施引发数字安全担忧',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic以615亿美元估值融资35亿美元',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'三星发布搭载2亿像素摄像头的Galaxy S25 Ultra',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'英伟达发布新一代GPU，AI性能是H100的两倍',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  de:[
+    {title:'OpenAI veröffentlicht GPT-5 mit fortgeschrittenen Reasoning-Fähigkeiten',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple stellt M4 Ultra Chip für Mac Pro mit Server-Performance vor',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft investiert 13 Milliarden Dollar in Azure-Cloud-Infrastruktur',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'Kritische Sicherheitslücke betrifft Millionen Nutzer einer Social-Media-Plattform',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'Saudisches Startup sammelt 120 Millionen Dollar für KI-Lösungen',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google kündigt Gemini Ultra 2 als GPT-5-Konkurrent an',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta launcht Quest 4 Mixed-Reality-Headset zu konkurrenzfähigem Preis',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services eröffnet neue Cloud-Region in Saudi-Arabien',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'Cyberangriff zielt auf kritische Infrastruktur in Europa',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic sammelt 3,5 Milliarden Dollar bei 61,5 Milliarden Bewertung',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsung stellt Galaxy S25 Ultra mit 200-MP-Kamera vor',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia veröffentlicht neue GPU-Generation mit doppelter H100-Performance',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  pt:[
+    {title:'OpenAI lança GPT-5 com capacidades avançadas de raciocínio',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple revela chip M4 Ultra para Mac Pro com desempenho de servidor',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft investe 13 bilhões para expandir infraestrutura cloud Azure',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'Falha crítica de segurança expõe milhões de usuários em rede social',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'Startup saudita capta 120 milhões de dólares para soluções de IA',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google anuncia Gemini Ultra 2 para competir com o GPT-5',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta lança headset de realidade mista Quest 4 a preço competitivo',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services abre nova região cloud na Arábia Saudita',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'Ciberataque mira infraestrutura crítica na Europa',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic capta 3,5 bilhões com avaliação de 61,5 bilhões de dólares',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsung apresenta Galaxy S25 Ultra com câmera de 200 MP',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia lança GPU de nova geração com desempenho duplo ao H100',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  ru:[
+    {title:'OpenAI запускает GPT-5 с продвинутыми возможностями рассуждения',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple представляет чип M4 Ultra для Mac Pro с производительностью серверного уровня',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft инвестирует 13 миллиардов долларов в облачную инфраструктуру Azure',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'Критическая уязвимость затронула миллионы пользователей социальной сети',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'Саудовский стартап привлёк 120 миллионов долларов для разработки ИИ-решений',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google анонсирует Gemini Ultra 2 как конкурента GPT-5',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta выпускает гарнитуру смешанной реальности Quest 4 по конкурентной цене',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services открывает новый облачный регион в Саудовской Аравии',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'Кибератака нацелена на критическую инфраструктуру в Европе',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic привлекла 3,5 миллиарда долларов при оценке в 61,5 миллиарда',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsung представляет Galaxy S25 Ultra с камерой 200 МП',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia выпускает GPU нового поколения с удвоенной производительностью H100',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  ja:[
+    {title:'OpenAIが開発者の期待を超える高度な推論能力を持つGPT-5をリリース',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'AppleがMac Pro向けサーバーレベル性能のM4 Ultraチップを発表',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'MicrosoftがAzureクラウドインフラ拡張に130億ドルを投資',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'重大なセキュリティ欠陥がSNSプラットフォームの数百万ユーザーに影響',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'サウジのスタートアップがAIソリューション開発に1億2000万ドルを調達',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'GoogleがGPT-5に対抗するGemini Ultra 2を発表',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'MetaがQuest 4複合現実ヘッドセットを競争力ある価格で発売',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'AWSがサウジアラビアに新クラウドリージョンを開設',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'サイバー攻撃がヨーロッパの重要インフラを標的に',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropicが615億ドル評価で35億ドルを調達',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsungが200MPカメラ搭載Galaxy S25 Ultraを発表',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'NvidiaがH100の2倍の性能を持つ新世代GPUを発売',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  ko:[
+    {title:'OpenAI, 개발자 기대치를 뛰어넘는 고급 추론 능력의 GPT-5 출시',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple, 서버급 성능의 Mac Pro용 M4 Ultra 칩 공개',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft, Azure 클라우드 인프라 확장에 130억 달러 투자',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'심각한 보안 취약점으로 소셜 미디어 수백만 사용자 피해',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'사우디 스타트업, AI 솔루션 개발에 1억 2천만 달러 조달',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google, GPT-5 경쟁 위해 Gemini Ultra 2 발표',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta, Quest 4 혼합현실 헤드셋을 경쟁력 있는 가격에 출시',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services, 사우디아라비아에 새 클라우드 리전 개설',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'사이버 공격이 유럽 핵심 인프라 표적으로',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic, 615억 달러 평가로 35억 달러 조달',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsung, 2억 화소 카메라 탑재 Galaxy S25 Ultra 공개',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia, H100 대비 2배 성능의 차세대 GPU 출시',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+  hi:[
+    {title:'OpenAI ने डेवलपर्स की उम्मीदों से आगे उन्नत तर्क क्षमताओं के साथ GPT-5 लॉन्च किया',source:'TechCrunch',date:'2025-04-14',cat:'AI',url:'#'},
+    {title:'Apple ने Mac Pro के लिए सर्वर-स्तरीय प्रदर्शन वाला M4 Ultra चिप पेश किया',source:'The Verge',date:'2025-04-13',cat:'mobile',url:'#'},
+    {title:'Microsoft ने Azure क्लाउड इंफ्रास्ट्रक्चर के विस्तार में $13 बिलियन निवेश किया',source:'Wired',date:'2025-04-12',cat:'cloud',url:'#'},
+    {title:'गंभीर सुरक्षा खामी से सोशल मीडिया के लाखों उपयोगकर्ता प्रभावित',source:'Ars Technica',date:'2025-04-12',cat:'security',url:'#'},
+    {title:'सऊदी स्टार्टअप ने AI समाधानों के लिए $120 मिलियन जुटाए',source:'Wamda',date:'2025-04-11',cat:'startup',url:'#'},
+    {title:'Google ने GPT-5 से मुकाबले के लिए Gemini Ultra 2 की घोषणा की',source:'TechCrunch',date:'2025-04-11',cat:'AI',url:'#'},
+    {title:'Meta ने प्रतिस्पर्धी कीमत पर Quest 4 मिक्स्ड रियलिटी हेडसेट लॉन्च किया',source:'The Verge',date:'2025-04-10',cat:'mobile',url:'#'},
+    {title:'Amazon Web Services ने सऊदी अरब में नया क्लाउड रीजन खोला',source:'Wired',date:'2025-04-10',cat:'cloud',url:'#'},
+    {title:'साइबर हमले ने यूरोप में महत्वपूर्ण बुनियादी ढांचे को निशाना बनाया',source:'Ars Technica',date:'2025-04-09',cat:'security',url:'#'},
+    {title:'Anthropic ने $61.5 बिलियन मूल्यांकन पर $3.5 बिलियन जुटाए',source:'TechCrunch',date:'2025-04-09',cat:'startup',url:'#'},
+    {title:'Samsung ने 200MP कैमरे वाला Galaxy S25 Ultra पेश किया',source:'The Verge',date:'2025-04-08',cat:'mobile',url:'#'},
+    {title:'Nvidia ने H100 से दोगुनी AI प्रदर्शन क्षमता वाला नया GPU लॉन्च किया',source:'Wired',date:'2025-04-08',cat:'AI',url:'#'},
+  ],
+};
+function getTechFallback(){return TECH_FALLBACK_I18N[CL]||TECH_FALLBACK_I18N['en'];}
+let techData=[];
+
+async function loadTech(){
+  const c=document.getElementById('tech-c');
+  c.innerHTML='<div class="loading"><div class="sp"></div> جارٍ التحميل...</div>';
+  const items=[];
+  const results=await Promise.allSettled(TECH_FEEDS.map(async f=>{
+    const r=await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(f.url)+'&count=5');
+    const d=await r.json();
+    return{feed:f,data:d};
+  }));
+  results.forEach(res=>{
+    if(res.status==='fulfilled'&&res.value.data.items){
+      res.value.data.items.forEach(it=>{
+        const t=it.title||'';
+        const cat=t.match(/AI|GPT|LLM|Gemini|Claude|artificial intelligence|machine learning/i)?'AI':
+                  t.match(/startup|funding|venture|series [A-D]|raise/i)?'startup':
+                  t.match(/hack|breach|ransomware|security|cyber|phishing|malware/i)?'security':
+                  t.match(/cloud|AWS|Azure|GCP|kubernetes|server/i)?'cloud':
+                  t.match(/iPhone|Android|phone|Samsung|pixel|tablet|wearable/i)?'mobile':'AI';
+        items.push({title:t,source:res.value.feed.name,date:(it.pubDate||'').slice(0,10),cat,url:it.link||'#'});
+      });
+    }
+  });
+  techData=items.length>=6?items:getTechFallback();
+  techData.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  renderTech(techData);
+}
+
+const TECH_CAT_LABELS={AI:'🤖 AI',startup:'🚀 ناشئة',security:'🔒 أمن',cloud:'☁️ سحابة',mobile:'📱 أجهزة'};
+function getTechCatLabel(cat){
+  const L=LANGS[CL];
+  const map={AI:'techCatAI',startup:'techCatStartup',security:'techCatSecurity',cloud:'techCatCloud',mobile:'techCatMobile'};
+  return (L&&L[map[cat]])||TECH_CAT_LABELS[cat]||cat;
+}
+function renderTech(data){
+  const c=document.getElementById('tech-c');
+  const L=LANGS[CL];
+  if(!data.length){c.innerHTML='<div class="info-bar">'+(L&&L.filterAll?'—':'لا توجد نتائج')+'</div>';return;}
+  c.innerHTML=data.map(n=>`
+    <a class="news-card" href="${n.url}" target="_blank" rel="noopener" data-cat="${n.cat}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="ns">${n.source||'Tech'}</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span style="background:rgba(75,191,224,.1);color:var(--sky);border:1px solid rgba(75,191,224,.2);padding:1px 7px;border-radius:4px;font-size:9.5px;font-weight:700">${getTechCatLabel(n.cat)}</span>
+          <div class="nm">${n.date||''}</div>
+        </div>
+      </div>
+      <div class="nt">${n.title}</div>
+    </a>`).join('');
+}
+
+function filterTech(cat,btn){
+  document.querySelectorAll('.tech-tag').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const data=cat==='all'?techData:techData.filter(n=>n.cat===cat);
+  renderTech(data);
+}
+
+// ── DEALS ───────────────────────────────────────────────
+const ALL_DEALS_I18N={
+  ar:[
+    {type:'tech',title:'Microsoft تستحوذ على Activision Blizzard',amount:'$68.7B',desc:'أكبر صفقة في تاريخ ألعاب الفيديو بعد الحصول على موافقة الجهات التنظيمية الدولية',date:'أكتوبر 2023'},
+    {type:'tech',title:'Anthropic تجمع تمويلاً بقيادة Google وAmazon',amount:'$7.3B',desc:'تقييم الشركة يرتفع إلى 61.5 مليار دولار في جولة تمويل ضخمة تجذب عمالقة التقنية',date:'Q1 2025'},
+    {type:'finance',title:'صندوق الاستثمارات العامة يضخ استثمارات في قطاعات التقنية والترفيه',amount:'$40B',desc:'الصندوق السيادي السعودي يوسّع محفظته الدولية ضمن استراتيجية رؤية 2030',date:'Q2 2025'},
+    {type:'stock',title:'أرامكو السعودية تُدرج 0.5% إضافية في تداول',amount:'$11.2B',desc:'الطرح الثانوي الأكبر في الشرق الأوسط يرفع الحصة المتداولة من أسهم الشركة',date:'Q2 2024'},
+    {type:'crypto',title:'BlackRock يطلق Bitcoin ETF الفوري',amount:'$15B+',desc:'أكبر مدير أصول في العالم يدخل سوق ETF للبيتكوين محققاً تدفقات قياسية',date:'يناير 2024'},
+    {type:'tech',title:'Apple تُطلق Apple Intelligence بشراكة OpenAI',amount:'$1B+',desc:'شراكة استراتيجية لدمج ChatGPT في أجهزة Apple ضمن نظام الذكاء الاصطناعي الجديد',date:'Q3 2024'},
+    {type:'finance',title:'JP Morgan يستحوذ على First Republic Bank',amount:'$10.6B',desc:'أكبر استحواذ بنكي في الولايات المتحدة منذ الأزمة المالية بدعم من الحكومة الفيدرالية',date:'مايو 2023'},
+    {type:'stock',title:'IPO Instacart في بورصة ناسداك',amount:'$9.9B',desc:'شركة توصيل البقالة تطرح أسهمها للعموم بتقييم يتجاوز 10 مليارات دولار',date:'سبتمبر 2023'},
+    {type:'crypto',title:'Coinbase تحصل على ترخيص تشغيل في دول الخليج',amount:'تنظيمية',desc:'أكبر بورصة للعملات الرقمية في الولايات المتحدة توسّع نشاطها في منطقة الخليج',date:'Q1 2025'},
+    {type:'tech',title:'SoftBank تستثمر في شركة OpenAI',amount:'$1.5B',desc:'مجموعة سوفت بنك تزيد حصتها في OpenAI ضمن استراتيجية التوسع في الذكاء الاصطناعي',date:'Q1 2025'},
+    {type:'finance',title:'NEOM تُطلق صندوقاً للاستثمار في التقنية',amount:'$5B',desc:'مشروع نيوم يُنشئ صندوقاً مخصصاً للاستثمار في شركات التقنية والابتكار العالمية',date:'Q2 2025'},
+    {type:'stock',title:'Nvidia تتجاوز Apple لتصبح أكبر شركة بالسوق',amount:'$3.6T',desc:'شركة المعالجات تتصدر قائمة الشركات الأعلى قيمة سوقية في العالم',date:'Q2 2025'},
+    {type:'crypto',title:'MicroStrategy تضيف 10,000 BTC لمحفظتها',amount:'$870M',desc:'الشركة الأمريكية تواصل استراتيجيتها في تجميع البيتكوين',date:'Q1 2025'},
+    {type:'tech',title:'مجموعة STC تستحوذ على شركة تقنية سعودية',amount:'$800M',desc:'شركة الاتصالات السعودية تُوسّع محفظتها الرقمية باستحواذ استراتيجي',date:'Q1 2025'},
+    {type:'finance',title:'صندوق ثروة أبوظبي يستثمر في منصة تقنية مالية',amount:'$2.5B',desc:'ADIA يضخ استثماراً ضخماً في شركة fintech عالمية ضمن توسعها في الأسواق الناشئة',date:'Q2 2025'},
+  ],
+  en:[
+    {type:'tech',title:'Microsoft acquires Activision Blizzard',amount:'$68.7B',desc:'The largest deal in video game history after receiving regulatory approval from international authorities',date:'October 2023'},
+    {type:'tech',title:'Anthropic raises funding led by Google and Amazon',amount:'$7.3B',desc:'Company valuation rises to $61.5 billion in a massive funding round attracting tech giants',date:'Q1 2025'},
+    {type:'finance',title:'Saudi Public Investment Fund invests in tech and entertainment sectors',amount:'$40B',desc:"Saudi Arabia's sovereign wealth fund expands its international portfolio under Vision 2030",date:'Q2 2025'},
+    {type:'stock',title:'Saudi Aramco lists additional 0.5% stake on Tadawul',amount:'$11.2B',desc:"The Middle East's largest secondary offering increases the company's publicly traded shares",date:'Q2 2024'},
+    {type:'crypto',title:'BlackRock launches spot Bitcoin ETF',amount:'$15B+',desc:"The world's largest asset manager enters the Bitcoin ETF market with record inflows",date:'January 2024'},
+    {type:'tech',title:'Apple launches Apple Intelligence in partnership with OpenAI',amount:'$1B+',desc:'Strategic partnership to integrate ChatGPT into Apple devices as part of the new AI system',date:'Q3 2024'},
+    {type:'finance',title:'JP Morgan acquires First Republic Bank',amount:'$10.6B',desc:"The largest US bank acquisition since the financial crisis, backed by the federal government",date:'May 2023'},
+    {type:'stock',title:'Instacart IPO on Nasdaq',amount:'$9.9B',desc:'The grocery delivery company goes public with a valuation exceeding $10 billion',date:'September 2023'},
+    {type:'crypto',title:'Coinbase obtains operating license in Gulf countries',amount:'Regulatory',desc:"The largest US crypto exchange expands its operations in the Gulf region",date:'Q1 2025'},
+    {type:'tech',title:'SoftBank invests in OpenAI',amount:'$1.5B',desc:"SoftBank increases its stake in OpenAI as part of its AI expansion strategy",date:'Q1 2025'},
+    {type:'finance',title:'NEOM launches technology investment fund',amount:'$5B',desc:'The NEOM project establishes a dedicated fund to invest in global tech and innovation companies',date:'Q2 2025'},
+    {type:'stock',title:'Nvidia surpasses Apple to become the largest company by market cap',amount:'$3.6T',desc:'The chip company tops the list of companies with the highest market capitalization worldwide',date:'Q2 2025'},
+    {type:'crypto',title:'MicroStrategy adds 10,000 BTC to its portfolio',amount:'$870M',desc:"The US company continues its Bitcoin accumulation strategy, raising its holdings to 214,000 BTC",date:'Q1 2025'},
+    {type:'tech',title:'STC Group acquires Saudi tech company',amount:'$800M',desc:"Saudi Telecom expands its digital portfolio with a strategic acquisition",date:'Q1 2025'},
+    {type:'finance',title:"Abu Dhabi wealth fund invests in fintech platform",amount:'$2.5B',desc:"ADIA makes a major investment in a global fintech company as part of its emerging markets expansion",date:'Q2 2025'},
+  ],
+  fr:[
+    {type:'tech',title:"Microsoft acquiert Activision Blizzard",amount:'$68.7B',desc:"Le plus grand accord de l'histoire du jeu vidéo après approbation réglementaire internationale",date:'Octobre 2023'},
+    {type:'tech',title:"Anthropic lève des fonds avec Google et Amazon",amount:'$7.3B',desc:"La valorisation de l'entreprise atteint 61,5 milliards dans un méga tour de table",date:'T1 2025'},
+    {type:'finance',title:"Le Fonds d'investissement public saoudien investit dans la tech et le divertissement",amount:'$40B',desc:"Le fonds souverain saoudien élargit son portefeuille international dans le cadre de Vision 2030",date:'T2 2025'},
+    {type:'stock',title:"Saudi Aramco inscrit 0,5% supplémentaire en bourse",amount:'$11.2B',desc:"La plus grande offre secondaire du Moyen-Orient augmente le flottant de l'entreprise",date:'T2 2024'},
+    {type:'crypto',title:"BlackRock lance un ETF Bitcoin au comptant",amount:'$15B+',desc:"Le plus grand gestionnaire d'actifs au monde entre sur le marché ETF Bitcoin avec des flux records",date:'Janvier 2024'},
+    {type:'tech',title:"Apple lance Apple Intelligence en partenariat avec OpenAI",amount:'$1B+',desc:'Partenariat stratégique pour intégrer ChatGPT dans les appareils Apple',date:'T3 2024'},
+    {type:'finance',title:"JP Morgan acquiert First Republic Bank",amount:'$10.6B',desc:"La plus grande acquisition bancaire américaine depuis la crise financière",date:'Mai 2023'},
+    {type:'stock',title:"Introduction en bourse d'Instacart sur le Nasdaq",amount:'$9.9B',desc:"L'entreprise de livraison de courses entre en bourse avec une valorisation dépassant 10 milliards",date:'Septembre 2023'},
+    {type:'crypto',title:"Coinbase obtient une licence dans les pays du Golfe",amount:'Réglementaire',desc:"Le plus grand exchange crypto américain étend ses opérations dans la région du Golfe",date:'T1 2025'},
+    {type:'tech',title:"SoftBank investit dans OpenAI",amount:'$1.5B',desc:"SoftBank augmente sa participation dans OpenAI dans le cadre de sa stratégie d'expansion en IA",date:'T1 2025'},
+    {type:'finance',title:"NEOM lance un fonds d'investissement technologique",amount:'$5B',desc:"Le projet NEOM crée un fonds dédié aux entreprises tech mondiales",date:'T2 2025'},
+    {type:'stock',title:"Nvidia dépasse Apple pour devenir la première capitalisation boursière",amount:'$3.6T',desc:"Le fabricant de puces prend la tête des entreprises les plus valorisées au monde",date:'T2 2025'},
+    {type:'crypto',title:"MicroStrategy ajoute 10 000 BTC à son portefeuille",amount:'$870M',desc:"L'entreprise américaine poursuit sa stratégie d'accumulation de Bitcoin",date:'T1 2025'},
+    {type:'tech',title:"STC Group acquiert une entreprise technologique saoudienne",amount:'$800M',desc:"Saudi Telecom élargit son portefeuille numérique avec une acquisition stratégique",date:'T1 2025'},
+    {type:'finance',title:"Le fonds souverain d'Abou Dabi investit dans une fintech",amount:'$2.5B',desc:"ADIA réalise un investissement majeur dans une fintech mondiale",date:'T2 2025'},
+  ],
+  es:[
+    {type:'tech',title:'Microsoft adquiere Activision Blizzard',amount:'$68.7B',desc:'El mayor acuerdo en la historia de los videojuegos tras aprobación regulatoria internacional',date:'Octubre 2023'},
+    {type:'tech',title:'Anthropic recauda fondos liderados por Google y Amazon',amount:'$7.3B',desc:'La valoración de la empresa sube a 61.500 millones en una ronda masiva',date:'T1 2025'},
+    {type:'finance',title:'El Fondo de Inversión Pública saudí invierte en tecnología y entretenimiento',amount:'$40B',desc:'El fondo soberano saudí amplía su cartera internacional dentro de Visión 2030',date:'T2 2025'},
+    {type:'stock',title:'Saudi Aramco cotiza un 0,5% adicional en Tadawul',amount:'$11.2B',desc:'La mayor oferta secundaria de Oriente Medio aumenta el capital flotante',date:'T2 2024'},
+    {type:'crypto',title:'BlackRock lanza ETF de Bitcoin al contado',amount:'$15B+',desc:'El mayor gestor de activos del mundo entra al mercado de ETF de Bitcoin',date:'Enero 2024'},
+    {type:'tech',title:'Apple lanza Apple Intelligence con OpenAI',amount:'$1B+',desc:'Alianza estratégica para integrar ChatGPT en dispositivos Apple',date:'T3 2024'},
+    {type:'finance',title:'JP Morgan adquiere First Republic Bank',amount:'$10.6B',desc:'La mayor adquisición bancaria en EE.UU. desde la crisis financiera',date:'Mayo 2023'},
+    {type:'stock',title:'OPV de Instacart en el Nasdaq',amount:'$9.9B',desc:'La empresa de entrega de comestibles sale a bolsa con valoración superior a 10.000 millones',date:'Septiembre 2023'},
+    {type:'crypto',title:'Coinbase obtiene licencia en países del Golfo',amount:'Regulatorio',desc:'El mayor exchange de criptomonedas de EE.UU. expande operaciones en el Golfo',date:'T1 2025'},
+    {type:'tech',title:'SoftBank invierte en OpenAI',amount:'$1.5B',desc:'SoftBank aumenta su participación en OpenAI en su estrategia de expansión en IA',date:'T1 2025'},
+    {type:'finance',title:'NEOM lanza fondo de inversión tecnológica',amount:'$5B',desc:'El proyecto NEOM crea un fondo dedicado a empresas de tecnología globales',date:'T2 2025'},
+    {type:'stock',title:'Nvidia supera a Apple como mayor empresa por capitalización',amount:'$3.6T',desc:'El fabricante de chips lidera el ranking mundial de empresas por valor de mercado',date:'T2 2025'},
+    {type:'crypto',title:'MicroStrategy añade 10.000 BTC a su cartera',amount:'$870M',desc:'La empresa continúa su estrategia de acumulación de Bitcoin',date:'T1 2025'},
+    {type:'tech',title:'STC Group adquiere empresa tecnológica saudí',amount:'$800M',desc:'Saudi Telecom amplía su cartera digital con adquisición estratégica',date:'T1 2025'},
+    {type:'finance',title:'Fondo soberano de Abu Dabi invierte en fintech',amount:'$2.5B',desc:'ADIA realiza una gran inversión en una fintech global',date:'T2 2025'},
+  ],
+};
+// Fallback to English for languages not yet translated
+['tr','zh','de','pt','ru','ja','ko','hi'].forEach(l=>{ALL_DEALS_I18N[l]=ALL_DEALS_I18N['en'];});
+function getDeals(){return ALL_DEALS_I18N[CL]||ALL_DEALS_I18N['en'];}
+let dealsData=[];
+
+function loadDeals(){
+  dealsData=[...getDeals()];
+  renderDeals(dealsData);
+}
+
+const DEAL_LABELS={tech:'💻 تكنولوجيا',finance:'🏦 مالية',stock:'📈 أسهم',crypto:'₿ عملات رقمية'};
+function getDealTypeLabel(type){
+  const L=LANGS[CL];
+  const map={tech:'dealTypeTech',finance:'dealTypeFinance',stock:'dealTypeStock',crypto:'dealTypeCrypto'};
+  return (L&&L[map[type]])||DEAL_LABELS[type]||type;
+}
+function renderDeals(data){
+  const c=document.getElementById('deals-c');
+  if(!data.length){c.innerHTML='<div class="info-bar">—</div>';return;}
+  c.innerHTML=data.map(d=>`
+    <div class="deal-card" data-type="${d.type}">
+      <span class="deal-type dt-${d.type}">${getDealTypeLabel(d.type)}</span>
+      <div class="deal-title">${d.title}</div>
+      <div class="deal-amount">${d.amount}</div>
+      <div class="deal-desc">${d.desc}</div>
+      <div class="deal-date">📅 ${d.date}</div>
+    </div>`).join('');
+}
+
+function filterDeals(type,btn){
+  document.querySelectorAll('.deal-tag').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered=type==='all'?dealsData:dealsData.filter(d=>d.type===type);
+  renderDeals(filtered);
+}
+
+// Init
+loadTech();
+</script>
+</body>
+</html>
